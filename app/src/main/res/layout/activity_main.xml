@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_LogIn"
+        android:layout_width="320dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/radius"
+        android:text="로그인"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_error" />
+
+    <TextView
+        android:id="@+id/tv_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="320dp"
+        android:text="ID"
+        android:textColor="#ffd800"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/input_ID"
+        android:layout_width="320dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="아이디를 입력해주세요"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/tv_ID"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ID" />
+
+    <TextView
+        android:id="@+id/tv_PW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="PW"
+        android:textColor="#ffd800"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/input_ID"
+        app:layout_constraintTop_toBottomOf="@+id/input_ID" />
+
+    <EditText
+        android:id="@+id/input_PW"
+        android:layout_width="320dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="10dp"
+        android:ems="10"
+        android:hint="비밀번호를 입력해주세요"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/tv_PW"
+        app:layout_constraintTop_toBottomOf="@+id/tv_PW" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textColor="#EB5753"
+        app:layout_constraintStart_toStartOf="@+id/input_PW"
+        app:layout_constraintTop_toBottomOf="@+id/input_PW" />
+
+    <TextView
+        android:id="@+id/tv_signUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="아직 회원이 아니신가요?"
+        app:layout_constraintEnd_toStartOf="@+id/tv_signUpLink"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_LogIn" />
+
+    <TextView
+        android:id="@+id/tv_signUpLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:text="가입하기"
+        android:textColor="#ffd800"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tv_signUp"
+        app:layout_constraintTop_toBottomOf="@+id/btn_LogIn" />
+
+    <TextView
+        android:id="@+id/tv_searchLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="아이디/비밀번호가 기억나지 않으신가요?"
+        android:textColor="#ffd800"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_LogIn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
