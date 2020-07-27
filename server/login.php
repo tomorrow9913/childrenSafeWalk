@@ -17,13 +17,31 @@
     $id = $json['id'];
     $pwd = hash("sha256", $json['pwd']);
 
-    $session = makeSession($conn, $id, $pwd);
-    if ($session == ""){
+    $isid = checkId($conn, $id);
+    $loginSuccess = checkLogin($conn, $id, $pwd);
+
+    if ($isid == false) {
         $result["result"] = "fail";
-        $result["comment"] = "login fail";
-    }else {
-        $result["result"] = "success";
-        $result["session"] = $session;
+        $result["comment"] = "not found : id";
+    }else if ($loginSuccess == false) {
+        $result["result"] = "fail";
+        $result["comment"] = "diff : pw";
+    }else if ($loginSuccess == true) {
+        $session = makeSession($conn, $id, $pwd);
+        if ($session == ""){
+            $result["result"] = "fail";
+            $result["comment"] = "login fail";
+        }else {
+            $sql = "SELECT * from user where userId='$id' and userPwd='$pwd'";
+            $data = mysqli_query($conn, $sql);
+            $p = mysqli_fetch_array($data);
+            $result["result"] = "success";
+            $result["session"] = $session;
+            $result['nickname'] = $p['nickname'];
+            $result['name'] = $p['name'];
+            $result['email'] = $p['email'];
+            $result['callNum'] = $p['callNum'];
+        }
     }
     $output = json_encode($result);
     echo($output);

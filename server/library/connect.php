@@ -1,5 +1,5 @@
 <?php  
-include('library/library.php');
+include($_SERVER['DOCUMENT_ROOT'].'/library/library.php');
 
 function connect() {
     $servername = "localhost";
@@ -36,6 +36,19 @@ function checkSession($conn, $session) {
         return false;
     }
 }
+
+function checkId($conn, $id) {
+    $sql = "SELECT EXISTS (SELECT * from user where userId='$id')";
+    $result = mysqli_query($conn, $sql);
+
+    $login = mysqli_fetch_array($result)[0];
+    if ($login == 0){
+        return false;
+    }else {
+        return true;
+    }
+}
+
 
 function checkLogin($conn, $id, $pwd) {
     $sql = "SELECT EXISTS (SELECT * from user where userId='$id' and userPwd='$pwd')";

@@ -2,10 +2,16 @@
 
 ## API 명세서 :
 ### 입력 값 :
+1. email : nullable
+
 ```
 {
     "id": "user Id",
-    "pwd": "SHA256"
+    "pwd": "SHA256",
+    "email": "email@data.com",
+    "call-num": "num",
+    "nickname": "name",
+    "name": "name"
 }
 ```
 ### 2. 출력 값 :
@@ -13,7 +19,6 @@
 ```
 {
     "result": "success",
-    "session": "encript session Id"
 }
 ```
    1. 실패 한 경우

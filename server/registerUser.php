@@ -16,21 +16,27 @@
     }
     $id = $json['id'];
     $pwd = hash("sha256", $json['pwd']);
+    $email = $json['email'];
+    $name = $json['name'];
+    $nickname = $json['nickname'];
+    
 
-    $sql = "INSERT INTO user(userId, userPwd) values('$id', '$pwd')"; 
+    if (array_key_exists("callNum", $json)) {
+        $callNum = $json['callNum'];
+        $sql = "INSERT INTO user(userId, userPwd, email, name, nickname, callNum) values('$id', '$pwd', '$email', '$name', '$nickname', '$callNum')"; 
+    }else {
+        $callNum = null;
+        $sql = "INSERT INTO user(userId, userPwd, email, name, nickname) values('$id', '$pwd', '$email', '$name', '$nickname')"; 
+    }
     
     if (!mysqli_query($conn, $sql)) {
         $result["result"] = "fail";
         $result["comment"] = mysqli_error($conn);
     }else {
-        $session = makeSession($conn, $id, $pwd);
-        if ($session == ""){
-            $result["result"] = "fail";
-            $result["comment"] = "login fail";
-        }else {
-            $result["result"] = "success";
-            $result["session"] = $session;
-        }
+        $query = mysqli_query($conn, "SELECT id from user WHERE userId='$id'");
+        $varId = mysqli_fetch_array($query)[0];
+        $result["result"] = "success";
+        $result["user-identity"] = intval($varId);
     }
     
     $output = json_encode($result);

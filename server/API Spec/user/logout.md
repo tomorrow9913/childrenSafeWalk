@@ -5,7 +5,7 @@
 ```
 {
     "id": "user Id",
-    "pwd": "SHA256",
+    "session": "encripted of session"
 }
 
 ```
