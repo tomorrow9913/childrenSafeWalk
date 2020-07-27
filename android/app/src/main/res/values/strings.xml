@@ -34,11 +34,11 @@
 
     <!-- error -->
     <string name="error_not_correct_format">올바른 형식이 아닙니다.</string>
-    <string name="error_nickLength">닉네임은 한글 3~6자/영문 4~10자 입니다.</string>
+    <string name="error_empty">필수 항목입니다.</string>
+    <string name="error_nickLength">닉네임은 한글/영문/숫자로 구성된 4~8자 입니다.</string>
     <string name="error_notEmail">이메일 형식이 아닙니다.</string>
-    <string name="error_not_correct_PWformat">특수문자(!,@,$,%), 영문자, 숫자만 입력 가능합니다.</string>
+    <string name="error_not_correct_PWformat">특수문자(!,@,$,%), 영문자, 숫자를 혼용하여 5-16자가 되어야 합니다.</string>
     <string name="error_not_confirm">비밀번호가 일치하지 않습니다.</string>
-    <string name="error_emergency">숫자만 입력가능합니다.</string>
     <string name="error_essential_agree">필수 동의 사항입니다.</string>
 
 

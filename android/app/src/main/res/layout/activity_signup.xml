@@ -38,6 +38,13 @@
                 android:inputType="textPersonName" />
 
             <TextView
+                android:id="@+id/tv_nameErr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/error" />
+
+            <TextView
                 android:id="@+id/tv_title2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,7 +64,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/error_nickLength"
                 android:textColor="@color/error" />
 
             <TextView
@@ -80,7 +86,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/error_notEmail"
                 android:textColor="@color/error" />
 
             <TextView
@@ -103,7 +108,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/error_not_correct_PWformat"
                 android:textColor="@color/error" />
 
             <TextView
@@ -126,7 +130,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/error_not_confirm"
                 android:textColor="@color/error" />
 
             <TextView
@@ -149,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="@string/error_emergency"
+                android:text=""
                 android:textColor="@color/error" />
 
             <LinearLayout

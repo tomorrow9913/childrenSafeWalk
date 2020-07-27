@@ -109,6 +109,22 @@ fun sha256(param: String): String {
 }
 
 /****************************************
+ * Name:            checkPWformet
+ * description:     PW 형식 확인
+ *
+ * Author: Jeong MinGye
+ * Create: 20.07.27.
+ * Update:
+ **************************************/
+fun checkPWformet(content: String): Boolean {
+    if(content.length < 5 || content.length > 16) return false
+    val reg1 = Regex("^.*(?=^.{8,15}\$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%]).*$")
+    if(!content.matches(reg1) && !content.matches(reg1)) return false
+
+    return true
+}
+
+/****************************************
  * Name:            isEmail
  * description:     email 인지 확인
  *
@@ -120,5 +136,33 @@ fun isEmail(content: String): Boolean {
     val reg = Regex("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
     if(!content.matches(reg)) return false
 
+    return true
+}
+
+/****************************************
+ * Name:            checkPhoneNumber
+ * description:     email 인지 확인
+ *
+ * Author: Jeong MinGye
+ * Create: 20.07.27.
+ * Update:
+ **************************************/
+fun checkPhoneNumber(content: String): Boolean {
+    val reg = Regex("01[016789][0-9]{7,8}$")
+    if(!content.matches(reg)) return false
+    return true
+}
+
+/****************************************
+ * Name:            checkPhoneNumber
+ * description:     email 인지 확인
+ *
+ * Author: Jeong MinGye
+ * Create: 20.07.27.
+ * Update:
+ **************************************/
+fun checkNickName(content: String): Boolean {
+    val reg = Regex("([ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{4,8})$")
+    if(!content.matches(reg)) return false
     return true
 }
