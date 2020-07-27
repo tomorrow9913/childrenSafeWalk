@@ -117,9 +117,10 @@ fun sha256(param: String): String {
  * Update:
  **************************************/
 fun checkPWformet(content: String): Boolean {
+    //todo 비밀번호 유효성 검사 버그 고칠것
     if(content.length < 5 || content.length > 16) return false
     val reg1 = Regex("^.*(?=^.{8,15}\$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%]).*$")
-    if(!content.matches(reg1) && !content.matches(reg1)) return false
+    if(!content.matches(reg1)) return false
 
     return true
 }
