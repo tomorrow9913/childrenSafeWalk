@@ -18,7 +18,13 @@
     $id = $json['id'];
     $session = $json['session'];
 
-    removeSession($conn, $id, $session);
+    if (removeSession($conn, $id, $session)) {
+        $result["result"] = "success";
+    }else {
+        $result["result"] = "fail";
+        $result["comment"] = "session is expire";
+    }
+    echo(json_encode($result));
 
     disconnect($conn);
 ?>

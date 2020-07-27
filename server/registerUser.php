@@ -36,7 +36,6 @@
         $query = mysqli_query($conn, "SELECT id from user WHERE userId='$id'");
         $varId = mysqli_fetch_array($query)[0];
         $result["result"] = "success";
-        $result["user-identity"] = intval($varId);
     }
     
     $output = json_encode($result);

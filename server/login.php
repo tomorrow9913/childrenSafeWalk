@@ -37,7 +37,7 @@
             $p = mysqli_fetch_array($data);
             $result["result"] = "success";
             $result["session"] = $session;
-            $result['nickname'] = $p['nickname'];
+            $result['nickname'] = $p['nickname'].'@'.$p['id'];
             $result['name'] = $p['name'];
             $result['email'] = $p['email'];
             $result['callNum'] = $p['callNum'];

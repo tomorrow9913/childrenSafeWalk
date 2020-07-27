@@ -9,7 +9,7 @@
     "id": "user Id",
     "pwd": "SHA256",
     "email": "email@data.com",
-    "call-num": "num",
+    "callNum": "num",
     "nickname": "name",
     "name": "name"
 }
