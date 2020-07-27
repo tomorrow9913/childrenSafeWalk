@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/signup">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="84dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/te_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/name"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/tv_title2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nickname"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/te_nick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/nickname"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/tv_nicknameErr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/error_nickLength"
+                android:textColor="@color/error" />
+
+            <TextView
+                android:id="@+id/tv_title3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/emailID_title"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/te_emailID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/emailID_hint"
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/tv_emailErr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/error_notEmail"
+                android:textColor="@color/error" />
+
+            <TextView
+                android:id="@+id/tv_title4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/te_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:id="@+id/tv_pwErr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/error_not_correct_PWformat"
+                android:textColor="@color/error" />
+
+            <TextView
+                android:id="@+id/tv_title5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/pw_confirm_title"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/te_pwConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/pw_confirm_hint"
+                android:inputType="textPassword" />
+
+            <TextView
+                android:id="@+id/tv_confirmErr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/error_not_confirm"
+                android:textColor="@color/error" />
+
+            <TextView
+                android:id="@+id/tv_title6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/emergency_call"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/te_emergency"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/emergency_call_hint"
+                android:inputType="phone" />
+
+            <TextView
+                android:id="@+id/tv_emergencyError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/error_emergency"
+                android:textColor="@color/error" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/essential_agreement_Info"
+                    android:textSize="18sp" />
+
+                <CheckBox
+                    android:id="@+id/checkBox2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="@string/agreement"
+                    android:textAlignment="textEnd" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/slectable_agreement_Info"
+                    android:textSize="18sp" />
+
+                <CheckBox
+                    android:id="@+id/checkBox4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                    android:text="@string/agreement"
+                    android:textAlignment="textEnd" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_signUp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radius_btn"
+                android:text="@string/btn_signup" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

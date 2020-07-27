@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safechildewalk
+package kr.co.woobi.tomorrow99.safewalk
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("kr.co.woobi.tomorrow99.safechildewalk", appContext.packageName)
+        assertEquals("kr.co.woobi.tomorrow99.safewalk", appContext.packageName)
     }
 }

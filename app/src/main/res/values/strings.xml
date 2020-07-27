@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">SafeChildeWalk</string>
+    <string name="app_name">safeWalk</string>
+
+    <!-- 로그인 화면 -->
+    <!-- 화면 텍스트 -->
+    <string name="prompt_password">비밀번호를 입력해 주세요</string>
+    <string name="prompt_ID">아이디를 입력해 주세요</string>
+    <string name="action_sign_in">로그인</string>
+    <string name="signup">가입하기</string>
+    <string name="question_find">아이디/비밀번호가 기억나지 않으신가요?</string>
+    <string name="question_member">아직 회원이 아니신가요?</string>
+
+    <!-- error -->
+    <string name="error_emptyID">아이디를 입력해 주세요</string>
+    <string name="error_emptyPW">비밀번호를 입력해 주세요</string>
+    <string name="error_wrongInfo">아이디 혹은 비밀번호가 일치하지 않습니다.</string>
+    <string name="error_network">네트워크 통신에 실패했습니다.</string>
+
+    <!-- 회원 가입 화면 -->
+    <!-- 화면 텍스트 -->
+    <string name="name">이름</string>
+    <string name="nickname">닉네임</string>
+    <string name="emailID_title">아이디/이메일</string>
+    <string name="emailID_hint">이메일 형식의 아이디를 입력해 주세요.</string>
+    <string name="password">비밀번호</string>
+    <string name="pw_confirm_title">비밀번호 확인</string>
+    <string name="pw_confirm_hint">비밀번호 확인을 위해 한 번 더 입력해 주세요.</string>
+    <string name="emergency_call">긴급전화</string>
+    <string name="emergency_call_hint">긴급시 연락처를 \'-\'를 제외한 숫자로 입력</string>
+    <string name="essential_agreement_Info">개인정보 제공 동의(필수)</string>
+    <string name="slectable_agreement_Info">개인정보 제공 동의(선택)</string>
+    <string name="agreement">동의</string>
+    <string name="btn_signup">회원가입</string>
+
+    <!-- error -->
+    <string name="error_not_correct_format">올바른 형식이 아닙니다.</string>
+    <string name="error_nickLength">닉네임은 한글 3~6자/영문 4~10자 입니다.</string>
+    <string name="error_notEmail">이메일 형식이 아닙니다.</string>
+    <string name="error_not_correct_PWformat">특수문자(!,@,$,%), 영문자, 숫자만 입력 가능합니다.</string>
+    <string name="error_not_confirm">비밀번호가 일치하지 않습니다.</string>
+    <string name="error_emergency">숫자만 입력가능합니다.</string>
+    <string name="error_essential_agree">필수 동의 사항입니다.</string>
+
+
 </resources>

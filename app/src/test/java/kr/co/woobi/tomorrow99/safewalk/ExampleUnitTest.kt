@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safechildewalk
+package kr.co.woobi.tomorrow99.safewalk
 
 import org.junit.Test
 

@@ -1,119 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
-    tools:context=".MainActivity">
+    android:background="@drawable/login">
 
-    <Button
-        android:id="@+id/btn_LogIn"
-        android:layout_width="320dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/radius"
-        android:text="로그인"
-        android:textSize="18sp"
+
+    <EditText
+        android:id="@+id/te_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+
+        android:layout_marginEnd="24dp"
+        android:hint="@string/prompt_password"
+        android:imeActionLabel="@string/prompt_password"
+        android:imeOptions="actionDone"
+        android:inputType="textPassword"
+        android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_error" />
+        app:layout_constraintTop_toBottomOf="@+id/te_id" />
 
     <TextView
-        android:id="@+id/tv_ID"
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="320dp"
-        android:text="ID"
-        android:textColor="#ffd800"
+        android:layout_marginStart="8dp"
+        android:text="PW"
+        android:textColor="@color/thd"
         android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/te_password"
+        app:layout_constraintStart_toStartOf="@+id/te_password" />
+
+    <EditText
+        android:id="@+id/te_id"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="276dp"
+        android:layout_marginEnd="24dp"
+
+        android:hint="@string/prompt_ID"
+        android:inputType="textEmailAddress"
+        android:selectAllOnFocus="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.156"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/input_ID"
-        android:layout_width="320dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="아이디를 입력해주세요"
-        android:inputType="textPersonName"
-        app:layout_constraintStart_toStartOf="@+id/tv_ID"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ID" />
-
     <TextView
-        android:id="@+id/tv_PW"
+        android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="PW"
-        android:textColor="#ffd800"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/input_ID"
-        app:layout_constraintTop_toBottomOf="@+id/input_ID" />
-
-    <EditText
-        android:id="@+id/input_PW"
-        android:layout_width="320dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="비밀번호를 입력해주세요"
-        android:inputType="textPassword"
-        app:layout_constraintStart_toStartOf="@+id/tv_PW"
-        app:layout_constraintTop_toBottomOf="@+id/tv_PW" />
+        android:text="@string/question_find"
+        android:textColor="@color/thd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
-        android:id="@+id/tv_error"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:textColor="#EB5753"
-        app:layout_constraintStart_toStartOf="@+id/input_PW"
-        app:layout_constraintTop_toBottomOf="@+id/input_PW" />
-
-    <TextView
-        android:id="@+id/tv_signUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="아직 회원이 아니신가요?"
+        android:layout_marginTop="12dp"
+        android:text="@string/question_find"
         app:layout_constraintEnd_toStartOf="@+id/tv_signUpLink"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_LogIn" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
     <TextView
         android:id="@+id/tv_signUpLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
-        android:text="가입하기"
-        android:textColor="#ffd800"
+        android:layout_marginStart="20dp"
+        android:text="@string/signup"
+        android:textColor="@color/thd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tv_signUp"
-        app:layout_constraintTop_toBottomOf="@+id/btn_LogIn" />
+        app:layout_constraintStart_toEndOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="@+id/textView4" />
 
     <TextView
-        android:id="@+id/tv_searchLink"
+        android:id="@+id/tv_emergencyError"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="아이디/비밀번호가 기억나지 않으신가요?"
-        android:textColor="#ffd800"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_LogIn" />
+        android:layout_marginStart="16dp"
+        android:textColor="@color/error"
+        app:layout_constraintStart_toStartOf="@+id/te_password"
+        app:layout_constraintTop_toBottomOf="@+id/te_password"
+        tools:text="@string/error_emptyID" />
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="ID"
+        android:textColor="@color/thd"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/te_id"
+        app:layout_constraintStart_toStartOf="@+id/te_id" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="331dp"
+        android:layout_height="47dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/radius_btn"
+        android:text="@string/action_sign_in"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/te_password"
+        app:layout_constraintVertical_bias="0.454" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
