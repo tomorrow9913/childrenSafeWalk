@@ -13,6 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Exception
 import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
@@ -21,11 +22,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         btn_login.setOnClickListener {
-            Log.d("로그인", "로그인 진입")
             val ID = te_id.text.toString()
             val PW = sha256(te_password.text.toString())
 
+            Log.d("로그인", "로그인 진입")
             //todo 서버 데이터 전송
             val SERVE_HOST:String = "http://210.107.245.192:400/"
             var retrofit = Retrofit.Builder()
@@ -33,26 +35,42 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
+            Log.d("로그인", "로그인 진입1")
             var loginService = retrofit.create(LoginService::class.java)
 
-            loginService.requestLogin(ID, PW).enqueue(object : Callback<LoginOut>{
+            Log.d("로그인", "로그인 진입2")
+            var body = HashMap<String, String>()
+
+            body.put("id", ID)
+            body.put("pwd", PW)
+            Log.d("로그인", "로그인 진입3")
+
+            loginService.requestLogin(body).enqueue(object : Callback<LoginOut>{
                 override fun onFailure(call: Call<LoginOut>, t: Throwable) {
                     tv_emergencyError.setText(R.string.error_network)
                 }
 
                 override fun onResponse(call: Call<LoginOut>, response: Response<LoginOut>) {
-                    var responseData = response.body() //responseData?.session 사용시 null 일 수도 있음
+                    Log.d("로그인", "로그인 진입4")
+                    try {
+                        Log.d("로그인", "로그인 진입5")
+                        val RESPONSE_DATA = response.body() //responseData?.session 사용시 null 일 수도 있음
 
-                    val dialog = AlertDialog.Builder(this@MainActivity)
-                    dialog.setTitle("알람")
-                    if(responseData?.result == "success"){
-                        //todo 메인 화면 이동 setContentView(R.layout.)로 뒤로가기 없도록 구현할 예정
-                        dialog.setMessage("result=${responseData?.result}&session=${responseData?.session}")
+                        val dialog = AlertDialog.Builder(this@MainActivity)
+                        dialog.setTitle("알람")
+                        if(RESPONSE_DATA?.result == "success"){
+                            //todo 메인 화면 이동 setContentView(R.layout.)로 뒤로가기 없도록 구현할 예정
+                            dialog.setMessage("result=${RESPONSE_DATA?.result}&session=${RESPONSE_DATA?.session}")
+                            dialog.show()
+                        }
+                        else {
+                            dialog.setMessage("result=${RESPONSE_DATA?.result}&comment=${RESPONSE_DATA?.comment}")
+                            dialog.show()
+                        }
                     }
-                    else
-                        dialog.setMessage("result=${responseData?.result}&comment=${responseData?.comment}")
-
-                    dialog.show()
+                    catch (e:Exception){
+                        Log.d("에러로그","$e")
+                    }
                 }
             })
         }

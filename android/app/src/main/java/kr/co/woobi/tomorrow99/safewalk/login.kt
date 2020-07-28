@@ -1,22 +1,24 @@
 package kr.co.woobi.tomorrow99.safewalk
 
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 data class LoginOut (
     var result:String,      //"result": "success" or "fail"
+    var comment:String? ,   //"reason for error"
     var session:String?,    //"encript session Id"
-    var comment:String?     //"reason for error"
+    var nickname:String?,   //"nickname@고유번호
+    var name:String?,       //"name"
+    var email:String?,      //"email",
+    var callNum: String?    // null or "긴급 연락처"
 )
 
 interface LoginService {
-    @FormUrlEncoded
+    //@FormUrlEncoded
     @POST(value = "login.php")
+    @Headers("Content-Type: application/json")
 
     fun requestLogin (
-        @Field(value = "id") id:String,
-        @Field(value = "pwd") pwd: String
+        @Body params: HashMap<String, String>
     ) : Call<LoginOut>
 }
