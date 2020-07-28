@@ -13,9 +13,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 class signup : AppCompatActivity() {
 
@@ -43,15 +41,24 @@ class signup : AppCompatActivity() {
                 val NAME = te_name.text.toString()
                 val NICK = te_nick.text.toString()
                 val ID = te_emailID.text.toString()
-                val PASS = te_password.text.toString()
-                var phone:String
+                val PASS = sha256(te_password.text.toString())
+                var phone:String?
 
                 when(te_emergency.text.toString()){
-                    "" -> phone = "null"
+                    "" -> phone = null
                     else -> phone = te_emergency.text.toString()
                 }
-                
-                signup.requestSignUP(ID, PASS, ID, phone, NICK, NAME ).enqueue(object : Callback<SignupOut> {
+
+                var parm = HashMap<String, String?>()
+
+                parm.put("id", ID)
+                parm.put("pwd", PASS)
+                parm.put("email", ID)
+                parm.put("callNum", phone)
+                parm.put("nickname", NICK)
+                parm.put("name", NAME)
+
+                signup.requestSignUP(parm).enqueue(object : Callback<SignupOut> {
                     override fun onFailure(call: Call<SignupOut>, t: Throwable) {
                         tv_emergencyError.setText(R.string.error_network)
                     }
@@ -61,8 +68,8 @@ class signup : AppCompatActivity() {
 
                         val dialog = AlertDialog.Builder(this@signup)
                         dialog.setTitle("알람")
+                        dialog.setMessage("result=${response.body().toString()}")
                         if(responseData?.result == "success"){
-                            dialog.setMessage("result=${responseData?.result}")
                             //todo 회원가입 완료 레이아웃으로 전환
                         }
                         else
@@ -161,19 +168,16 @@ class signup : AppCompatActivity() {
 
 
 data class SignupOut (
-    var result:String      //"result": "success" or "fail"
+    var result:String,      //"result": "success" or "fail"
+    var comment:String?     //"reason for error"
 )
 
 interface SignUpService {
-    @FormUrlEncoded
+    //@FormUrlEncoded
     @POST(value = "registerUser.php")
+    @Headers("Content-Type: application/json")
 
     fun requestSignUP (
-        @Field(value = "id") id:String,
-        @Field(value = "pwd") pwd:String,
-        @Field(value = "email") email:String,
-        @Field(value = "callNum") callNum:String?,
-        @Field(value = "nickname") nickname:String,
-        @Field(value = "name") name:String
+        @Body params: HashMap<String, String?>
     ) : Call<SignupOut>
 }
