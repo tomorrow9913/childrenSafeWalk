@@ -1,5 +1,6 @@
 package kr.co.woobi.tomorrow99.safewalk
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -58,16 +59,17 @@ class signup : AppCompatActivity() {
                     override fun onResponse(call: Call<SignupOut>, response: Response<SignupOut>) {
                         var responseData = response.body() //responseData?.session 사용시 null 일 수도 있음
 
-                            val dialog = AlertDialog.Builder(this@signup)
-                            dialog.setTitle("알람")
-                            if(responseData?.result == "success"){
-                                dialog.setMessage("result=${responseData?.result}")
-                            }
-                            else
-                                dialog.setMessage("result=${responseData?.result}")
+                        val dialog = AlertDialog.Builder(this@signup)
+                        dialog.setTitle("알람")
+                        if(responseData?.result == "success"){
+                            dialog.setMessage("result=${responseData?.result}")
+                            //todo 회원가입 완료 레이아웃으로 전환
+                        }
+                        else
+                            dialog.setMessage("result=${responseData?.result}")
 
-                            dialog.show()
-                      }
+                        dialog.show()
+                    }
               })
           }
         }

@@ -31,6 +31,9 @@
     <string name="slectable_agreement_Info">개인정보 제공 동의(선택)</string>
     <string name="agreement">동의</string>
     <string name="btn_signup">회원가입</string>
+    <string name="finish_signUp">회원가입이\n완료되었습니다.</string>
+    <string name="success_signup">어린이 안전 걸음맵의 회원가입이\n정상적으로 처리되었습니다.</string>
+    <string name="btn_moveLogin">로그인 화면으로 이동</string>
 
     <!-- error -->
     <string name="error_not_correct_format">올바른 형식이 아닙니다.</string>
