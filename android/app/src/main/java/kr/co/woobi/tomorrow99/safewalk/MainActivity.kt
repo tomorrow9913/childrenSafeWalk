@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
             val PW = sha256(te_password.text.toString())
 
             Log.d("로그인", "로그인 진입")
-            //todo 서버 데이터 전송
             val SERVE_HOST:String = "http://210.107.245.192:400/"
             var retrofit = Retrofit.Builder()
                 .baseUrl(SERVE_HOST)
@@ -60,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                         dialog.setTitle("알람")
                         if(RESPONSE_DATA?.result == "success"){
                             //todo 메인 화면 이동 setContentView(R.layout.)로 뒤로가기 없도록 구현할 예정
-                            dialog.setMessage("result=${RESPONSE_DATA?.result}&session=${RESPONSE_DATA?.session}")
+                            dialog.setMessage("result=${response.body().toString()}")
                             dialog.show()
                         }
                         else {
@@ -136,11 +135,9 @@ fun sha256(param: String): String {
  **************************************/
 fun checkPWformet(content: String): Boolean {
     //todo 비밀번호 유효성 검사 버그 고칠것
-    if(content.length < 5 || content.length > 16) return false
-    val reg1 = Regex("^.*(?=^.{8,15}\$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%]).*$")
-    if(!content.matches(reg1)) return false
-
+    val reg1 = Regex("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,}$")
     return true
+    if(!content.matches(reg1)) return false
 }
 
 /****************************************
@@ -181,7 +178,7 @@ fun checkPhoneNumber(content: String): Boolean {
  * Update:
  **************************************/
 fun checkNickName(content: String): Boolean {
-    val reg = Regex("([ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{4,8})$")
+    val reg = Regex("([ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{4,15})$")
     if(!content.matches(reg)) return false
     return true
 }
