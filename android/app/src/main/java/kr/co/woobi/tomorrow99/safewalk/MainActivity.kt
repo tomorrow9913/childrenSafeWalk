@@ -1,19 +1,18 @@
 package kr.co.woobi.tomorrow99.safewalk
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Exception
 import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
@@ -27,23 +26,18 @@ class MainActivity : AppCompatActivity() {
             val ID = te_id.text.toString()
             val PW = sha256(te_password.text.toString())
 
-            Log.d("로그인", "로그인 진입")
-            //todo 서버 데이터 전송
             val SERVE_HOST:String = "http://210.107.245.192:400/"
             var retrofit = Retrofit.Builder()
                 .baseUrl(SERVE_HOST)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-            Log.d("로그인", "로그인 진입1")
             var loginService = retrofit.create(LoginService::class.java)
 
-            Log.d("로그인", "로그인 진입2")
             var body = HashMap<String, String>()
 
             body.put("id", ID)
             body.put("pwd", PW)
-            Log.d("로그인", "로그인 진입3")
 
             loginService.requestLogin(body).enqueue(object : Callback<LoginOut>{
                 override fun onFailure(call: Call<LoginOut>, t: Throwable) {
@@ -51,16 +45,26 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call<LoginOut>, response: Response<LoginOut>) {
-                    Log.d("로그인", "로그인 진입4")
                     try {
-                        Log.d("로그인", "로그인 진입5")
                         val RESPONSE_DATA = response.body() //responseData?.session 사용시 null 일 수도 있음
 
                         val dialog = AlertDialog.Builder(this@MainActivity)
                         dialog.setTitle("알람")
                         if(RESPONSE_DATA?.result == "success"){
-                            //todo 메인 화면 이동 setContentView(R.layout.)로 뒤로가기 없도록 구현할 예정
-                            dialog.setMessage("result=${RESPONSE_DATA?.result}&session=${RESPONSE_DATA?.session}")
+                            //메인 화면 이동
+                            val MAP_PAGE = Intent(this@MainActivity, mainmapPage::class.java)
+
+                            MAP_PAGE.putExtra("session", RESPONSE_DATA?.session)
+                            MAP_PAGE.putExtra("nickname", RESPONSE_DATA?.nickname)
+                            MAP_PAGE.putExtra("name", RESPONSE_DATA?.name)
+                            MAP_PAGE.putExtra("email", RESPONSE_DATA?.email)
+                            MAP_PAGE.putExtra("callnum", RESPONSE_DATA?.email)
+
+                            MAP_PAGE.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            MAP_PAGE.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(MAP_PAGE)
+
+                            dialog.setMessage("result=${response.body().toString()}")
                             dialog.show()
                         }
                         else {
@@ -136,11 +140,9 @@ fun sha256(param: String): String {
  **************************************/
 fun checkPWformet(content: String): Boolean {
     //todo 비밀번호 유효성 검사 버그 고칠것
-    if(content.length < 5 || content.length > 16) return false
-    val reg1 = Regex("^.*(?=^.{8,15}\$)(?=.*\\d)(?=.*[a-zA-Z])(?=.*[!@#$%]).*$")
-    if(!content.matches(reg1)) return false
-
+    val reg1 = Regex("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,}$")
     return true
+    if(!content.matches(reg1)) return false
 }
 
 /****************************************
@@ -181,7 +183,7 @@ fun checkPhoneNumber(content: String): Boolean {
  * Update:
  **************************************/
 fun checkNickName(content: String): Boolean {
-    val reg = Regex("([ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{4,8})$")
+    val reg = Regex("([ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{4,15})$")
     if(!content.matches(reg)) return false
     return true
 }
