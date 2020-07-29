@@ -45,9 +45,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onResponse(call: Call<LoginOut>, response: Response<LoginOut>) {
-                    Log.d("로그인", "로그인 진입4")
                     try {
-                        Log.d("로그인", "로그인 진입5")
                         val RESPONSE_DATA = response.body() //responseData?.session 사용시 null 일 수도 있음
 
                         val dialog = AlertDialog.Builder(this@MainActivity)
