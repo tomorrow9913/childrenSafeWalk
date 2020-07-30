@@ -29,7 +29,6 @@ class signup : AppCompatActivity() {
               NO_PROCESS_MSG.show()
             }
             else{
-                //todo 입력정보 서버로 전송
                 val SERVE_HOST = "http://210.107.245.192:400/"
                 var retrofit = Retrofit.Builder()
                     .baseUrl(SERVE_HOST)
@@ -131,7 +130,6 @@ class signup : AppCompatActivity() {
                     tv_confirmErr.text = ""
                     hasErr = false
                 }
-
                 if(!checkPWformet(te_password.text.toString())){
                     hasErr = true
                     tv_pwErr.setText(R.string.error_not_correct_PWformat)
@@ -141,7 +139,6 @@ class signup : AppCompatActivity() {
                     tv_pwErr.text = ""
                     hasErr = false
                 }
-
                 if (!checkPhoneNumber(te_emergency.text.toString())){
                     hasErr = true
                     tv_emergencyError.setText(R.string.error_not_correct_format)
