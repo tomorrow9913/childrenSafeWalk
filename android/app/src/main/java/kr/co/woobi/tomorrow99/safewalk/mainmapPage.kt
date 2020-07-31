@@ -8,11 +8,14 @@ import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.overlay.PolylineOverlay
+import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.widget.LocationButtonView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -24,6 +27,8 @@ import retrofit2.http.POST
 
 
 class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
+    private lateinit var locationSource: FusedLocationSource
+    private  lateinit var naverMap: NaverMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +41,8 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         var MAIL = INTENT_INFO.getStringExtra("email")
         val PHONE:String? = INTENT_INFO.getStringExtra("callnum")
 
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+
         val dialog = AlertDialog.Builder(this@mainmapPage)
         dialog.setTitle("알람")
         dialog.setMessage("Session=${SESSION}\nNick=$NICK\nName=${NAME}\nMail=$MAIL\nPhone=${PHONE}")
@@ -47,19 +54,28 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
 
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.fragment_map) as MapFragment?
-            ?: MapFragment.newInstance(options).also {
-                fm.beginTransaction().add(R.id.fragment_map, MapFragment.newInstance()).commit()
-            }
+            ?: MapFragment.newInstance(options)
+                .also {
+                    fm.beginTransaction().add(R.id.fragment_map, it).commit()
+                }
 
         mapFragment.getMapAsync(this)
     }
 
     @UiThread
     override fun onMapReady(naverMap: NaverMap) {
+        this.naverMap = naverMap
+        naverMap.locationSource = locationSource
+
         val init = LatLng(35.1541181, 129.0319860)
         val cameraPosition = CameraPosition(init, 17.0);
 
         naverMap.setCameraPosition(cameraPosition);
+        naverMap.locationTrackingMode = LocationTrackingMode.Face
+
+        val uiSettings = naverMap.uiSettings
+        uiSettings.isCompassEnabled = false
+        uiSettings.isLocationButtonEnabled = true
 
         var body = HashMap<String, HashMap<String, Double>>()
 
@@ -112,6 +128,10 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
 
             }
         })
+    }
+
+    companion object {
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
     }
 }
 
