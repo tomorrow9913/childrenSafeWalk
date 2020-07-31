@@ -1,0 +1,191 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <FrameLayout
+            android:id="@+id/settings"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="253dp"
+                app:srcCompat="@drawable/setting" />
+
+            <TextView
+                android:id="@+id/tv_nick"
+                android:layout_width="175dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="70dp"
+                android:text="TextView"
+                android:gravity="center"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/iv_logo"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginLeft="162dp"
+                android:layout_marginTop="108dp"
+                app:srcCompat="@drawable/tag" />
+
+            <TextView
+                android:id="@+id/tv_logo"
+                android:layout_width="105dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="162dp"
+                android:layout_marginTop="100dp"
+                android:gravity="center"
+                android:text="안전지킴이"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="250dp"
+                android:gravity="center_vertical"
+                android:text="이름"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/tv_ID"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="300dp"
+                android:gravity="center_vertical"
+                android:text="ID"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="350dp"
+                android:gravity="center_vertical"
+                android:text="이메일"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/tv_call"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="400dp"
+                android:gravity="center_vertical"
+                android:text="긴급전화"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/tv_name2"
+                android:layout_width="250dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="250dp"
+                android:gravity="center_vertical"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_ID2"
+                android:layout_width="250dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="300dp"
+                android:gravity="center_vertical"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_email2"
+                android:layout_width="250dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="350dp"
+                android:gravity="center_vertical"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_call2"
+                android:layout_width="250dp"
+                android:layout_height="36dp"
+                android:layout_marginLeft="140dp"
+                android:layout_marginTop="400dp"
+                android:gravity="center_vertical"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/iv_line"
+                android:layout_width="370dp"
+                android:layout_height="19dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="460dp"
+                app:srcCompat="@drawable/line" />
+
+            <Button
+                android:id="@+id/btn_write"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="500dp"
+                android:background="#00ff0000"
+                android:text="내가 쓴 글"
+                android:textSize="25dp" />
+
+            <Button
+                android:id="@+id/btn_notice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="550dp"
+                android:background="#00ff0000"
+                android:text="알림설정"
+                android:textSize="25dp" />
+
+            <Button
+                android:id="@+id/btn_change_pw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="600dp"
+                android:background="#00ff0000"
+                android:text="비밀번호 변경"
+                android:textSize="25dp" />
+
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="650dp"
+                android:background="#00ff0000"
+                android:text="로그아웃"
+                android:textSize="25dp" />
+
+            <Button
+                android:id="@+id/btn_license"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="700dp"
+                android:background="#00ff0000"
+                android:text="라이센스"
+                android:textSize="25dp" />
+
+
+
+        </FrameLayout>
+    </LinearLayout>
+</ScrollView>
