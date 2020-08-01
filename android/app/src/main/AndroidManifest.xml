@@ -7,18 +7,19 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo"
-        android:roundIcon="@mipmap/ic_logo_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".mainmapPage"></activity>
+        <activity android:name=".settings"></activity>
+        <activity android:name=".mainmapPage" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="7fxx28ikcf" />
 
-        <activity android:name=".signup"></activity>
+        <activity android:name=".signup" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
