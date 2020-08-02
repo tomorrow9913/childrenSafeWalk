@@ -5,7 +5,8 @@
 ```
 {
     "session": "encript session Id"
-    "location": { "latitude": "num", "longitude": "num" },
+    "latitude": "num",
+    "longitude": "num",
     "level": "0 ~ 1",
     "tag": [ 
         { "id": num, "name": "name" },

@@ -16,8 +16,8 @@ if ($decode == null){
 }
 
 $session = $decode['session'];
-$location = $decode['location'];
-$location = makePoint($location); 
+$locationLat = $decode['latitude'];
+$locationLong = $decode['longitude'];
 
 $level = $decode['level'];
 
@@ -25,7 +25,7 @@ $tag = $decode['tag'];
 $tag = implode(',', $tag);
 
 if (checkSession($conn, $session)) {
-    $sql = "INSERT INTO pingInfo(location, level, tag) values(PointFromText('$location'), '$level', '$tag')";
+    $sql = "INSERT INTO pingInfo(level, tag, latitude, longitude) values('$level', '$tag', $locationLat, $locationLong)";
     if (!mysqli_query($conn, $sql)) {
         $result["result"] = "fail";
         $result["comment"] = mysqli_error($conn);
