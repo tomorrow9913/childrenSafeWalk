@@ -25,8 +25,12 @@
         $callNum = $json['callNum'];
         $sql = "INSERT INTO user(userId, userPwd, email, name, nickname, callNum) values('$id', '$pwd', '$email', '$name', '$nickname', '$callNum')"; 
     }else {
-        $callNum = null;
-        $sql = "INSERT INTO user(userId, userPwd, email, name, nickname) values('$id', '$pwd', '$email', '$name', '$nickname')"; 
+        $result["result"] = "fail";
+        $result["comment"] = "json error : have not info of call Num";
+        $output = json_encode($result);
+        echo $output;
+        disconnect($conn);
+        return;
     }
     
     if (!mysqli_query($conn, $sql)) {
