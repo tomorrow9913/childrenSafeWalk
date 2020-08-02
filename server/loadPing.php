@@ -17,9 +17,9 @@ if ($decode == null){
 }
 
 $radius = $decode['radius'];
-$location = $decode['location'];
-$lat = $location['latitude'];
-$long = $location['longitude'];
+
+$lat = $decode['latitude'];
+$long = $decode['longitude'];
 
 $sql = <<<EOD
 SELECT *, ( 6371 * 1000 * acos( cos( radians($lat) ) * cos( radians( latitude ) ) 
@@ -39,8 +39,8 @@ if ($query){
         $data['id'] = (int)$row['id'];
         $loc = array();
         
-        $loc['longitude'] = $row[0];
-        $loc['latitude'] = $row[1];
+        $loc['longitude'] = $row['longitude'];
+        $loc['latitude'] = $row['latitude'];
 
         $data['location'] = $loc;
         $data['level'] = $row['level'];
