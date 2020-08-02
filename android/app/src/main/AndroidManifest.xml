@@ -13,21 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".settings"></activity>
-        <activity android:name=".mainmapPage" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="7fxx28ikcf" />
 
-        <activity android:name=".signup" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".settings"/>
+        <activity android:name=".mainmapPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".signup" />
+        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>

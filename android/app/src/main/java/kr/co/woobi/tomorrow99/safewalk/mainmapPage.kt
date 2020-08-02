@@ -28,7 +28,7 @@ import retrofit2.http.POST
 
 class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
-    private  lateinit var naverMap: NaverMap
+    private lateinit var naverMap: NaverMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
