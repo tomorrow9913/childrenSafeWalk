@@ -5,7 +5,8 @@
 ```
 {
     "radius": "unit of Meter",
-    "position": { latitude: "location of latitude", longitude: "location of longitude" " }
+    "latitude": "location of latitude",
+    "longitude: "location of longitude"
 }
 ```
 ### 2. 출력 값 :
@@ -18,8 +19,9 @@
             "id": num,
             "location": { "latitude": "num", "longitude": "num" },
             "level": "0 ~ 1",
+            "distnace": "unit of base is meter",
             "tag": [ 
-                { "id": num, "name": "name" },
+                { num, ... },
                 ...
             ]
             "useful": { "true": count, "false": count }
