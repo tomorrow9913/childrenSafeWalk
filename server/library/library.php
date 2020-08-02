@@ -37,11 +37,11 @@ function makePolygon($pos) {
     $result .= "))";
     return $result;
 }
-
-function makePoint($pos){
-    // POINT(lat, long)
-    return 'POINT('.$pos['longitude'].' '.$pos['latitude'].')';
-}
+//makePoint($locationLat, $locationLongi); 
+// function makePoint($lat, $long){
+//     // POINT(lat, long)
+//     return 'POINT('.$long.' '.$lat.')';
+// }
 
 function checkJson($json) { 
 
