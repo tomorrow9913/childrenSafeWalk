@@ -1,19 +1,15 @@
 package kr.co.woobi.tomorrow99.safewalk
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
-import com.naver.maps.map.overlay.PolylineOverlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.widget.LocationButtonView
 import retrofit2.Call
@@ -28,29 +24,16 @@ import retrofit2.http.POST
 
 class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
-    private lateinit var naverMap: NaverMap
+    private lateinit var naverMap:NaverMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainmap_page)
 
-        val INTENT_INFO = getIntent()
-        val SESSION = INTENT_INFO.getStringExtra("session")
-        val NICK = INTENT_INFO.getStringExtra("nickname")
-        val NAME = INTENT_INFO.getStringExtra("name")
-        var MAIL = INTENT_INFO.getStringExtra("email")
-        val PHONE:String? = INTENT_INFO.getStringExtra("callnum")
-
-        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
-
-        val dialog = AlertDialog.Builder(this@mainmapPage)
-        dialog.setTitle("알람")
-        dialog.setMessage("Session=${SESSION}\nNick=$NICK\nName=${NAME}\nMail=$MAIL\nPhone=${PHONE}")
-        //dialog.show()
-
         val options = NaverMapOptions()
             .nightModeEnabled(true)
             .buildingHeight(0.5f)
+            .locationButtonEnabled(false)
 
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.fragment_map) as MapFragment?
@@ -59,7 +42,22 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                     fm.beginTransaction().add(R.id.fragment_map, it).commit()
                 }
 
-        mapFragment.getMapAsync(this)
+        mapFragment.getMapAsync (this)
+
+        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            grantResults: IntArray) {
+        if (locationSource.onRequestPermissionsResult(requestCode, permissions,
+                grantResults)) {
+            if (!locationSource.isActivated) { // 권한 거부됨
+                naverMap.locationTrackingMode = LocationTrackingMode.None
+            }
+            return
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     @UiThread
@@ -67,67 +65,61 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         this.naverMap = naverMap
         naverMap.locationSource = locationSource
 
-        val init = LatLng(35.1541181, 129.0319860)
-        val cameraPosition = CameraPosition(init, 17.0);
+        val locationControl = findViewById(R.id.widget_location) as LocationButtonView
+        locationControl.map = naverMap
 
-        naverMap.setCameraPosition(cameraPosition);
+        //위치 추적 모드 https://navermaps.github.io/android-map-sdk/guide-ko/4-2.html
         naverMap.locationTrackingMode = LocationTrackingMode.Face
 
-        val uiSettings = naverMap.uiSettings
-        uiSettings.isCompassEnabled = false
-        uiSettings.isLocationButtonEnabled = true
 
-        var body = HashMap<String, HashMap<String, Double>>()
+        naverMap.addOnLocationChangeListener {
+            var position = HashMap<String, Double>()
+            position.put("latitude", it.latitude)
+            position.put("longitude", it.longitude)
 
-        //출발지 도착지
-        var source = HashMap<String, Double>()
-        source.put("latitude", 0.0)
-        source.put("longitude", 0.0)
+            var body = GetAreaInfoParams(40.0, position)
 
-        var target = HashMap<String, Double>()
-        target.put("latitude", 0.0)
-        target.put("longitude", 0.0)
+            val SERVE_HOST:String = "http://210.107.245.192:400/"
+            var retrofit = Retrofit.Builder()
+                .baseUrl(SERVE_HOST)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
 
-        body.put("source", source)
-        body.put("target", target)
+            var getAreaInfoService = retrofit.create(GetAreaInfoService::class.java)
 
-        val SERVE_HOST:String = "http://210.107.245.192:400/"
-        var retrofit = Retrofit.Builder()
-            .baseUrl(SERVE_HOST)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        var routeService = retrofit.create(RouteService::class.java)
-
-        routeService.requestRoute(body).enqueue(object : Callback<RouteTarget> {
-            override fun onFailure(call: Call<RouteTarget>, t: Throwable) {
-                Toast.makeText(this@mainmapPage, "네트워크 통신에 실패힜습니다.", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onResponse(call: Call<RouteTarget>, response: Response<RouteTarget>) {
-                val responseData = response.body()
-
-                if (responseData?.result == "success"){
-                    val PATH = mutableListOf<LatLng>()
-
-                    for (data in responseData?.item){
-                        if(data.id == 1) {
-                            PATH.add(LatLng(data.source["latitude"]?:0.0, data.source["longitude"]?:0.0))
-                            continue
-                        }
-                        PATH.add(LatLng(data.target["latitude"]?:0.0, data.target["longitude"]?:0.0))
-                    }
-
-                    val path = PathOverlay()
-                    path.coords = PATH
-                    path.color = Color.GREEN
-                    path.passedColor = Color.GRAY
-                    path.progress = 0.5
-                    path.map = naverMap
+            getAreaInfoService.requestRoute(body).enqueue(object : Callback<RouteTarget> {
+                override fun onFailure(call: Call<RouteTarget>, t: Throwable) {
+                    Toast.makeText(this@mainmapPage, "네트워크 통신에 실패힜습니다.", Toast.LENGTH_SHORT).show()
                 }
 
-            }
-        })
+                override fun onResponse(call: Call<RouteTarget>, response: Response<RouteTarget>) {
+                    val responseData = response.body()
+
+                    if (responseData?.result == "success"){
+                        val setCorlor = 4.38
+                        val PATH = mutableListOf<LatLng>()
+
+                        for (data in responseData?.data!!){
+                            if(data.id == 1) {
+                                PATH.add(LatLng(data.source["latitude"]?:0.0, data.source["longitude"]?:0.0))
+                                continue
+                            }
+                            PATH.add(LatLng(data.target["latitude"]?:0.0, data.target["longitude"]?:0.0))
+                        }
+
+                        val path = PathOverlay()
+                        path.coords = PATH
+                        path.color = Color.GREEN
+                        path.passedColor = Color.GRAY
+                        path.progress = 0.5
+                        path.map = naverMap
+                    }
+                    else {
+                        Toast.makeText(this@mainmapPage, "${responseData.comment}.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            })
+        }
     }
 
     companion object {
@@ -137,21 +129,29 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
 
 data class RouteTarget (
     var result:String,
-    var item:List<Item>
+    var comment:String,
+    var data:List<Item>?
 )
 
 data class Item(
     var id:Int,
-    var source: HashMap<String, Double>,
-    var target:HashMap<String, Double>
+    var location: HashMap<String, Double>,
+    var level:Double,
+    var tag:List<Int>,
+    var useful:HashMap<String, Double>
 )
 
-interface RouteService {
+data class GetAreaInfoParams(
+    var radius:Double,
+    var position: HashMap<String, Double>
+)
+
+interface GetAreaInfoService {
     //@FormUrlEncoded
     @POST(value = "mappingTest.php")
     @Headers("Content-Type: application/json")
 
     fun requestRoute (
-        @Body params: HashMap<String, HashMap<String, Double>>
+        @Body params: GetAreaInfoParams
     ) : Call<RouteTarget>
 }
