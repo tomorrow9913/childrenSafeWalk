@@ -3,9 +3,9 @@
 ## API 명세서 
 ### 입력 값 :
 ```
-{
-    "id": num
-}
+GET으로 받음.
+ex)
+getImagePing.php?id=value
 ```
 ### 2. 출력 값 :
    1. 성공 한 경우
