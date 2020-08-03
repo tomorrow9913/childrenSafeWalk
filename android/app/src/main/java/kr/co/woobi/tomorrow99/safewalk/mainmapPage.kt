@@ -111,7 +111,7 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
 
                 var getAddresservice = retrofit.create(GetAddressService::class.java)
 
-                getAddresservice.requestRoute("${it.longitude},${it.latitude}","epsg:4326", "legalcode", "json").enqueue(object : Callback<AddresResult> {
+                getAddresservice.requestRoute("${center.target.longitude},${center.target.latitude}","epsg:4326", "legalcode", "json").enqueue(object : Callback<AddresResult> {
                     override fun onFailure(call: Call<AddresResult>, t: Throwable) {
                         Toast.makeText(this@mainmapPage, "네트워크 통신에 실패힜습니다.", Toast.LENGTH_SHORT).show()
                     }
