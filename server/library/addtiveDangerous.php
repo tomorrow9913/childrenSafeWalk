@@ -29,7 +29,7 @@
             $json['comment'] = mysqli_error($conn);
         }else {
 
-            $sql = "SELECT id from dangerouslocation ORDER BY id desc";
+            $sql = "SELECT id from dangerouslocation ORDER BY id desc LIMIT 1";
             $result = mysqli_query($conn, $sql);
             $id = (int)mysqli_fetch_array($result)[0];
             $json['id'] = $id;
