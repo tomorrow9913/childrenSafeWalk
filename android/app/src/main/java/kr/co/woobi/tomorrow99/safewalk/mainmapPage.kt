@@ -95,8 +95,9 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         naverMap.locationTrackingMode = LocationTrackingMode.Face
 
         val listener = Overlay.OnClickListener { overlay ->
-            Toast.makeText(this@mainmapPage, "${pingData[overlay.tag.toString()]} 클릭됨", Toast.LENGTH_LONG)
-                .show()
+            Log.d("디버그","${pingData[overlay.tag.toString()]}")
+            val dlg = PingInfoDialog(this)
+            dlg.changeInfo(pingData[overlay.tag.toString()]!!)
             false
         }
 
