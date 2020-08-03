@@ -4,12 +4,14 @@ import android.graphics.Color
 import android.graphics.PointF
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.LocationButtonView
@@ -26,10 +28,14 @@ import kotlin.math.abs
 class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap:NaverMap
+    private var isShowDangerbtn = false
+    val centerMarker = Marker()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainmap_page)
+
+        btn_setDangerous.setVisibility(View.INVISIBLE)
 
         val options = NaverMapOptions()
             .nightModeEnabled(true)
@@ -46,6 +52,20 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync (this)
 
         locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+
+        img_declaration.setOnClickListener{
+            if (isShowDangerbtn){
+                btn_setDangerous.setVisibility(View.INVISIBLE)
+                isShowDangerbtn = false
+                centerMarker.map = null
+            }
+            else {
+                btn_setDangerous.setVisibility(View.VISIBLE)
+                isShowDangerbtn = true
+            }
+        }
+
+        btn_setDangerous
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -72,8 +92,16 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         //위치 추적 모드 https://navermaps.github.io/android-map-sdk/guide-ko/4-2.html
         naverMap.locationTrackingMode = LocationTrackingMode.Face
 
-        naverMap.addOnLocationChangeListener {
+        naverMap.addOnCameraChangeListener{reason, animated ->
+            var center = naverMap.cameraPosition
+            if(isShowDangerbtn){
+                centerMarker.position = LatLng(center.target.latitude, center.target.longitude)
+                centerMarker.icon = MarkerIcons.BLACK
+                centerMarker.map = naverMap
+            }
+        }
 
+        naverMap.addOnLocationChangeListener {
             /*todo 현재 주소 버그 수정
             var retrofit = Retrofit.Builder()
                 .baseUrl("https://naveropenapi.apigw.ntruss.com")
