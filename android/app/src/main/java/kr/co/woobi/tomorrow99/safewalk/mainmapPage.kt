@@ -97,7 +97,7 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         val listener = Overlay.OnClickListener { overlay ->
             Log.d("디버그","${pingData[overlay.tag.toString()]}")
             val dlg = PingInfoDialog(this)
-            dlg.changeInfo(pingData[overlay.tag.toString()]!!)
+            dlg.start(pingData[overlay.tag.toString()]!!)
             false
         }
 
@@ -118,7 +118,7 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 var radius = calDistance(center.target.latitude,center.target.longitude,coord.latitude,coord.longitude)
 
                 var body = GetPingInfoParams((radius*10+1.0).toString(), center.target.latitude.toString(), center.target.longitude.toString())
-                Log.d("디버그", "${body.toString()}")
+                Log.d("디버그", "${body}")
 
                 val SERVE_HOST = "http://210.107.245.192:400/"
 

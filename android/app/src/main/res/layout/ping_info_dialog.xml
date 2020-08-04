@@ -51,18 +51,18 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/textView15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="주소 "
-                android:textSize="24sp" />
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ping_address" />
 
             <TextView
                 android:id="@+id/tv_address"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="주소 검색 오류"
                 android:textSize="24sp" />
         </LinearLayout>
 
@@ -120,13 +120,13 @@
 
             <TextView
                 android:id="@+id/tv_dangerRank"
-                android:layout_width="wrap_content"
+                android:layout_width="70dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:text="0.00"
                 android:textAlignment="center"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <TextView
@@ -199,9 +199,11 @@
 
         <Button
             android:id="@+id/btn_ok"
+            android:background="@drawable/radius_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Button" />
+            android:layout_marginTop="30dp"
+            android:text="닫기" />
 
     </LinearLayout>
 

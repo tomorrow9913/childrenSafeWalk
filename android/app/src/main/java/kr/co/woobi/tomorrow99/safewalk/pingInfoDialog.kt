@@ -26,7 +26,7 @@ class PingInfoDialog(context : Context) {
     private lateinit var dangerRank:TextView
     private lateinit var skull:List<ImageView>
 
-    fun start(content : String) {
+    fun start(data:Item) {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
         dlg.setContentView(R.layout.ping_info_dialog)     //다이얼로그에 사용할 xml 파일을 불러옴
         dlg.setCancelable(false)    //다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
@@ -48,10 +48,6 @@ class PingInfoDialog(context : Context) {
             dlg.dismiss()
         }
 
-        dlg.show()
-    }
-
-    fun changeInfo(data:Item){
         var retrofit = Retrofit.Builder()
             .baseUrl("https://naveropenapi.apigw.ntruss.com")
             .addConverterFactory(GsonConverterFactory.create())
@@ -88,21 +84,25 @@ class PingInfoDialog(context : Context) {
             }
         })
 
-        var level = data.level
-        //dangerRank.text = String.format("%.2f", level)
-        if(level*5 >= 0.5) skull[0].setImageResource(R.drawable.skull2)
-        if(level*5 >= 1.0) skull[0].setImageResource(R.drawable.skull3)
-        if(level*5 >= 1.5) skull[1].setImageResource(R.drawable.skull2)
-        if(level*5 >= 2.0) skull[1].setImageResource(R.drawable.skull3)
-        if(level*5 >= 2.5) skull[2].setImageResource(R.drawable.skull2)
-        if(level*5 >= 3.0) skull[2].setImageResource(R.drawable.skull3)
-        if(level*5 >= 3.5) skull[3].setImageResource(R.drawable.skull2)
-        if(level*5 >= 4.0) skull[3].setImageResource(R.drawable.skull3)
-        if(level*5 >= 4.5) skull[4].setImageResource(R.drawable.skull2)
-        if(level*5 == 5.0) skull[4].setImageResource(R.drawable.skull3)
+        var level = data.level*5
+        dangerRank.text = String.format("%.2f", level)
+        if(level >= 0.5) skull[0].setImageResource(R.drawable.skull2)
+        if(level >= 1.0) skull[0].setImageResource(R.drawable.skull3)
+        if(level >= 1.5) skull[1].setImageResource(R.drawable.skull2)
+        if(level >= 2.0) skull[1].setImageResource(R.drawable.skull3)
+        if(level >= 2.5) skull[2].setImageResource(R.drawable.skull2)
+        if(level >= 3.0) skull[2].setImageResource(R.drawable.skull3)
+        if(level >= 3.5) skull[3].setImageResource(R.drawable.skull2)
+        if(level >= 4.0) skull[3].setImageResource(R.drawable.skull3)
+        if(level >= 4.5) skull[4].setImageResource(R.drawable.skull2)
+        if(level == 5.0) skull[4].setImageResource(R.drawable.skull3)
 
-        good.text = data.useful["true"].toString()
-        bad.text = data.useful["false"].toString()
+        good.text = String.format("%.0f", data.useful["true"])
+        bad.text = String.format("%.0f", data.useful["false"])
+
+        dlg.show()
     }
+
+
 }
 
