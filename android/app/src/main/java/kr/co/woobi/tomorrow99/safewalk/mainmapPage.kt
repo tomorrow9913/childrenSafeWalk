@@ -1,5 +1,7 @@
 package kr.co.woobi.tomorrow99.safewalk
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PointF
 import android.os.Bundle
@@ -11,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
@@ -22,7 +25,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
+import java.lang.Exception
 import kotlin.math.abs
+import kotlin.math.log
 
 
 class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
@@ -30,6 +35,10 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var naverMap:NaverMap
     private var isShowDangerbtn = false
     val centerMarker = Marker()
+    val pingData = HashMap<String, Item>()
+    var userInfo = UserInfo(null, null, null, null,null)
+
+    val LOGIN_REQUEST_CODE = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +74,42 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 isShowDangerbtn = true
             }
         }
+
+        btn_setDangerous.setOnClickListener{
+            if (userInfo.session == null)
+            {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivityForResult(intent, LOGIN_REQUEST_CODE)
+            }
+            else{
+                //todo 등록 창 띄우기
+                val dlg = SetPing(this)
+                var locationNow = HashMap<String, String>()
+                locationNow.put("latitude", centerMarker.position.latitude.toString())
+                locationNow.put("longitude", centerMarker.position.longitude.toString())
+                dlg.start(locationNow, userInfo.session!!)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == Activity.RESULT_OK)
+        {
+            when(requestCode)
+            {
+                LOGIN_REQUEST_CODE -> {
+                    userInfo.session = data?.getStringExtra("session")
+                    userInfo.nickname = data?.getStringExtra("nickname")
+                    userInfo.name = data?.getStringExtra("name")
+                    userInfo.email = data?.getStringExtra("email")
+                    userInfo.callNum = data?.getStringExtra("callnum")
+                }
+            }
+
+            Log.d("디버그", "$requestCode|$data")
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
@@ -91,6 +136,15 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         //위치 추적 모드 https://navermaps.github.io/android-map-sdk/guide-ko/4-2.html
         naverMap.locationTrackingMode = LocationTrackingMode.Face
 
+        val listener = Overlay.OnClickListener { overlay ->
+            Log.d("디버그","${pingData[overlay.tag.toString()]}")
+            val dlg = PingInfoDialog(this)
+            dlg.start(pingData[overlay.tag.toString()]!!)
+            false
+        }
+
+
+        // 카메라 변경시 이벤트
         naverMap.addOnCameraChangeListener{reason, animated ->
             var center = naverMap.cameraPosition
             if(isShowDangerbtn){
@@ -98,55 +152,19 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 centerMarker.icon = MarkerIcons.BLACK
                 centerMarker.map = naverMap
             }
-        }
 
-        naverMap.addOnLocationChangeListener {
-            var center = naverMap.cameraPosition
             val markerList = HashMap<String, Marker>()
-            if(center.zoom > 15){
-                var retrofit = Retrofit.Builder()
-                    .baseUrl("https://naveropenapi.apigw.ntruss.com")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-
-                var getAddresservice = retrofit.create(GetAddressService::class.java)
-
-                getAddresservice.requestRoute("${it.longitude},${it.latitude}","epsg:4326", "legalcode", "json").enqueue(object : Callback<AddresResult> {
-                    override fun onFailure(call: Call<AddresResult>, t: Throwable) {
-                        Toast.makeText(this@mainmapPage, "네트워크 통신에 실패힜습니다.", Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onResponse(
-                        call: Call<AddresResult>,
-                        response: Response<AddresResult>
-                    ) {
-                        val responseData = response.body()
-                        var locationData = ""
-
-                        if (responseData?.results != null) {
-                            var datas = responseData.results!![0]
-                            for (data in datas.region!!){
-                                if (data.key == "area0") continue
-                                locationData = "${locationData} " + data.value.name
-                            }
-
-                            tv_location.text = locationData
-                        }
-                        else {
-                            tv_location.text = "위치 정보를 찾을 수 없습니다."
-                        }
-                    }
-                })
-
+            if(center.zoom > 13){
                 val projection = naverMap.projection
                 val coord = projection.fromScreenLocation(PointF(0f, 0f))
                 var radius = calDistance(center.target.latitude,center.target.longitude,coord.latitude,coord.longitude)
 
-                var body = GetPingInfoParams((radius+1.0).toString(), it.latitude.toString(), it.longitude.toString())
+                var body = GetPingInfoParams((radius*10+1.0).toString(), center.target.latitude.toString(), center.target.longitude.toString())
+                Log.d("디버그", "${body}")
 
-                val SERVE_HOST:String = "http://210.107.245.192:400/"
+                val SERVE_HOST = "http://210.107.245.192:400/"
 
-                retrofit = Retrofit.Builder()
+                var retrofit = Retrofit.Builder()
                     .baseUrl(SERVE_HOST)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
@@ -159,7 +177,6 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                     }
 
                     override fun onResponse(call: Call<RouteTarget>, response: Response<RouteTarget>) {
-                        for(m in markerList) m.value.map = null
                         val responseData = response.body()
 
                         if (responseData?.result == "success"){
@@ -167,24 +184,27 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
 
                             for (data in responseData.data!!){
                                 val marker = Marker()
-                                marker.position = LatLng(data.location["latitude"]?:continue, data.location["longitude"]?:continue)
-
+                                marker.position = LatLng(data.location["latitude"]?:0.0, data.location["longitude"]?:0.0)
 
                                 marker.tag = data.id
                                 var red = 219.0
                                 var green = 219.0
                                 if(data.level * 100 > 50){
-                                    red = 219-(data.level * 100 * setCorlor)
-                                    green = (data.level * 100 * setCorlor)
+                                    red = (data.level * 100 * setCorlor)
+                                    green = 219-(data.level * 100 * setCorlor)
                                 }
                                 if (data.level * 100 < 50) {
-                                    red = (data.level * 100 * setCorlor)
+                                    red = 219-(data.level * 100 * setCorlor)
                                     green = 219-(data.level * 100 * setCorlor)
                                 }
 
                                 marker.icon = MarkerIcons.BLACK
                                 marker.iconTintColor = Color.rgb(red.toInt() ,green.toInt(),0)
                                 marker.map = naverMap
+                                marker.setOnClickListener(listener)
+
+                                pingData.put(data.id.toString(), data)
+
                                 markerList.put(data.id.toString(),marker)
                             }
                         }
@@ -195,6 +215,48 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 })
             }else{
                 for(m in markerList) m.value.map = null
+                markerList.clear()
+            }
+        }
+
+        naverMap.addOnLocationChangeListener {
+            var center = naverMap.cameraPosition
+            if(center.zoom > 13){
+                var retrofit = Retrofit.Builder()
+                    .baseUrl("https://naveropenapi.apigw.ntruss.com")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build()
+
+                var getAddresservice = retrofit.create(GetAddressService::class.java)
+
+                getAddresservice.requestRoute("${center.target.longitude},${center.target.latitude}","epsg:4326", "roadaddr", "json").enqueue(object : Callback<AddresResult> {
+                    override fun onFailure(call: Call<AddresResult>, t: Throwable) {
+                        Toast.makeText(this@mainmapPage, "네트워크 통신에 실패힜습니다.", Toast.LENGTH_SHORT).show()
+                    }
+
+                    override fun onResponse(
+                        call: Call<AddresResult>,
+                        response: Response<AddresResult>
+                    ) {
+                        val responseData = response.body()
+                        Log.d("로그", "$responseData")
+                        try {
+                            if (responseData?.results != null) {
+                                var datas = responseData.results!![0]
+                                var locationData = ""
+                                for (data in datas.region!!){
+                                    if (data.key == "area0") continue
+                                    locationData = "${locationData} " + data.value.name
+                                }
+
+                                tv_location.text = locationData
+                            }
+                        }
+                        catch (e:Exception){
+                            tv_location.text = "위치 정보를 찾을 수 없습니다."
+                        }
+                    }
+                })
             }
 
         }
