@@ -83,6 +83,11 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
             }
             else{
                 //todo 등록 창 띄우기
+                val dlg = SetPing(this)
+                var locationNow = HashMap<String, String>()
+                locationNow.put("latitude", centerMarker.position.latitude.toString())
+                locationNow.put("longitude", centerMarker.position.longitude.toString())
+                dlg.start(locationNow, userInfo.session!!)
             }
         }
     }
