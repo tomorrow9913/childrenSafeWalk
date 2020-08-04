@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:gravity="center"
-                android:text="사진을 추가해주세요."
+                android:text="사진이 없습니다"
                 android:textAlignment="center" />
 
         </FrameLayout>
@@ -136,27 +136,11 @@
             android:text="태그"
             android:textSize="18sp" />
 
-        <TableLayout
-            android:id="@+id/table_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </TableLayout>
+        <LinearLayout
+            android:id="@+id/row_tag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"></LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
