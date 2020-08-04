@@ -1,5 +1,6 @@
 package kr.co.woobi.tomorrow99.safewalk
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -54,18 +55,16 @@ class MainActivity : AppCompatActivity() {
                             //메인 화면 이동
                             val MAP_PAGE = Intent(this@MainActivity, mainmapPage::class.java)
 
-                            MAP_PAGE.putExtra("session", RESPONSE_DATA?.session)
-                            MAP_PAGE.putExtra("nickname", RESPONSE_DATA?.nickname)
-                            MAP_PAGE.putExtra("name", RESPONSE_DATA?.name)
-                            MAP_PAGE.putExtra("email", RESPONSE_DATA?.email)
-                            MAP_PAGE.putExtra("callnum", RESPONSE_DATA?.email)
+                            MAP_PAGE.putExtra("session", RESPONSE_DATA.session)
+                            MAP_PAGE.putExtra("nickname", RESPONSE_DATA.nickname)
+                            MAP_PAGE.putExtra("name", RESPONSE_DATA.name)
+                            MAP_PAGE.putExtra("email", RESPONSE_DATA.email)
+                            MAP_PAGE.putExtra("callnum", RESPONSE_DATA.callNum)
 
                             MAP_PAGE.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             MAP_PAGE.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(MAP_PAGE)
-
-                            dialog.setMessage("result=${response.body().toString()}")
-                            dialog.show()
+                            setResult(Activity.RESULT_OK, MAP_PAGE)
+                            finish()
                         }
                         else {
                             dialog.setMessage("result=${RESPONSE_DATA?.result}&comment=${RESPONSE_DATA?.comment}")
