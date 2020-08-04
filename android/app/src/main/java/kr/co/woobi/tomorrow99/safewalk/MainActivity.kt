@@ -1,5 +1,6 @@
 package kr.co.woobi.tomorrow99.safewalk
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -62,7 +63,8 @@ class MainActivity : AppCompatActivity() {
 
                             MAP_PAGE.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                             MAP_PAGE.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            startActivity(MAP_PAGE)
+                            setResult(Activity.RESULT_OK, MAP_PAGE)
+                            finish()
                         }
                         else {
                             dialog.setMessage("result=${RESPONSE_DATA?.result}&comment=${RESPONSE_DATA?.comment}")

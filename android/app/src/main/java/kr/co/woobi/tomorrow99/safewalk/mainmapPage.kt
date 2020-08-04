@@ -1,5 +1,7 @@
 package kr.co.woobi.tomorrow99.safewalk
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PointF
 import android.os.Bundle
@@ -25,6 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 import java.lang.Exception
 import kotlin.math.abs
+import kotlin.math.log
 
 
 class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
@@ -33,6 +36,9 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
     private var isShowDangerbtn = false
     val centerMarker = Marker()
     val pingData = HashMap<String, Item>()
+    var userInfo = UserInfo(null, null, null, null,null)
+
+    val LOGIN_REQUEST_CODE = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +73,37 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 btn_setDangerous.setVisibility(View.VISIBLE)
                 isShowDangerbtn = true
             }
+        }
+
+        btn_setDangerous.setOnClickListener{
+            if (userInfo.session == null)
+            {
+                val intent = Intent(this, MainActivity::class.java)
+                startActivityForResult(intent, LOGIN_REQUEST_CODE)
+            }
+            else{
+                //todo 등록 창 띄우기
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(resultCode == Activity.RESULT_OK)
+        {
+            when(requestCode)
+            {
+                LOGIN_REQUEST_CODE -> {
+                    userInfo.session = data?.getStringExtra("session")
+                    userInfo.nickname = data?.getStringExtra("nickname")
+                    userInfo.name = data?.getStringExtra("name")
+                    userInfo.email = data?.getStringExtra("email")
+                    userInfo.callNum = data?.getStringExtra("callnum")
+                }
+            }
+
+            Log.d("디버그", "$requestCode|$data")
         }
     }
 
@@ -148,11 +185,11 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                                 var red = 219.0
                                 var green = 219.0
                                 if(data.level * 100 > 50){
-                                    red = 219-(data.level * 100 * setCorlor)
-                                    green = (data.level * 100 * setCorlor)
+                                    red = (data.level * 100 * setCorlor)
+                                    green = 219-(data.level * 100 * setCorlor)
                                 }
                                 if (data.level * 100 < 50) {
-                                    red = (data.level * 100 * setCorlor)
+                                    red = 219-(data.level * 100 * setCorlor)
                                     green = 219-(data.level * 100 * setCorlor)
                                 }
 
