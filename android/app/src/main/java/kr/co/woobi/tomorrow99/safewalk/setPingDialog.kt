@@ -1,20 +1,11 @@
 package kr.co.woobi.tomorrow99.safewalk
 
-import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.hardware.camera2.CameraCaptureSession
-import android.util.Log
-import android.view.ViewGroup
+import android.content.DialogInterface
 import android.view.Window
 import android.widget.*
-import androidx.core.content.ContextCompat
-import androidx.core.view.marginRight
-import kotlinx.android.synthetic.main.activity_mainmap_page.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,12 +14,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
-import java.lang.Exception
-import android.graphics.drawable.GradientDrawable as GradientDrawable1
 
 class SetPing(context : Context) {
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
     private lateinit var address : TextView
+    private lateinit var btnAddTag : Button
     private lateinit var btnOK : Button
     private lateinit var dangerRank:TextView
     private lateinit var tagTable:LinearLayout
@@ -52,7 +42,6 @@ class SetPing(context : Context) {
         btnOK = dlg.findViewById(R.id.btn_ok)
 
         btnOK.setOnClickListener {
-            //todo 서버 데이터 전송
             val SERVE_HOST = "http://210.107.245.192:400/"
             var retrofit = Retrofit.Builder()
                 .baseUrl(SERVE_HOST)
@@ -61,11 +50,11 @@ class SetPing(context : Context) {
 
             var addPingService = retrofit.create(AddPingService::class.java)
 
-            var body = AddPingIn(session, data["latitude"]!!,data["longitude"]!!, dangerRank.text.toString().toDouble()/5, tagList)
+            var body = AddPingIn(session, data["latitude"]!!,data["longitude"]!!, dangerRank.text.toString().toDouble()/5, tagList.distinct())
 
             addPingService.addPing(body).enqueue(object : Callback<AddPingOut>{
                 override fun onFailure(call: Call<AddPingOut>, t: Throwable) {
-                    Toast.makeText(dlg.context, "네트워크 통신 오료", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(dlg.context, "네트워크 통신 오류", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(call: Call<AddPingOut>, response: Response<AddPingOut>) {
@@ -79,6 +68,36 @@ class SetPing(context : Context) {
                 }
             })
         }
+
+        btnAddTag = dlg.findViewById(R.id.btn_addTag)
+
+        btnAddTag.setOnClickListener{
+            var builder = AlertDialog.Builder(dlg.context)
+            val tagList = arrayOf("교통안전", "학교안전", "생활안전", "시설안전", "도보불편", "사회안전", "자연재해", "사고위험", "도로위생", "위험물 처리 시설", "무서움", "흡연지역", "노후시설", "차량안전", "악취")
+            tagTable = dlg.findViewById(R.id.row_tag)
+
+            builder.setTitle("추가할 태그를 선택해 주세요")
+
+            // Set items form alert dialog
+            builder.setItems(tagList,{_, which ->
+                try {
+                    val textView = TextView(dlg.context)
+                    textView.text = tagList[which]
+                    textView.customBg()
+                    tagTable.addView(textView)
+                    this.tagList.add(which)
+                }catch (e:IllegalArgumentException){
+                    Toast.makeText(dlg.context, "$e", Toast.LENGTH_SHORT).show()
+                }
+            })
+
+            // Create a new AlertDialog using builder object
+            val dialog = builder.create()
+
+            // Finally, display the alert dialog
+            dialog.show()
+        }
+
 
         var retrofit = Retrofit.Builder()
             .baseUrl("https://naveropenapi.apigw.ntruss.com")
@@ -143,17 +162,6 @@ class SetPing(context : Context) {
         skull[4].setOnClickListener{
             dangerRank.text = "5.00"
             for(i in 0..4) skull[i].setImageResource(R.drawable.skull3)
-        }
-
-        tagTable = dlg.findViewById(R.id.row_tag)
-
-        val tagList:Array<String> = arrayOf("교통안전", "학교안전", "생활안전", "시설안전", "도보불편", "사회안전", "자연재해", "사고위험", "도로위생", "위험물 처리 시설", "무서움", "흡연지역", "노후시설", "차량안전", "악취")
-        for (tag in tagList)
-        {
-            val textView = TextView(dlg.context)
-            textView.text = tag
-            textView.customBg()
-            tagTable.addView(textView)
         }
 
         dlg.show()

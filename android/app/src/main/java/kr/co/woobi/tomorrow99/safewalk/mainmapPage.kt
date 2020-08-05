@@ -82,7 +82,6 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 startActivityForResult(intent, LOGIN_REQUEST_CODE)
             }
             else{
-                //todo 등록 창 띄우기
                 val dlg = SetPing(this)
                 var locationNow = HashMap<String, String>()
                 locationNow.put("latitude", centerMarker.position.latitude.toString())
