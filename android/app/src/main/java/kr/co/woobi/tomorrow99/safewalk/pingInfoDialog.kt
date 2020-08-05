@@ -3,6 +3,7 @@ package kr.co.woobi.tomorrow99.safewalk
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
@@ -11,6 +12,7 @@ import android.util.Log
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import androidx.core.view.marginRight
 import kotlinx.android.synthetic.main.activity_mainmap_page.*
@@ -19,6 +21,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import java.lang.Exception
 import android.graphics.drawable.GradientDrawable as GradientDrawable1
 
@@ -27,7 +32,9 @@ class PingInfoDialog(context : Context) {
     private lateinit var address : TextView
     private lateinit var btnOK : Button
     private lateinit var good : TextView
+    private lateinit var goodIcon : ImageView
     private lateinit var bad: TextView
+    private lateinit var badIcon: ImageView
     private lateinit var dangerRank:TextView
     private lateinit var tagTable:LinearLayout
     private lateinit var skull:List<ImageView>
@@ -40,7 +47,9 @@ class PingInfoDialog(context : Context) {
         address = dlg.findViewById(R.id.tv_address)
         dangerRank = dlg.findViewById(R.id.tv_dangerRank)
         good = dlg.findViewById(R.id.tv_goodCnt)
+        goodIcon = dlg.findViewById(R.id.img_good)
         bad = dlg.findViewById(R.id.tv_badCnt)
+        badIcon = dlg.findViewById(R.id.img_bad)
         skull = arrayListOf(
             dlg.findViewById(R.id.img_skull1),
             dlg.findViewById(R.id.img_skull2),
@@ -106,6 +115,8 @@ class PingInfoDialog(context : Context) {
         good.text = String.format("%.0f", data.useful["true"])
         bad.text = String.format("%.0f", data.useful["false"])
 
+        //todo 유용성 평가 추가할 것
+
         tagTable = dlg.findViewById(R.id.row_tag)
 
         val tagList:Array<String> = arrayOf("교통안전", "학교안전", "생활안전", "시설안전", "도보불편", "사회안전", "자연재해", "사고위험", "도로위생", "위험물 처리 시설", "무서움", "흡연지역", "노후시설", "차량안전", "악취")
@@ -113,7 +124,6 @@ class PingInfoDialog(context : Context) {
         {
             val textView = TextView(dlg.context)
             textView.text = tagList[tag%15]
-            //textView.setBackgroundColor()
             textView.customBg()
             tagTable.addView(textView)
         }
@@ -130,5 +140,14 @@ fun TextView.customBg() {
             4, ContextCompat.getColor(context, R.color.fst)
         )
     }
+}
 
+interface AddUsefulService {
+    //@FormUrlEncoded
+    @POST(value = "goodOrBadPing.php")
+    @Headers("Content-Type: application/json")
+
+    fun addUseful (
+        @Body params: HashMap<String, String>
+    ) : Call<HashMap<String, String>>
 }
