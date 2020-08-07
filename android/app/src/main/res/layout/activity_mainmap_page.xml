@@ -67,14 +67,19 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/img_declaration"
-        android:layout_width="46dp"
-        android:layout_height="47dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="57dp"
+        android:layout_height="57dp"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="80dp"
+        app:backgroundTint="@color/white"
+        android:gravity="center"
+        app:elevation="12dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_setDangerous"
         app:layout_constraintEnd_toEndOf="@+id/btn_setDangerous"
-        app:srcCompat="@drawable/siren" />
+        app:srcCompat="@drawable/ic_siren"
+        tools:background="@color/white"
+        tools:ignore="elevation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
