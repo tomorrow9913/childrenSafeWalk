@@ -7,6 +7,8 @@ import android.graphics.PointF
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +16,6 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.Overlay
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.LocationButtonView
@@ -25,9 +26,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import java.lang.Exception
-import kotlin.math.abs
-import kotlin.math.log
 
 
 class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
@@ -44,7 +42,14 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mainmap_page)
 
+        var translateDown: Animation
+        var translateUp: Animation
+
+        translateUp= AnimationUtils.loadAnimation(this, R.anim.translate_up);
+
+
         btn_setDangerous.setVisibility(View.INVISIBLE)
+
 
         val options = NaverMapOptions()
             .nightModeEnabled(true)
@@ -71,6 +76,7 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
             else {
                 Toast.makeText(this@mainmapPage, "화면을 움직여 위치를 설정하세요", Toast.LENGTH_SHORT).show()
                 btn_setDangerous.setVisibility(View.VISIBLE)
+                btn_setDangerous.startAnimation(translateUp)
                 isShowDangerbtn = true
             }
         }
