@@ -94,7 +94,7 @@ class PingInfoDialog(context : Context) {
                     }
                 }
                 catch (e: Exception){
-                    address.text = "위치 정보를 찾을 수 없습니다."
+                    address.text = "${String.format("%.5f", data.location["latitude"])}, ${String.format("%.5f", data.location["longitude"])}"
                 }
             }
         })

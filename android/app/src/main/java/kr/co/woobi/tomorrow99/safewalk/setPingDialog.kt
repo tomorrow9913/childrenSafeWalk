@@ -1,5 +1,6 @@
 package kr.co.woobi.tomorrow99.safewalk
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -112,6 +113,7 @@ class SetPing(context : Context) {
                 address.text = "네트워크 통신에 실패힜습니다."
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(
                 call: Call<AddresResult>,
                 response: Response<AddresResult>
@@ -130,7 +132,9 @@ class SetPing(context : Context) {
                     }
                 }
                 catch (e: Exception){
-                    address.text = "위치 정보를 찾을 수 없습니다."
+                    address.text = "${String.format("%.5f", data["latitude"]?.toDouble())}, ${String.format("%.5f",
+                        data["longitude"]?.toDouble()
+                    )}."
                 }
             }
         })
