@@ -179,7 +179,7 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                         val responseData = response.body()
 
                         if (responseData?.result == "success"){
-                            val setCorlor = 4.38
+                            val setCorlor = 0.876
 
                             for (data in responseData.data!!){
                                 val marker = Marker()
@@ -188,13 +188,12 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                                 marker.tag = data.id
                                 var red = 219.0
                                 var green = 219.0
-                                if(data.level * 100 > 50){
-                                    red = (data.level * 100 * setCorlor)
-                                    green = 219-(data.level * 100 * setCorlor)
+
+                                if (data.level * 5 < 2.5) {
+                                    red = data.level * 500 * setCorlor
                                 }
-                                if (data.level * 100 < 50) {
-                                    red = 219-(data.level * 100 * setCorlor)
-                                    green = 219-(data.level * 100 * setCorlor)
+                                if(data.level * 5 > 2.5){
+                                    green = 219-  ((data.level * 500 * setCorlor)-219)
                                 }
 
                                 marker.icon = MarkerIcons.BLACK
