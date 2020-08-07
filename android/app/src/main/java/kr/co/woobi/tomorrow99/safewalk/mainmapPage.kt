@@ -251,7 +251,7 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                             }
                         }
                         catch (e:Exception){
-                            tv_location.text = "위치 정보를 찾을 수 없습니다."
+                            tv_location.text = "${center.target.latitude}, ${center.target.longitude}"
                         }
                     }
                 })
