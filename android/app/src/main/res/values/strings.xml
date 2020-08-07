@@ -44,5 +44,7 @@
     <string name="error_not_confirm">비밀번호가 일치하지 않습니다.</string>
     <string name="error_essential_agree">필수 동의 사항입니다.</string>
 
+    <!-- 지도 화면 -->
+    <string name="btn_route_search">안전 경로 탐색하기</string>
 
 </resources>
