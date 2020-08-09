@@ -5,11 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/signup">
+    >
 
     <ScrollView
-        android:layout_width="399dp"
-        android:layout_height="640dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,149 +18,181 @@
 
         <LinearLayout
             android:id="@+id/layoutL"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="0dp"
-            android:layout_marginEnd="16dp"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="410dp"
+                android:layout_height="98dp"
+                android:orientation="vertical"
+                android:background="@drawable/sign_up_title"
+                ></LinearLayout>
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="@string/name"
+                android:textColor="@color/thd"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/te_name"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/name"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:importantForAutofill="no" />
 
             <TextView
                 android:id="@+id/tv_nameErr"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:textColor="@color/error" />
 
             <TextView
                 android:id="@+id/tv_title2"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="@string/nickname"
+                android:textColor="@color/thd"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/te_nick"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/nickname"
                 android:inputType="textPersonName" />
 
             <TextView
                 android:id="@+id/tv_nicknameErr"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:textColor="@color/error" />
 
             <TextView
                 android:id="@+id/tv_title3"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="@string/emailID_title"
+                android:textColor="@color/thd"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/te_emailID"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/emailID_hint"
                 android:inputType="textEmailAddress" />
 
             <TextView
                 android:id="@+id/tv_emailErr"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:textColor="@color/error" />
 
             <TextView
                 android:id="@+id/tv_title4"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="@string/password"
+                android:textColor="@color/thd"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/te_password"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword" />
 
             <TextView
                 android:id="@+id/tv_pwErr"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:textColor="@color/error" />
 
             <TextView
                 android:id="@+id/tv_title5"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="@string/pw_confirm_title"
+                android:textColor="@color/thd"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/te_pwConfirm"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/pw_confirm_hint"
                 android:inputType="textPassword" />
 
             <TextView
                 android:id="@+id/tv_confirmErr"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:textColor="@color/error" />
 
             <TextView
                 android:id="@+id/tv_title6"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:text="@string/emergency_call"
+                android:textColor="@color/thd"
                 android:textSize="18sp" />
 
             <EditText
                 android:id="@+id/te_emergency"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:ems="10"
                 android:hint="@string/emergency_call_hint"
                 android:inputType="phone" />
 
             <TextView
                 android:id="@+id/tv_emergencyError"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
                 android:text=""
                 android:textColor="@color/error" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -173,7 +205,7 @@
 
                 <CheckBox
                     android:id="@+id/checkBox2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@null"
@@ -184,8 +216,10 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -198,7 +232,7 @@
 
                 <CheckBox
                     android:id="@+id/checkBox4"
-                    android:layout_width="wrap_content"
+                    android:layout_width="10dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:button="@null"
@@ -209,8 +243,11 @@
 
             <Button
                 android:id="@+id/btn_signUp"
-                android:layout_width="match_parent"
+                android:layout_width="330dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/radius_btn"
                 android:text="@string/btn_signup" />
         </LinearLayout>
