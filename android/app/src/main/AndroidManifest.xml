@@ -20,15 +20,15 @@
             android:value="7fxx28ikcf" />
 
         <activity android:name=".settings" />
-        <activity android:name=".mainmapPage">
+        <activity android:name=".map.mainmapPage">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".signup" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".sign.ui.signup" />
+        <activity android:name=".sign.ui.MainActivity" />
     </application>
 
 </manifest>

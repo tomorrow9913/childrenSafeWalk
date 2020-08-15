@@ -1,6 +1,5 @@
-package kr.co.woobi.tomorrow99.safewalk
+package kr.co.woobi.tomorrow99.safewalk.sign.ui
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -8,6 +7,8 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_signup.*
+import kr.co.woobi.tomorrow99.safewalk.*
+import kr.co.woobi.tomorrow99.safewalk.sign.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +41,8 @@ class signup : AppCompatActivity() {
                 val NAME = te_name.text.toString()
                 val NICK = te_nick.text.toString()
                 val ID = te_emailID.text.toString()
-                val PASS = sha256(te_password.text.toString())
+                val PASS =
+                    sha256(te_password.text.toString())
                 var phone:String?
 
                 when(te_emergency.text.toString()){
@@ -130,7 +132,10 @@ class signup : AppCompatActivity() {
                     tv_confirmErr.text = ""
                     hasErr = false
                 }
-                if(!checkPWformet(te_password.text.toString())){
+                if(!checkPWformet(
+                        te_password.text.toString()
+                    )
+                ){
                     hasErr = true
                     tv_pwErr.setText(R.string.error_not_correct_PWformat)
                     return
@@ -139,7 +144,10 @@ class signup : AppCompatActivity() {
                     tv_pwErr.text = ""
                     hasErr = false
                 }
-                if (!checkPhoneNumber(te_emergency.text.toString())){
+                if (!checkPhoneNumber(
+                        te_emergency.text.toString()
+                    )
+                ){
                     hasErr = true
                     tv_emergencyError.setText(R.string.error_not_correct_format)
                     return

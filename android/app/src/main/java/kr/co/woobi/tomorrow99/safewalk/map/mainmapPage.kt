@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk
+package kr.co.woobi.tomorrow99.safewalk.map
 
 import android.app.Activity
 import android.content.Intent
@@ -20,6 +20,11 @@ import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.LocationButtonView
 import kotlinx.android.synthetic.main.activity_mainmap_page.*
+import kr.co.woobi.tomorrow99.safewalk.R
+import kr.co.woobi.tomorrow99.safewalk.map.dialog.PingInfoDialog
+import kr.co.woobi.tomorrow99.safewalk.map.dialog.SetPing
+import kr.co.woobi.tomorrow99.safewalk.sign.ui.MainActivity
+import kr.co.woobi.tomorrow99.safewalk.sign.UserInfo
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,7 +39,13 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
     private var isShowDangerbtn = false
     val centerMarker = Marker()
     val pingData = HashMap<String, Item>()
-    var userInfo = UserInfo(null, null, null, null,null)
+    var userInfo = UserInfo(
+        null,
+        null,
+        null,
+        null,
+        null
+    )
 
     val LOGIN_REQUEST_CODE = 0
 
@@ -45,7 +56,9 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
         var translateDown: Animation
         var translateUp: Animation
 
-        translateUp= AnimationUtils.loadAnimation(this, R.anim.translate_up);
+        translateUp= AnimationUtils.loadAnimation(this,
+            R.anim.translate_up
+        );
 
 
         btn_setDangerous.setVisibility(View.INVISIBLE)
@@ -65,7 +78,9 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
 
         mapFragment.getMapAsync (this)
 
-        locationSource = FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE)
+        locationSource = FusedLocationSource(this,
+            LOCATION_PERMISSION_REQUEST_CODE
+        )
 
         img_declaration.setOnClickListener{
             if (isShowDangerbtn){
@@ -88,7 +103,8 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 startActivityForResult(intent, LOGIN_REQUEST_CODE)
             }
             else{
-                val dlg = SetPing(this)
+                val dlg =
+                    SetPing(this)
                 var locationNow = HashMap<String, String>()
                 locationNow.put("latitude", centerMarker.position.latitude.toString())
                 locationNow.put("longitude", centerMarker.position.longitude.toString())
@@ -143,7 +159,8 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
 
         val listener = Overlay.OnClickListener { overlay ->
             Log.d("디버그","${pingData[overlay.tag.toString()]}")
-            val dlg = PingInfoDialog(this)
+            val dlg =
+                PingInfoDialog(this)
             dlg.start(pingData[overlay.tag.toString()]!!)
             false
         }
@@ -162,9 +179,18 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
             if(center.zoom > 13){
                 val projection = naverMap.projection
                 val coord = projection.fromScreenLocation(PointF(0f, 0f))
-                var radius = calDistance(center.target.latitude,center.target.longitude,coord.latitude,coord.longitude)
+                var radius = calDistance(
+                    center.target.latitude,
+                    center.target.longitude,
+                    coord.latitude,
+                    coord.longitude
+                )
 
-                var body = GetPingInfoParams((radius*10+1.0).toString(), center.target.latitude.toString(), center.target.longitude.toString())
+                var body = GetPingInfoParams(
+                    (radius * 10 + 1.0).toString(),
+                    center.target.latitude.toString(),
+                    center.target.longitude.toString()
+                )
                 Log.d("디버그", "${body}")
 
                 val SERVE_HOST = "http://210.107.245.192:400/"
@@ -349,10 +375,14 @@ fun calDistance(
     var dist: Double
     theta = lon1 - lon2
     dist =
-        Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + (Math.cos(
+        Math.sin(deg2rad(lat1)) * Math.sin(
+            deg2rad(lat2)
+        ) + (Math.cos(
             deg2rad(lat1)
         )
-                * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta)))
+                * Math.cos(deg2rad(lat2)) * Math.cos(
+            deg2rad(theta)
+        ))
     dist = Math.acos(dist)
     dist = rad2deg(dist)
     dist = dist * 60 * 1.1515

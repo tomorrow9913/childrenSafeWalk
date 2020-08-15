@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk
+package kr.co.woobi.tomorrow99.safewalk.sign.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -9,6 +9,11 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import kr.co.woobi.tomorrow99.safewalk.R
+import kr.co.woobi.tomorrow99.safewalk.map.mainmapPage
+import kr.co.woobi.tomorrow99.safewalk.sign.LoginOut
+import kr.co.woobi.tomorrow99.safewalk.sign.LoginService
+import kr.co.woobi.tomorrow99.safewalk.sign.isEmail
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         btn_login.setOnClickListener {
             val ID = te_id.text.toString()
-            val PW = sha256(te_password.text.toString())
+            val PW =
+                sha256(te_password.text.toString())
 
             val SERVE_HOST:String = "http://210.107.245.192:400/"
             var retrofit = Retrofit.Builder()
@@ -81,8 +87,12 @@ class MainActivity : AppCompatActivity() {
         val LOGIN_FIELD_CHANGE_LISTENER = object:TextWatcher{
             override fun afterTextChanged(s: Editable?) {
                 if (te_id.text.toString() == "") tv_emergencyError.setText(R.string.error_emptyID)
-                else if(!isEmail(te_id.text.toString())) tv_emergencyError.setText(R.string.error_notEmail)
-                else if (te_password.text.toString() == "") tv_emergencyError.setText(R.string.error_emptyPW)
+                else if(!isEmail(te_id.text.toString())) tv_emergencyError.setText(
+                    R.string.error_notEmail
+                )
+                else if (te_password.text.toString() == "") tv_emergencyError.setText(
+                    R.string.error_emptyPW
+                )
                 else tv_emergencyError.text = ""
             }
 
@@ -129,60 +139,4 @@ fun sha256(param: String): String {
     return result.toString()
 }
 
-/****************************************
- * Name:            checkPWformet
- * description:     PW 형식 확인
- *
- * Author: Jeong MinGye
- * Create: 20.07.27.
- * Update:
- **************************************/
-fun checkPWformet(content: String): Boolean {
-    //todo 비밀번호 유효성 검사 버그 고칠것
-    val reg1 = Regex("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[$@!%*#?&])[A-Za-z0-9$@!%*#?&]{8,}$")
-    return true
-    if(!content.matches(reg1)) return false
-}
 
-/****************************************
- * Name:            isEmail
- * description:     email 인지 확인
- *
- * Author: Jeong MinGye
- * Create: 20.07.27.
- * Update:
- **************************************/
-fun isEmail(content: String): Boolean {
-    val reg = Regex("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\\.[a-zA-Z]{2,3}$")
-    if(!content.matches(reg)) return false
-
-    return true
-}
-
-/****************************************
- * Name:            checkPhoneNumber
- * description:     email 인지 확인
- *
- * Author: Jeong MinGye
- * Create: 20.07.27.
- * Update:
- **************************************/
-fun checkPhoneNumber(content: String): Boolean {
-    val reg = Regex("01[016789][0-9]{7,8}$")
-    if(!content.matches(reg)) return false
-    return true
-}
-
-/****************************************
- * Name:            checkPhoneNumber
- * description:     email 인지 확인
- *
- * Author: Jeong MinGye
- * Create: 20.07.27.
- * Update:
- **************************************/
-fun checkNickName(content: String): Boolean {
-    val reg = Regex("([ㄱ-ㅎㅏ-ㅣ가-힣a-zA-Z0-9]{4,15})$")
-    if(!content.matches(reg)) return false
-    return true
-}

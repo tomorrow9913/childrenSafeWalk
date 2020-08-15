@@ -1,21 +1,14 @@
-package kr.co.woobi.tomorrow99.safewalk
+package kr.co.woobi.tomorrow99.safewalk.map.dialog
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.util.Log
-import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
-import androidx.core.view.marginRight
-import kotlinx.android.synthetic.main.activity_mainmap_page.*
+import kr.co.woobi.tomorrow99.safewalk.R
+import kr.co.woobi.tomorrow99.safewalk.map.AddresResult
+import kr.co.woobi.tomorrow99.safewalk.map.GetAddressService
+import kr.co.woobi.tomorrow99.safewalk.map.Item
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,7 +32,7 @@ class PingInfoDialog(context : Context) {
     private lateinit var tagTable:LinearLayout
     private lateinit var skull:List<ImageView>
 
-    fun start(data:Item) {
+    fun start(data: Item) {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
         dlg.setContentView(R.layout.ping_info_dialog)     //다이얼로그에 사용할 xml 파일을 불러옴
         dlg.setCancelable(false)    //다이얼로그의 바깥 화면을 눌렀을 때 다이얼로그가 닫히지 않도록 함
@@ -137,7 +130,9 @@ fun TextView.customBg() {
         shape = GradientDrawable1.RECTANGLE
         cornerRadius = 10f
         setStroke(
-            4, ContextCompat.getColor(context, R.color.fst)
+            4, ContextCompat.getColor(context,
+                R.color.fst
+            )
         )
     }
 }

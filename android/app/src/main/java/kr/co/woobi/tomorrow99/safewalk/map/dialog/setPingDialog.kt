@@ -1,12 +1,14 @@
-package kr.co.woobi.tomorrow99.safewalk
+package kr.co.woobi.tomorrow99.safewalk.map.dialog
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.view.Window
 import android.widget.*
+import kr.co.woobi.tomorrow99.safewalk.R
+import kr.co.woobi.tomorrow99.safewalk.map.AddresResult
+import kr.co.woobi.tomorrow99.safewalk.map.GetAddressService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,7 +53,13 @@ class SetPing(context : Context) {
 
             var addPingService = retrofit.create(AddPingService::class.java)
 
-            var body = AddPingIn(session, data["latitude"]!!,data["longitude"]!!, dangerRank.text.toString().toDouble()/5, tagList.distinct())
+            var body = AddPingIn(
+                session,
+                data["latitude"]!!,
+                data["longitude"]!!,
+                dangerRank.text.toString().toDouble() / 5,
+                tagList.distinct()
+            )
 
             addPingService.addPing(body).enqueue(object : Callback<AddPingOut>{
                 override fun onFailure(call: Call<AddPingOut>, t: Throwable) {

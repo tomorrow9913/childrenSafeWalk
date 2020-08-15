@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk
+package kr.co.woobi.tomorrow99.safewalk.sign
 
 import retrofit2.Call
 import retrofit2.http.*
