@@ -2,9 +2,11 @@ package kr.co.woobi.tomorrow99.safewalk.map.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.view.Window
 import android.widget.*
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.map.AddresResult
 import kr.co.woobi.tomorrow99.safewalk.map.GetAddressService
@@ -18,6 +20,7 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 import java.lang.Exception
+import kotlin.math.log
 import android.graphics.drawable.GradientDrawable as GradientDrawable1
 
 class PingInfoDialog(context : Context) {
@@ -31,6 +34,7 @@ class PingInfoDialog(context : Context) {
     private lateinit var dangerRank:TextView
     private lateinit var tagTable:LinearLayout
     private lateinit var skull:List<ImageView>
+    private lateinit var pingImg:ImageView
 
     fun start(data: Item) {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
@@ -50,12 +54,23 @@ class PingInfoDialog(context : Context) {
             dlg.findViewById(R.id.img_skull4),
             dlg.findViewById(R.id.img_skull5)
         )
+        pingImg = dlg.findViewById(R.id.img_pingImg)
         btnOK = dlg.findViewById(R.id.btn_ok)
 
         btnOK.setOnClickListener {
             dlg.dismiss()
         }
 
+        Log.d("테스트", data.toString())
+        val SERVER_HOST = "http://210.107.245.192:400/"
+        val imageUrl = SERVER_HOST + "getImagePing.php?id=" + data.id
+
+        Glide.with(dlg.context).load(imageUrl)
+                .placeholder(R.drawable.lens)
+                //.error(R.drawable.error_image)
+                .into(pingImg)
+        Log.d("테스트", imageUrl)
+        Log.d("테스트", "========")
         var retrofit = Retrofit.Builder()
             .baseUrl("https://naveropenapi.apigw.ntruss.com")
             .addConverterFactory(GsonConverterFactory.create())
@@ -87,7 +102,7 @@ class PingInfoDialog(context : Context) {
                     }
                 }
                 catch (e: Exception){
-                    address.text = "${String.format("%.5f", data.location["latitude"])}, ${String.format("%.5f", data.location["longitude"])}"
+                    address.text = String.format("%.5f", data.location["latitude"]) + ", " + String.format("%.5f", data.location["longitude"])
                 }
             }
         })

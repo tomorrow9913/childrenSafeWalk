@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
@@ -29,20 +29,11 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/img_pingImg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#DDDDDD"
                 app:srcCompat="@drawable/lens" />
-
-            <TextView
-                android:id="@+id/tv_imgDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="center"
-                android:text="사진이 없습니다"
-                android:textAlignment="center" />
 
         </FrameLayout>
 
@@ -183,10 +174,10 @@
 
         <Button
             android:id="@+id/btn_ok"
-            android:background="@drawable/radius_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:background="@drawable/radius_btn"
             android:text="닫기" />
 
     </LinearLayout>

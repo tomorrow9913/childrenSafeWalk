@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/img_pingImg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#DDDDDD"
