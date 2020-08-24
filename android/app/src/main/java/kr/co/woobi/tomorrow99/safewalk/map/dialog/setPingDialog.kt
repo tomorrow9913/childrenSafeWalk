@@ -1,24 +1,27 @@
 package kr.co.woobi.tomorrow99.safewalk.map.dialog
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.view.Window
 import android.widget.*
+import androidx.core.app.ActivityCompat.startActivityForResult
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.map.AddresResult
 import kr.co.woobi.tomorrow99.safewalk.map.GetAddressService
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.Headers
-import retrofit2.http.POST
+import retrofit2.http.*
 
-class SetPing(context : Context) {
+
+class SetPing(context: Context) {
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
     private lateinit var address : TextView
     private lateinit var btnAddTag : Button
@@ -26,10 +29,11 @@ class SetPing(context : Context) {
     private lateinit var dangerRank:TextView
     private lateinit var tagTable:LinearLayout
     private lateinit var skull:List<ImageView>
+    private lateinit var image:ImageView
 
     private var tagList = mutableListOf<Int>()
 
-    fun start(data:HashMap<String, String>, session:String) {
+    fun start(data: HashMap<String, String>, session: String, activity: Activity) {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
         dlg.setContentView(R.layout.set_ping_dialog)     //다이얼로그에 사용할 xml 파일을 불러옴
 
@@ -43,6 +47,20 @@ class SetPing(context : Context) {
             dlg.findViewById(R.id.img_skull5)
         )
         btnOK = dlg.findViewById(R.id.btn_ok)
+
+        image = dlg.findViewById(R.id.img_pingImg)
+
+        image.setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                activity,
+                Intent.createChooser(intent, "Select Picture"),
+                1,
+                null
+            )
+        }
 
         btnOK.setOnClickListener {
             val SERVE_HOST = "http://210.107.245.192:400/"
@@ -61,18 +79,29 @@ class SetPing(context : Context) {
                 tagList.distinct()
             )
 
-            addPingService.addPing(body).enqueue(object : Callback<AddPingOut>{
+
+
+            addPingService.addPing(body).enqueue(object : Callback<AddPingOut> {
                 override fun onFailure(call: Call<AddPingOut>, t: Throwable) {
                     Toast.makeText(dlg.context, "네트워크 통신 오류", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(call: Call<AddPingOut>, response: Response<AddPingOut>) {
                     var responseData = response.body()
-                    if (responseData?.result == "success"){
+                    if (responseData?.result == "success") {
+                        val PING_ID = responseData.id
+
+                        //todo 이미지 전송
+                        /************************
+                         * 파일 명 : id.jpg
+                         * 현재 pingID : PING_ID
+                         * 보낼 이미지 : 현재 img_pingImg에 표시되는 이미지.
+                         ***********************/
+
                         dlg.dismiss()
-                    }
-                    else{
-                        Toast.makeText(dlg.context, "${responseData?.comment}", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(dlg.context, "${responseData?.comment}", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             })
@@ -82,20 +111,36 @@ class SetPing(context : Context) {
 
         btnAddTag.setOnClickListener{
             var builder = AlertDialog.Builder(dlg.context)
-            val tagList = arrayOf("교통안전", "학교안전", "생활안전", "시설안전", "도보불편", "사회안전", "자연재해", "사고위험", "도로위생", "위험물 처리 시설", "무서움", "흡연지역", "노후시설", "차량안전", "악취")
+            val tagList = arrayOf(
+                "교통안전",
+                "학교안전",
+                "생활안전",
+                "시설안전",
+                "도보불편",
+                "사회안전",
+                "자연재해",
+                "사고위험",
+                "도로위생",
+                "위험물 처리 시설",
+                "무서움",
+                "흡연지역",
+                "노후시설",
+                "차량안전",
+                "악취"
+            )
             tagTable = dlg.findViewById(R.id.row_tag)
 
             builder.setTitle("추가할 태그를 선택해 주세요")
 
             // Set items form alert dialog
-            builder.setItems(tagList,{_, which ->
+            builder.setItems(tagList, { _, which ->
                 try {
                     val textView = TextView(dlg.context)
                     textView.text = tagList[which]
                     textView.customBg()
                     tagTable.addView(textView)
                     this.tagList.add(which)
-                }catch (e:IllegalArgumentException){
+                } catch (e: IllegalArgumentException) {
                     Toast.makeText(dlg.context, "$e", Toast.LENGTH_SHORT).show()
                 }
             })
@@ -115,7 +160,12 @@ class SetPing(context : Context) {
 
         var getAddresservice = retrofit.create(GetAddressService::class.java)
 
-        getAddresservice.requestRoute("${data["longitude"]},${data["latitude"]}","epsg:4326", "roadaddr", "json").enqueue(object :
+        getAddresservice.requestRoute(
+            "${data["longitude"]},${data["latitude"]}",
+            "epsg:4326",
+            "roadaddr",
+            "json"
+        ).enqueue(object :
             Callback<AddresResult> {
             override fun onFailure(call: Call<AddresResult>, t: Throwable) {
                 address.text = "네트워크 통신에 실패힜습니다."
@@ -131,18 +181,20 @@ class SetPing(context : Context) {
                     if (responseData?.results != null) {
                         var datas = responseData.results!![0]
                         var locationData = ""
-                        for (data in datas.region!!){
+                        for (data in datas.region!!) {
                             if (data.key == "area0") continue
                             locationData = "${locationData} " + data.value.name
                         }
 
                         address.text = locationData
                     }
-                }
-                catch (e: Exception){
-                    address.text = "${String.format("%.5f", data["latitude"]?.toDouble())}, ${String.format("%.5f",
-                        data["longitude"]?.toDouble()
-                    )}."
+                } catch (e: Exception) {
+                    address.text = "${String.format("%.5f", data["latitude"]?.toDouble())}, ${
+                        String.format(
+                            "%.5f",
+                            data["longitude"]?.toDouble()
+                        )
+                    }."
                 }
             }
         })
@@ -182,16 +234,16 @@ class SetPing(context : Context) {
 
 data class AddPingIn(
     var session: String,
-    var latitude:String,
-    var longitude:String,
+    var latitude: String,
+    var longitude: String,
     var level: Double,
-    var tag:List<Int>
+    var tag: List<Int>
 )
 
 data class AddPingOut(
     var result: String,
     var id: Int?,
-    var comment:String
+    var comment: String?
 )
 
 interface AddPingService {
@@ -199,7 +251,16 @@ interface AddPingService {
     @POST(value = "addPing.php")
     @Headers("Content-Type: application/json")
 
-    fun addPing (
+    fun addPing(
         @Body params: AddPingIn
     ) : Call<AddPingOut>
+}
+
+interface SendImg {
+    @Multipart
+    @POST("userProfile/setUserProfileImage.php/")
+
+    fun sendImageRequest(
+        @Part imageFile: MultipartBody.Part
+    ): Call<String>
 }

@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="kr.co.woobi.tomorrow99.safewalk">
+    package="kr.co.woobi.tomorrow99.safewalk"
+    android:usesCleartextTraffic="true">
 
+    <!--인터넷 권한-->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!--위치정보 권한-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--갤러리 권한-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <!--카메라 권한-->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
 
     <application
         android:allowBackup="true"

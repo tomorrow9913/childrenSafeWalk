@@ -1,5 +1,6 @@
 package kr.co.woobi.tomorrow99.safewalk.map.dialog
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.util.Log
