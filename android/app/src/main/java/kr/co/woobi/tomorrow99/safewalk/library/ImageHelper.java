@@ -16,6 +16,10 @@ import java.net.URL;
 public class ImageHelper {
     private final static String host = "http://210.107.245.192:400/";
 
+    public ImageHelper(Event listner) {
+        eventHandler = listner;
+    }
+
     public interface Event {
         void ImageUploading(int id);
 
@@ -62,7 +66,7 @@ public class ImageHelper {
         return blob.toByteArray();
     }
 
-    public int sendPicture(byte[] image, int id) throws Exception {
+    protected int sendPicture(byte[] image, int id) throws Exception {
         if (eventHandler != null) {
             eventHandler.ImageUploading(id);
         }
