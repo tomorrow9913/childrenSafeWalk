@@ -21,17 +21,12 @@ public class ImageHelper {
     }
 
     public interface Event {
-        void ImageUploading(int id);
-
-        void ImageUploadPercent(int id, float status);
-
-        void ImageUploaded(int id, int code, String message);
-
-        void ImageConveting(int id, Bitmap.CompressFormat convFormat);
-
-        void ImageConveted(int id, Bitmap.CompressFormat convFormat);
-
-        void Error(int id, Exception e);
+        public void ImageUploading(int id);
+        public void ImageUploadPercent(int id, float status);
+        public void ImageUploaded(int id, int code, String message);
+        public void ImageConveting(int id, Bitmap.CompressFormat convFormat);
+        public void ImageConveted(int id, Bitmap.CompressFormat convFormat);
+        public void Error(int id, Exception e);
     }
 
     Event eventHandler = null;
@@ -123,14 +118,19 @@ public class ImageHelper {
         return serverResponseCode;
     }
 
-    public void ImageUpdate(byte[] image, int id) {
-        try {
-            byte[] conv = ImageConvert(id, image, Bitmap.CompressFormat.PNG);
-            sendPicture(conv, id);
-        } catch (Exception e) {
-            if (eventHandler != null) {
-                eventHandler.Error(id, e);
+    public void ImageUpdate(final byte[] image, final int id) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    byte[] conv = ImageConvert(id, image, Bitmap.CompressFormat.PNG);
+                    sendPicture(conv, id);
+                } catch (Exception e) {
+                    if (eventHandler != null) {
+                        eventHandler.Error(id, e);
+                    }
+                }
             }
-        }
+        }).start();
     }
 }

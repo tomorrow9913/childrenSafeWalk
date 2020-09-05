@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.co.woobi.tomorrow99.safewalk.R
+import kr.co.woobi.tomorrow99.safewalk.library.ImageHelper
 import kr.co.woobi.tomorrow99.safewalk.map.mainmapPage
 import kr.co.woobi.tomorrow99.safewalk.sign.LoginOut
 import kr.co.woobi.tomorrow99.safewalk.sign.LoginService
