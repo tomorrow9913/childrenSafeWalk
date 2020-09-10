@@ -2,21 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kr.co.woobi.tomorrow99.safewalk"
     android:usesCleartextTraffic="true">
-
-    <!--인터넷 권한-->
-    <uses-permission android:name="android.permission.INTERNET" />
-
-    <!--위치정보 권한-->
+    <!-- 인터넷 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 위치정보 권한 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <!--갤러리 권한-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-    <!--카메라 권한-->
-    <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 갤러리 권한 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 카메라 권한 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -26,11 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="7fxx28ikcf" />
 
+        <activity android:name=".map.dialog.SetPingDialog"
+            android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".settings" />
         <activity android:name=".map.mainmapPage">
             <intent-filter>

@@ -4,15 +4,18 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.PointF
+import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.UiThread
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.*
 import com.naver.maps.map.overlay.Marker
@@ -23,7 +26,7 @@ import com.naver.maps.map.widget.LocationButtonView
 import kotlinx.android.synthetic.main.activity_mainmap_page.*
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.map.dialog.PingInfoDialog
-import kr.co.woobi.tomorrow99.safewalk.map.dialog.SetPing
+import kr.co.woobi.tomorrow99.safewalk.map.dialog.SetPingDialog
 import kr.co.woobi.tomorrow99.safewalk.sign.UserInfo
 import kr.co.woobi.tomorrow99.safewalk.sign.ui.MainActivity
 import retrofit2.Call
@@ -104,12 +107,12 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                 startActivityForResult(intent, LOGIN_REQUEST_CODE)
             }
             else{
-                val dlg =
-                    SetPing(this)
-                var locationNow = HashMap<String, String>()
-                locationNow.put("latitude", centerMarker.position.latitude.toString())
-                locationNow.put("longitude", centerMarker.position.longitude.toString())
-                dlg.start(locationNow, userInfo.session!!, this@mainmapPage)
+
+                var intent = Intent(this, SetPingDialog::class.java)
+                intent.putExtra("session", userInfo.session.toString())
+                intent.putExtra("latitude", centerMarker.position.latitude.toString())
+                intent.putExtra("longitude", centerMarker.position.longitude.toString())
+                startActivityForResult(intent, 1);
             }
         }
     }
@@ -127,7 +130,7 @@ class mainmapPage : AppCompatActivity(), OnMapReadyCallback {
                     userInfo.name = data?.getStringExtra("name")
                     userInfo.email = data?.getStringExtra("email")
                     userInfo.callNum = data?.getStringExtra("callnum")
-                }=
+                }
             }
 
             Log.d("디버그", "$requestCode|$data")
@@ -420,4 +423,16 @@ fun deg2rad(deg: Double): Double {
 // 주어진 라디언(radian) 값을 도(degree) 값으로 변환
 fun rad2deg(rad: Double): Double {
     return (rad * 180.0 / Math.PI)
+}
+
+fun TextView.customBg() {
+    background = GradientDrawable().apply {
+        shape = GradientDrawable.RECTANGLE
+        cornerRadius = 10f
+        setStroke(
+            4, ContextCompat.getColor(context,
+                R.color.fst
+            )
+        )
+    }
 }

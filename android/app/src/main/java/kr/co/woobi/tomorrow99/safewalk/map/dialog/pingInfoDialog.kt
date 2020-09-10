@@ -12,6 +12,7 @@ import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.map.AddresResult
 import kr.co.woobi.tomorrow99.safewalk.map.GetAddressService
 import kr.co.woobi.tomorrow99.safewalk.map.Item
+import kr.co.woobi.tomorrow99.safewalk.map.customBg
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -138,18 +139,6 @@ class PingInfoDialog(context : Context) {
         }
 
         dlg.show()
-    }
-}
-
-fun TextView.customBg() {
-    background = GradientDrawable1().apply {
-        shape = GradientDrawable1.RECTANGLE
-        cornerRadius = 10f
-        setStroke(
-            4, ContextCompat.getColor(context,
-                R.color.fst
-            )
-        )
     }
 }
 
