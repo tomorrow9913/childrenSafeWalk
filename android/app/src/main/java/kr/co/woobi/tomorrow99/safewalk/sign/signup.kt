@@ -12,7 +12,7 @@ data class SignupOut (
 
 interface SignUpService {
     //@FormUrlEncoded
-    @POST(value = "registerUser.php")
+    @POST("registerUser.php")
     @Headers("Content-Type: application/json")
 
     fun requestSignUP (
