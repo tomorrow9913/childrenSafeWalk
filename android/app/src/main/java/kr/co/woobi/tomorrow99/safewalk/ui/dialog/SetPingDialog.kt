@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk.map.dialog
+package kr.co.woobi.tomorrow99.safewalk.ui.dialog
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -18,18 +18,18 @@ import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
 
-class SetPing(context : Context) {
+class SetPing(context: Context) {
     private val dlg = Dialog(context)   //부모 액티비티의 context 가 들어감
-    private lateinit var address : TextView
-    private lateinit var btnAddTag : Button
-    private lateinit var btnOK : Button
-    private lateinit var dangerRank:TextView
-    private lateinit var tagTable:LinearLayout
-    private lateinit var skull:List<ImageView>
+    private lateinit var address: TextView
+    private lateinit var btnAddTag: Button
+    private lateinit var btnOK: Button
+    private lateinit var dangerRank: TextView
+    private lateinit var tagTable: LinearLayout
+    private lateinit var skull: List<ImageView>
 
     private var tagList = mutableListOf<Int>()
 
-    fun start(data:HashMap<String, String>, session:String) {
+    fun start(data: HashMap<String, String>, session: String) {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
         dlg.setContentView(R.layout.set_ping_dialog)     //다이얼로그에 사용할 xml 파일을 불러옴
 
@@ -61,18 +61,18 @@ class SetPing(context : Context) {
                 tagList.distinct()
             )
 
-            addPingService.addPing(body).enqueue(object : Callback<AddPingOut>{
+            addPingService.addPing(body).enqueue(object : Callback<AddPingOut> {
                 override fun onFailure(call: Call<AddPingOut>, t: Throwable) {
                     Toast.makeText(dlg.context, "네트워크 통신 오류", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResponse(call: Call<AddPingOut>, response: Response<AddPingOut>) {
                     var responseData = response.body()
-                    if (responseData?.result == "success"){
+                    if (responseData?.result == "success") {
                         dlg.dismiss()
-                    }
-                    else{
-                        Toast.makeText(dlg.context, "${responseData?.comment}", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(dlg.context, "${responseData?.comment}", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             })
@@ -80,22 +80,38 @@ class SetPing(context : Context) {
 
         btnAddTag = dlg.findViewById(R.id.btn_addTag)
 
-        btnAddTag.setOnClickListener{
+        btnAddTag.setOnClickListener {
             var builder = AlertDialog.Builder(dlg.context)
-            val tagList = arrayOf("교통안전", "학교안전", "생활안전", "시설안전", "도보불편", "사회안전", "자연재해", "사고위험", "도로위생", "위험물 처리 시설", "무서움", "흡연지역", "노후시설", "차량안전", "악취")
+            val tagList = arrayOf(
+                "교통안전",
+                "학교안전",
+                "생활안전",
+                "시설안전",
+                "도보불편",
+                "사회안전",
+                "자연재해",
+                "사고위험",
+                "도로위생",
+                "위험물 처리 시설",
+                "무서움",
+                "흡연지역",
+                "노후시설",
+                "차량안전",
+                "악취"
+            )
             tagTable = dlg.findViewById(R.id.row_tag)
 
             builder.setTitle("추가할 태그를 선택해 주세요")
 
             // Set items form alert dialog
-            builder.setItems(tagList,{_, which ->
+            builder.setItems(tagList, { _, which ->
                 try {
                     val textView = TextView(dlg.context)
                     textView.text = tagList[which]
                     textView.customBg()
                     tagTable.addView(textView)
                     this.tagList.add(which)
-                }catch (e:IllegalArgumentException){
+                } catch (e: IllegalArgumentException) {
                     Toast.makeText(dlg.context, "$e", Toast.LENGTH_SHORT).show()
                 }
             })
@@ -115,7 +131,12 @@ class SetPing(context : Context) {
 
         var getAddresservice = retrofit.create(GetAddressService::class.java)
 
-        getAddresservice.requestRoute("${data["longitude"]},${data["latitude"]}","epsg:4326", "roadaddr", "json").enqueue(object :
+        getAddresservice.requestRoute(
+            "${data["longitude"]},${data["latitude"]}",
+            "epsg:4326",
+            "roadaddr",
+            "json"
+        ).enqueue(object :
             Callback<AddresResult> {
             override fun onFailure(call: Call<AddresResult>, t: Throwable) {
                 address.text = "네트워크 통신에 실패힜습니다."
@@ -128,52 +149,54 @@ class SetPing(context : Context) {
             ) {
                 val responseData = response.body()
                 try {
-                    if (responseData?.results != null) {
+                    if (responseData.results != null) {
                         var datas = responseData.results!![0]
                         var locationData = ""
-                        for (data in datas.region!!){
+                        for (data in datas.region!!) {
                             if (data.key == "area0") continue
                             locationData = "${locationData} " + data.value.name
                         }
 
                         address.text = locationData
                     }
-                }
-                catch (e: Exception){
-                    address.text = "${String.format("%.5f", data["latitude"]?.toDouble())}, ${String.format("%.5f",
-                        data["longitude"]?.toDouble()
-                    )}."
+                } catch (e: Exception) {
+                    address.text = "${String.format("%.5f", data["latitude"]?.toDouble())}, ${
+                        String.format(
+                            "%.5f",
+                            data["longitude"]?.toDouble()
+                        )
+                    }."
                 }
             }
         })
 
-        skull[0].setOnClickListener{
+        skull[0].setOnClickListener {
             dangerRank.text = "1.00"
             skull[0].setImageResource(R.drawable.skull3)
-            for(i in 1..4) skull[i].setImageResource(R.drawable.skull1)
+            for (i in 1..4) skull[i].setImageResource(R.drawable.skull1)
         }
 
-        skull[1].setOnClickListener{
+        skull[1].setOnClickListener {
             dangerRank.text = "2.00"
-            for(i in 0..1) skull[i].setImageResource(R.drawable.skull3)
-            for(i in 2..4) skull[i].setImageResource(R.drawable.skull1)
+            for (i in 0..1) skull[i].setImageResource(R.drawable.skull3)
+            for (i in 2..4) skull[i].setImageResource(R.drawable.skull1)
         }
 
-        skull[2].setOnClickListener{
+        skull[2].setOnClickListener {
             dangerRank.text = "3.00"
-            for(i in 0..2) skull[i].setImageResource(R.drawable.skull3)
-            for(i in 3..4) skull[i].setImageResource(R.drawable.skull1)
+            for (i in 0..2) skull[i].setImageResource(R.drawable.skull3)
+            for (i in 3..4) skull[i].setImageResource(R.drawable.skull1)
         }
 
-        skull[3].setOnClickListener{
+        skull[3].setOnClickListener {
             dangerRank.text = "4.00"
-            for(i in 0..3) skull[i].setImageResource(R.drawable.skull3)
+            for (i in 0..3) skull[i].setImageResource(R.drawable.skull3)
             skull[4].setImageResource(R.drawable.skull1)
         }
 
-        skull[4].setOnClickListener{
+        skull[4].setOnClickListener {
             dangerRank.text = "5.00"
-            for(i in 0..4) skull[i].setImageResource(R.drawable.skull3)
+            for (i in 0..4) skull[i].setImageResource(R.drawable.skull3)
         }
 
         dlg.show()
@@ -182,16 +205,16 @@ class SetPing(context : Context) {
 
 data class AddPingIn(
     var session: String,
-    var latitude:String,
-    var longitude:String,
+    var latitude: String,
+    var longitude: String,
     var level: Double,
-    var tag:List<Int>
+    var tag: List<Int>
 )
 
 data class AddPingOut(
     var result: String,
     var id: Int?,
-    var comment:String
+    var comment: String
 )
 
 interface AddPingService {
@@ -199,7 +222,7 @@ interface AddPingService {
     @POST(value = "addPing.php")
     @Headers("Content-Type: application/json")
 
-    fun addPing (
+    fun addPing(
         @Body params: AddPingIn
-    ) : Call<AddPingOut>
+    ): Call<AddPingOut>
 }

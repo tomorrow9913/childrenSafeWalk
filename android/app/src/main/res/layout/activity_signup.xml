@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/name"
+                android:text="@string/signup_name"
                 android:textColor="@color/thd"
                 android:textSize="18sp" />
 
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="@string/name"
+                android:hint="@string/signup_name"
                 android:inputType="textPersonName"
                 android:importantForAutofill="no" />
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/nickname"
+                android:text="@string/signup_nickname"
                 android:textColor="@color/thd"
                 android:textSize="18sp" />
 
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="@string/nickname"
+                android:hint="@string/signup_nickname"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/emailID_title"
+                android:text="@string/signup_email"
                 android:textColor="@color/thd"
                 android:textSize="18sp" />
 
@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="@string/emailID_hint"
+                android:hint="@string/signup_email_description"
                 android:inputType="textEmailAddress" />
 
             <TextView
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/password"
+                android:text="@string/signp_password"
                 android:textColor="@color/thd"
                 android:textSize="18sp" />
 
@@ -125,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="@string/password"
+                android:hint="@string/signp_password"
                 android:inputType="textPassword" />
 
             <TextView
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/pw_confirm_title"
+                android:text="@string/signup_pw_confirm"
                 android:textColor="@color/thd"
                 android:textSize="18sp" />
 
@@ -151,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="@string/pw_confirm_hint"
+                android:hint="@string/signup_password_confirm_description"
                 android:inputType="textPassword" />
 
             <TextView
@@ -167,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:text="@string/emergency_call"
+                android:text="@string/signup_emergency_call"
                 android:textColor="@color/thd"
                 android:textSize="18sp" />
 
@@ -177,7 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:ems="10"
-                android:hint="@string/emergency_call_hint"
+                android:hint="@string/signup_emergency_call_description"
                 android:inputType="phone" />
 
             <TextView
@@ -200,7 +200,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/essential_agreement_Info"
+                    android:text="@string/signup_required_agreement_info"
                     android:textSize="18sp" />
 
                 <CheckBox
@@ -210,7 +210,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/agreement"
+                    android:text="@string/signup_agreement"
                     android:textAlignment="textEnd" />
 
             </LinearLayout>
@@ -227,7 +227,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/slectable_agreement_Info"
+                    android:text="@string/signup_slectable_agreement_info"
                     android:textSize="18sp" />
 
                 <CheckBox
@@ -237,7 +237,7 @@
                     android:layout_weight="1"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                    android:text="@string/agreement"
+                    android:text="@string/signup_agreement"
                     android:textAlignment="textEnd" />
             </LinearLayout>
 
@@ -249,7 +249,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/radius_btn"
-                android:text="@string/btn_signup" />
+                android:text="@string/signup_signup_two" />
         </LinearLayout>
     </ScrollView>
 

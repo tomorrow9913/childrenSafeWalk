@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk.sign.ui
+package kr.co.woobi.tomorrow99.safewalk.ui.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
             val PW =
                 sha256(te_password.text.toString())
 
-            val SERVE_HOST:String = "http://210.107.245.192:400/"
+            val SERVE_HOST: String = "http://210.107.245.192:400/"
             var retrofit = Retrofit.Builder()
                 .baseUrl(SERVE_HOST)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             body.put("id", ID)
             body.put("pwd", PW)
 
-            loginService.requestLogin(body).enqueue(object : Callback<LoginOut>{
+            loginService.login(body).enqueue(object : Callback<LoginOut> {
                 override fun onFailure(call: Call<LoginOut>, t: Throwable) {
                     tv_emergencyError.setText(R.string.error_network)
                 }
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
                         val dialog = AlertDialog.Builder(this@MainActivity)
                         dialog.setTitle("알람")
-                        if(RESPONSE_DATA?.result == "success"){
+                        if (RESPONSE_DATA.result == "success") {
                             //메인 화면 이동
                             val MAP_PAGE = Intent(this@MainActivity, mainmapPage::class.java)
 
@@ -71,24 +71,22 @@ class MainActivity : AppCompatActivity() {
                             MAP_PAGE.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                             setResult(Activity.RESULT_OK, MAP_PAGE)
                             finish()
-                        }
-                        else {
-                            dialog.setMessage("result=${RESPONSE_DATA?.result}&comment=${RESPONSE_DATA?.comment}")
+                        } else {
+                            dialog.setMessage("result=${RESPONSE_DATA.result}&comment=${RESPONSE_DATA.comment}")
                             dialog.show()
                         }
-                    }
-                    catch (e:Exception){
-                        Log.d("에러로그","$e")
+                    } catch (e: Exception) {
+                        Log.d("에러로그", "$e")
                     }
                 }
             })
         }
 
-        val LOGIN_FIELD_CHANGE_LISTENER = object:TextWatcher{
+        val LOGIN_FIELD_CHANGE_LISTENER = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 if (te_id.text.toString() == "") tv_emergencyError.setText(R.string.error_emptyID)
-                else if(!isEmail(te_id.text.toString())) tv_emergencyError.setText(
-                    R.string.error_notEmail
+                else if (!isEmail(te_id.text.toString())) tv_emergencyError.setText(
+                    R.string.signup_not_email
                 )
                 else if (te_password.text.toString() == "") tv_emergencyError.setText(
                     R.string.error_emptyPW
@@ -108,8 +106,8 @@ class MainActivity : AppCompatActivity() {
         te_password.addTextChangedListener(LOGIN_FIELD_CHANGE_LISTENER)
         te_id.addTextChangedListener(LOGIN_FIELD_CHANGE_LISTENER)
 
-        tv_signUpLink.setOnClickListener{
-            val INTENT = Intent(this, signup::class.java)
+        tv_signUpLink.setOnClickListener {
+            val INTENT = Intent(this, SignupActivity::class.java)
             startActivity(INTENT)
         }
     }
