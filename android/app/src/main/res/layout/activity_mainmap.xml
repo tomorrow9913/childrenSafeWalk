@@ -78,7 +78,7 @@
         app:elevation="12dp"
         app:layout_constraintBottom_toTopOf="@+id/btn_setDangerous"
         app:layout_constraintEnd_toEndOf="@+id/btn_setDangerous"
-        app:srcCompat="@drawable/ic_siren"
+        app:srcCompat="@drawable/ic_baseline_siren_512"
         tools:background="@color/white"
         tools:ignore="elevation" />
 

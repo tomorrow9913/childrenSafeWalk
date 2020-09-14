@@ -2,28 +2,85 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/cl_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login">
+    android:layout_height="match_parent">
+
+    <com.github.florent37.shapeofview.shapes.ArcView
+        android:id="@+id/av_container"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:elevation="@dimen/margin_default"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shape_arc_cropDirection="outside"
+        app:shape_arc_height="45dp"
+        app:shape_arc_position="bottom">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary">
+
+            <ImageView
+                android:id="@+id/iv_cloud"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/cloud"
+                android:src="@drawable/ic_baseline_cloud_24"
+                app:layout_constraintBottom_toTopOf="@+id/tv_title"
+                app:layout_constraintEnd_toStartOf="@+id/tv_title"
+                app:tint="@color/colorWhite" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/signup_title_one"
+                android:textColor="@color/colorBrown"
+                android:textSize="40sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_airplane"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/margin_default"
+                android:contentDescription="@string/airplane"
+                android:src="@drawable/airplane"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_title"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_cloud_two"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:contentDescription="@string/cloud"
+                android:src="@drawable/ic_baseline_cloud_24"
+                app:layout_constraintStart_toEndOf="@+id/tv_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:tint="@color/colorWhite" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.github.florent37.shapeofview.shapes.ArcView>
 
 
-    <EditText
-        android:id="@+id/te_password"
-        android:layout_width="0dp"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/til_email"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
+        android:hint="@string/signup_input_password">
 
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="283dp"
-        android:hint="@string/signup_input_password"
-        android:imeActionLabel="@string/signup_input_password"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView3"

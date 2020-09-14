@@ -31,7 +31,7 @@ class SetPing(context: Context) {
 
     fun start(data: HashMap<String, String>, session: String) {
         dlg.requestWindowFeature(Window.FEATURE_NO_TITLE)   //타이틀바 제거
-        dlg.setContentView(R.layout.set_ping_dialog)     //다이얼로그에 사용할 xml 파일을 불러옴
+        dlg.setContentView(R.layout.layout_ping_set_dialog)     //다이얼로그에 사용할 xml 파일을 불러옴
 
         address = dlg.findViewById(R.id.tv_address)
         dangerRank = dlg.findViewById(R.id.tv_dangerRank)

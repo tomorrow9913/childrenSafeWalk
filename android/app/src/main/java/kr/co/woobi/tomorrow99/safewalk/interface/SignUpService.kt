@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk.interface
+package kr.co.woobi.tomorrow99.safewalk.`interface`
 
 import io.reactivex.rxjava3.core.Flowable
 import kr.co.woobi.tomorrow99.safewalk.model.Signup

@@ -3,14 +3,14 @@ package kr.co.woobi.tomorrow99.safewalk.ui.activity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.activity_setting.*
 import kr.co.woobi.tomorrow99.safewalk.R
 
 class SettingActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.activity_setting)
 
         //todo 서버의 데이터 TextView에 표시
 

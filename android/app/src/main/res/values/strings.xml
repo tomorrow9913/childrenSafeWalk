@@ -3,6 +3,8 @@
     <string name="app_name">SafeWalk</string>
     <string name="naver_map_key">kolAzQiZCPl37GQlLV5R3fCbPvFY9F0oSPIQWZWm</string>
     <string name="naver_map_key_id">7fxx28ikcf</string>
+    <string name="cloud">cloud</string>
+    <string name="airplane">airplane</string>
     <string name="error_network">네트워크 통신에 실패했습니다.</string>
 
     <string name="signup_input_password">비밀번호를 입력해 주세요</string>
@@ -35,6 +37,7 @@
     <string name="signup_password_format">특수문자(!,@,$,%), 영문자, 숫자를 혼용하여 5–16자가 되어야 합니다.</string>
     <string name="signup_not_match_password">비밀번호가 일치하지 않습니다.</string>
     <string name="signup_required_agree">필수 동의 사항입니다.</string>
+    <string name="signup_title_one">우리아이\n안전 걸음 맵</string>
 
     <string name="map_route_search">안전 경로 탐색하기</string>
 

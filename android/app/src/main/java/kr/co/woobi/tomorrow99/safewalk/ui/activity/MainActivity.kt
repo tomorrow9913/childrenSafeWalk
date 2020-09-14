@@ -8,12 +8,8 @@ import android.text.TextWatcher
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kr.co.woobi.tomorrow99.safewalk.R
-import kr.co.woobi.tomorrow99.safewalk.map.mainmapPage
-import kr.co.woobi.tomorrow99.safewalk.sign.LoginOut
-import kr.co.woobi.tomorrow99.safewalk.sign.LoginService
-import kr.co.woobi.tomorrow99.safewalk.sign.isEmail
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_login)
 
 
         btn_login.setOnClickListener {

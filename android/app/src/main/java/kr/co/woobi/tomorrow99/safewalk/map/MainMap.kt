@@ -7,7 +7,6 @@ import android.graphics.PointF
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.annotation.UiThread
@@ -19,8 +18,9 @@ import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.LocationButtonView
-import kotlinx.android.synthetic.main.activity_mainmap_page.*
+import kotlinx.android.synthetic.main.activity_mainmap.*
 import kr.co.woobi.tomorrow99.safewalk.R
+import kr.co.woobi.tomorrow99.safewalk.model.Item
 import kr.co.woobi.tomorrow99.safewalk.model.RouteTarget
 import kr.co.woobi.tomorrow99.safewalk.model.User
 import kr.co.woobi.tomorrow99.safewalk.ui.activity.MainActivity
@@ -32,31 +32,23 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class MainMap : AppCompatActivity(), OnMapReadyCallback {
+    private val locationPermissionRequestCode = 1000
+    private val loginRequestCode = 0
+
     private lateinit var locationSource: FusedLocationSource
     private lateinit var naverMap: NaverMap
-    private var isShowDangerbtn = false
-    val centerMarker = Marker()
-    val pingData = HashMap<String, Item>()
-    var userInfo = User(
-        null,
-        null,
-        null,
-        null,
-        null
-    )
+    private lateinit var user: User
 
-    val LOGIN_REQUEST_CODE = 0
+    private var isShowDangerButton = false
+    private val marker = Marker()
+    private val pingData = HashMap<String, Item>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mainmap_page)
+        setContentView(R.layout.activity_mainmap)
 
-        var translateDown: Animation
-        var translateUp: Animation
-
-        translateUp = AnimationUtils.loadAnimation(
+        val translateUp = AnimationUtils.loadAnimation(
             this,
             R.anim.translate_up
         )
@@ -85,15 +77,15 @@ class MainMap : AppCompatActivity(), OnMapReadyCallback {
         )
 
         img_declaration.setOnClickListener {
-            if (isShowDangerbtn) {
+            if (isShowDangerButton) {
                 btn_setDangerous.visibility = View.INVISIBLE
-                isShowDangerbtn = false
-                centerMarker.map = null
+                isShowDangerButton = false
+                marker.map = null
             } else {
                 Toast.makeText(this@mainmapPage, "화면을 움직여 위치를 설정하세요", Toast.LENGTH_SHORT).show()
                 btn_setDangerous.visibility = View.VISIBLE
                 btn_setDangerous.startAnimation(translateUp)
-                isShowDangerbtn = true
+                isShowDangerButton = true
             }
         }
 
@@ -105,8 +97,8 @@ class MainMap : AppCompatActivity(), OnMapReadyCallback {
                 val dlg =
                     SetPing(this)
                 var locationNow = HashMap<String, String>()
-                locationNow.put("latitude", centerMarker.position.latitude.toString())
-                locationNow.put("longitude", centerMarker.position.longitude.toString())
+                locationNow.put("latitude", marker.position.latitude.toString())
+                locationNow.put("longitude", marker.position.longitude.toString())
                 dlg.start(locationNow, userInfo.session)
             }
         }
@@ -140,7 +132,7 @@ class MainMap : AppCompatActivity(), OnMapReadyCallback {
                 grantResults
             )
         ) {
-            if (!locationSource.isActivated) { // 권한 거부됨
+            if (!locationSource.isActivated) {
                 naverMap.locationTrackingMode = LocationTrackingMode.None
             }
             return
@@ -156,7 +148,7 @@ class MainMap : AppCompatActivity(), OnMapReadyCallback {
         val locationControl = findViewById<LocationButtonView>(R.id.widget_location)
         locationControl.map = naverMap
 
-        //위치 추적 모드 https://navermaps.github.io/android-map-sdk/guide-ko/4-2.html
+        // 위치 추적 모드 https://navermaps.github.io/android-map-sdk/guide-ko/4-2.html
         naverMap.locationTrackingMode = LocationTrackingMode.Face
 
         val listener = Overlay.OnClickListener { overlay ->
@@ -171,10 +163,10 @@ class MainMap : AppCompatActivity(), OnMapReadyCallback {
         // 카메라 변경시 이벤트
         naverMap.addOnCameraChangeListener { reason, animated ->
             var center = naverMap.cameraPosition
-            if (isShowDangerbtn) {
-                centerMarker.position = LatLng(center.target.latitude, center.target.longitude)
-                centerMarker.icon = MarkerIcons.BLACK
-                centerMarker.map = naverMap
+            if (isShowDangerButton) {
+                marker.position = LatLng(center.target.latitude, center.target.longitude)
+                marker.icon = MarkerIcons.BLACK
+                marker.map = naverMap
             }
 
             val markerList = HashMap<String, Marker>()
@@ -310,43 +302,40 @@ class MainMap : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1000
+    fun calDistance(
+        lat1: Double,
+        lon1: Double,
+        lat2: Double,
+        lon2: Double
+    ): Double {
+        val theta: Double
+        var dist: Double
+        theta = lon1 - lon2
+        dist =
+            Math.sin(deg2rad(lat1)) * Math.sin(
+                deg2rad(lat2)
+            ) + (Math.cos(
+                deg2rad(lat1)
+            )
+                    * Math.cos(deg2rad(lat2)) * Math.cos(
+                deg2rad(theta)
+            ))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist = dist * 60 * 1.1515
+        dist = dist * 1.609344 // 단위 mile 에서 km 변환.
+        dist = dist * 1000.0 // 단위  km 에서 m 로 변환
+        return dist
     }
-}
 
-fun calDistance(
-    lat1: Double,
-    lon1: Double,
-    lat2: Double,
-    lon2: Double
-): Double {
-    val theta: Double
-    var dist: Double
-    theta = lon1 - lon2
-    dist =
-        Math.sin(deg2rad(lat1)) * Math.sin(
-            deg2rad(lat2)
-        ) + (Math.cos(
-            deg2rad(lat1)
-        )
-                * Math.cos(deg2rad(lat2)) * Math.cos(
-            deg2rad(theta)
-        ))
-    dist = Math.acos(dist)
-    dist = rad2deg(dist)
-    dist = dist * 60 * 1.1515
-    dist = dist * 1.609344 // 단위 mile 에서 km 변환.
-    dist = dist * 1000.0 // 단위  km 에서 m 로 변환
-    return dist
-}
+    // 주어진 도(degree) 값을 라디언으로 변환
+    fun deg2rad(deg: Double): Double {
+        return (deg * Math.PI / 180.0)
+    }
 
-// 주어진 도(degree) 값을 라디언으로 변환
-fun deg2rad(deg: Double): Double {
-    return (deg * Math.PI / 180.0)
-}
+    // 주어진 라디언(radian) 값을 도(degree) 값으로 변환
+    fun rad2deg(rad: Double): Double {
+        return (rad * 180.0 / Math.PI)
+    }
 
-// 주어진 라디언(radian) 값을 도(degree) 값으로 변환
-fun rad2deg(rad: Double): Double {
-    return (rad * 180.0 / Math.PI)
 }
