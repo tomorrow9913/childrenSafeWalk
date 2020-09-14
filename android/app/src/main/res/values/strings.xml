@@ -8,15 +8,15 @@
     <string name="error_network">네트워크 통신에 실패했습니다.</string>
 
     <string name="signup_input_password">비밀번호를 입력해 주세요</string>
-    <string name="signup_input_id">아이디를 입력해 주세요</string>
+    <string name="signup_input_email">이메일을 입력해 주세요</string>
     <string name="signup_signin">로그인</string>
     <string name="signup_signup">가입하기</string>
-    <string name="signup_forget_password">아이디/비밀번호가 기억나지 않으신가요?</string>
+    <string name="signup_forget_account">이메일/비밀번호가 기억나지 않으신가요?</string>
     <string name="signup_not_member">아직 회원이 아니신가요?</string>
     <string name="signup_not_match_account">아이디 혹은 비밀번호가 일치하지 않습니다.</string>
     <string name="signup_name">이름</string>
     <string name="signup_nickname">닉네임</string>
-    <string name="signup_email">아이디/이메일</string>
+    <string name="signup_email">이메일</string>
     <string name="signup_email_description">이메일 형식의 아이디를 입력해 주세요.</string>
     <string name="signp_password">비밀번호</string>
     <string name="signup_pw_confirm">비밀번호 확인</string>
