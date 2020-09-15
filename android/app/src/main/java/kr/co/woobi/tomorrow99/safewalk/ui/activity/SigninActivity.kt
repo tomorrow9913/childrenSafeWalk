@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk.map
+package kr.co.woobi.tomorrow99.safewalk.ui.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -18,12 +18,11 @@ import com.naver.maps.map.overlay.Overlay
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
 import com.naver.maps.map.widget.LocationButtonView
-import kotlinx.android.synthetic.main.activity_mainmap.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.model.Item
 import kr.co.woobi.tomorrow99.safewalk.model.RouteTarget
 import kr.co.woobi.tomorrow99.safewalk.model.User
-import kr.co.woobi.tomorrow99.safewalk.ui.activity.MainActivity
 import kr.co.woobi.tomorrow99.safewalk.ui.dialog.PingInfoDialog
 import kr.co.woobi.tomorrow99.safewalk.ui.dialog.SetPing
 import retrofit2.Call
@@ -32,7 +31,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainMap : AppCompatActivity(), OnMapReadyCallback {
+class SigninActivity : AppCompatActivity(), OnMapReadyCallback {
     private val locationPermissionRequestCode = 1000
     private val loginRequestCode = 0
 
@@ -46,7 +45,7 @@ class MainMap : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mainmap)
+        setContentView(R.layout.activity_main)
 
         val translateUp = AnimationUtils.loadAnimation(
             this,

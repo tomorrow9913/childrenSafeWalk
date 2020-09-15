@@ -8,20 +8,18 @@ import android.text.TextWatcher
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_login.*
 import kr.co.woobi.tomorrow99.safewalk.R
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.security.MessageDigest
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_signin)
 
 
         btn_login.setOnClickListener {
@@ -108,29 +106,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-/****************************************
- * Name:            sha256
- * description:     sha256 해싱
- *
- * Author: Jeong MinGye
- * Create: 20.07.26
- * Update:
- *
- * //출처: https://lonepine.tistory.com/entry/Kotlin-Sha256 [Lonepine's blog]
- **************************************/
-fun sha256(param: String): String {
-    val HEX_CHARS = "0123456789ABCDEF"
-    val bytes = MessageDigest
-        .getInstance("SHA-256")
-        .digest(param.toByteArray())
-    val result = StringBuilder(bytes.size * 2)
-    bytes.forEach {
-        val i = it.toInt()
-        result.append(HEX_CHARS[i shr 4 and 0x0f])
-        result.append(HEX_CHARS[i and 0x0f])
-    }
-    return result.toString()
-}
-
-

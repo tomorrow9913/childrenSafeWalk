@@ -26,7 +26,7 @@
             android:value="@string/naver_map_key_id" />
 
         <activity android:name=".ui.activity.SettingActivity" />
-        <activity android:name=".map.MainMap">
+        <activity android:name=".ui.activity.SigninActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

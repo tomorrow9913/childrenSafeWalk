@@ -6,6 +6,11 @@
     <string name="cloud">cloud</string>
     <string name="airplane">airplane</string>
     <string name="error_network">네트워크 통신에 실패했습니다.</string>
+    <string name="lens">lens</string>
+    <string name="edit">edit</string>
+    <string name="question">\?</string>
+    <string name="add">add</string>
+    <string name="zero">0</string>
 
     <string name="signup_input_password">비밀번호를 입력해 주세요</string>
     <string name="signup_input_email">이메일을 입력해 주세요</string>
@@ -39,6 +44,28 @@
     <string name="signup_required_agree">필수 동의 사항입니다.</string>
     <string name="signup_title_one">우리아이\n안전 걸음 맵</string>
 
-    <string name="map_route_search">안전 경로 탐색하기</string>
+    <string name="main_route_search">안전 경로 탐색하기</string>
+
+    <string name="ping_add_danger">위험지 등록</string>
+    <string name="ping_add_picture">사진을 추가해주세요.</string>
+    <string name="ping_warning">타인에게 불쾌감을 유발하거나 무관한 이미지를 업로드 할 시\n별도의 고지 없이 삭제/제재 조치를 취할 수 있습니다.</string>
+    <string name="ping_location">위치</string>
+    <string name="ping_preview_location">충청남도 서산시 석림동 석림1로 20</string>
+    <string name="ping_danger_level">위험 등급</string>
+    <string name="ping_preview_danger_level_zero">0.0</string>
+    <string name="ping_preview_danger_level_middle">2.5</string>
+    <string name="ping_tag">태그</string>
+    <string name="ping_add_done">등록 완료</string>
+    <string name="ping_danger_info">위험지역 세부정보</string>
+    <string name="ping_vote_people">(0)</string>
+    <string name="ping_preview_vote_people">(72)</string>
+    <string name="ping_check_information_good">이 정보가 유용하셨나요?</string>
+    <string name="ping_preview_good_count">68</string>
+    <string name="good">good</string>
+    <string name="bad">bad</string>
+    <string name="ping_preview_bad_count">17</string>
+    <string name="signup_done">회원가입이\n완료되었습니다.</string>
+    <string name="signup_done_description">어린이 안전 걸음맵의 회원가입이\n정상적으로 처리 되었습니다.</string>
+    <string name="signup_go_login_screen">로그인 화면으로 이동</string>
 
 </resources>

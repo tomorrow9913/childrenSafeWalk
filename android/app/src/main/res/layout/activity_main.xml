@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".map.mainmapPage">
+    tools:context=".ui.activity.SigninActivity">
 
     <FrameLayout
         android:id="@+id/frameLayout"
