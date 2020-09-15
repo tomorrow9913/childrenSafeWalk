@@ -2,247 +2,60 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.SettingActivity">
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
+            android:id="@+id/cl_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFFBC7"
+            android:layout_height="250dp"
+            android:background="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_nick"
-                android:layout_width="175dp"
-                android:layout_height="38dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginStart="118dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="118dp"
-                android:gravity="center"
-                android:text="TextView"
-                android:textSize="30sp"
+            <com.sungbin.sungbintool.ui.TagableRoundImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="@dimen/margin_twice"
+                android:src="@mipmap/ic_launcher"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tv_logo"
-                android:layout_width="105dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="50dp"
-                android:gravity="center"
-                android:text="안전지킴이"
-                android:textAlignment="textStart"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/tv_nick"
-                app:layout_constraintStart_toEndOf="@+id/iv_logo"
-                app:layout_constraintTop_toBottomOf="@+id/tv_nick"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <ImageView
-                android:id="@+id/iv_logo"
+                android:layout_marginTop="@dimen/margin_default"
+                android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
-                android:layout_height="15dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="@+id/tv_nick"
-                app:layout_constraintTop_toBottomOf="@+id/tv_nick"
-                app:srcCompat="@drawable/tag" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBrown"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_profile"
+                tools:text="@string/setting_preview_nickname" />
+
+            <TextView
+                android:id="@+id/tv_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_half"
+                android:text="@string/setting_preview_tag"
+                android:textColor="@color/colorBrown"
+                android:textSize="15sp"
+                app:drawableStartCompat="@drawable/ic_baseline_bookmark_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TableLayout
-            android:id="@+id/tableLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_name"
-                        android:layout_width="100dp"
-                        android:layout_height="36dp"
-                        android:gravity="center_vertical"
-                        android:text="이름"
-                        android:textColor="@android:color/black"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_name2"
-                        android:layout_width="match_parent"
-                        android:layout_height="36dp"
-                        android:gravity="center_vertical"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_ID"
-                        android:layout_width="100dp"
-                        android:layout_height="36dp"
-                        android:gravity="center_vertical"
-                        android:text="ID"
-                        android:textColor="@android:color/black"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_ID2"
-                        android:layout_width="250dp"
-                        android:layout_height="36dp"
-                        android:gravity="center_vertical"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"/>
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/tv_call"
-                        android:layout_width="100dp"
-                        android:layout_height="36dp"
-                        android:gravity="center_vertical"
-                        android:text="긴급전화"
-                        android:textColor="@android:color/black"
-                        android:textSize="25dp" />
-
-                    <TextView
-                        android:id="@+id/tv_call2"
-                        android:layout_width="250dp"
-                        android:layout_height="36dp"
-                        android:gravity="center_vertical"
-                        android:textSize="20dp" />
-                </LinearLayout>
-
-            </TableRow>
-        </TableLayout>
-
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="16dp"
-            android:background="#FF000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="24dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view">
-
-            <Button
-                android:id="@+id/btn_notice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#00ff0000"
-                android:text="알림설정"
-                android:textColor="@android:color/black"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn_license"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#00ff0000"
-                android:text="라이센스"
-                android:textColor="@android:color/black"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn_change_pw"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#00ff0000"
-                android:text="비밀번호 변경"
-                android:textColor="@android:color/black"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#00ff0000"
-                android:text="로그아웃"
-                android:textColor="@android:color/black"
-                android:textSize="25dp" />
-
-            <Button
-                android:id="@+id/btn_write"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="#00ff0000"
-                android:text="내가 쓴 글"
-                android:textColor="@android:color/black"
-                android:textSize="25dp" />
-        </LinearLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>
