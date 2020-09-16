@@ -6,80 +6,106 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.SigninActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cv_toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_default"
+        android:layout_marginTop="@dimen/margin_twice"
+        android:layout_marginEnd="@dimen/margin_default"
+        app:cardCornerRadius="@dimen/margin_default"
+        app:cardElevation="@dimen/margin_half"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <fragment
-            android:id="@+id/fragment_map"
-            android:name="com.naver.maps.map.MapFragment"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/tb_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content">
 
-        <com.naver.maps.map.widget.LocationButtonView
-            android:id="@+id/widget_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_marginRight="40dp"
-            android:layout_marginBottom="180dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:radius="20dp"
-            android:shape="rectangle"
-            app:elevation="12dp"
-            tools:ignore="elevation" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_toolbar_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_default">
 
-    </FrameLayout>
+                <ImageView
+                    android:id="@+id/iv_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/menu"
+                    android:src="@drawable/ic_baseline_menu_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorPrimary" />
 
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/tv_location"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_half"
+                    android:layout_marginEnd="@dimen/margin_half"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:textColor="@color/colorBlack"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_search"
+                    app:layout_constraintStart_toEndOf="@+id/iv_menu"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="LabelFor"
+                    tools:text="@string/ping_preview_location" />
 
-    <Button
-        android:id="@+id/btn_setDangerous"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/radius_btn_red"
-        android:text="위험지로 설정"
-        android:textColor="#FFFFFF"
-        app:elevation="12dp"
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/search"
+                    android:src="@drawable/ic_baseline_search_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="@color/colorPrimary" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fcv_map"
+        android:name="com.naver.maps.map.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@color/colorGreen"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_search_route"
+        android:layout_width="match_parent"
+        android:layout_height="55sp"
+        android:layout_marginStart="@dimen/margin_twice"
+        android:layout_marginEnd="@dimen/margin_twice"
+        android:layout_marginBottom="@dimen/margin_default"
+        android:text="@string/main_route_search"
+        android:textColor="@color/colorBrown"
+        app:cornerRadius="@dimen/margin_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/img_declaration"
-        android:layout_width="57dp"
-        android:layout_height="57dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="20dp"
-        app:backgroundTint="@color/white"
-        android:gravity="center"
-        app:elevation="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_setDangerous"
-        app:layout_constraintEnd_toEndOf="@+id/btn_setDangerous"
-        app:srcCompat="@drawable/ic_baseline_siren_512"
-        tools:background="@color/white"
-        tools:ignore="elevation" />
+        android:id="@+id/fab_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_twice"
+        app:backgroundTint="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/btn_search_route"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_baseline_gps_fixed_24"
+        app:tint="@color/colorPrimary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

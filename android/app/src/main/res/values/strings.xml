@@ -1,11 +1,8 @@
 <resources>
     <!-- global -->
     <string name="app_name">SafeWalk</string>
-    <string name="naver_map_key">kolAzQiZCPl37GQlLV5R3fCbPvFY9F0oSPIQWZWm</string>
-    <string name="naver_map_key_id">7fxx28ikcf</string>
     <string name="cloud">cloud</string>
     <string name="airplane">airplane</string>
-    <string name="error_network">네트워크 통신에 실패했습니다.</string>
     <string name="lens">lens</string>
     <string name="edit">edit</string>
     <string name="question">\?</string>
@@ -13,6 +10,14 @@
     <string name="zero">0</string>
     <string name="good">good</string>
     <string name="bad">bad</string>
+    <string name="name">이름</string>
+    <string name="nickname">닉네임</string>
+    <string name="password">비밀번호</string>
+    <string name="email">이메일</string>
+    <string name="emergency_call">긴급전화</string>
+
+    <string name="naver_map_key">kolAzQiZCPl37GQlLV5R3fCbPvFY9F0oSPIQWZWm</string>
+    <string name="naver_map_key_id">7fxx28ikcf</string>
 
     <string name="signin_input_password">비밀번호를 입력해 주세요</string>
     <string name="signin_input_email">이메일을 입력해 주세요</string>
@@ -22,11 +27,7 @@
     <string name="signin_not_member">아직 회원이 아니신가요?</string>
     <string name="signin_not_match_account">아이디 혹은 비밀번호가 일치하지 않습니다.</string>
 
-    <string name="signup_name">이름</string>
-    <string name="signup_nickname">닉네임</string>
-    <string name="signup_email">이메일</string>
     <string name="signup_email_description">이메일 형식의 아이디를 입력해 주세요.</string>
-    <string name="signp_password">비밀번호</string>
     <string name="signup_password_confirm">비밀번호 확인</string>
     <string name="signup_password_confirm_description">비밀번호 확인을 위해 한 번 더 입력해 주세요.</string>
     <string name="signup_emergency_call">긴급전화 (선택)</string>
@@ -69,5 +70,16 @@
     <string name="ping_preview_bad_count">17</string>
     <string name="setting_preview_nickname">평산동불주먹</string>
     <string name="setting_preview_tag">안전지킴이</string>
+
+    <string name="error_network">네트워크 통신에 실패했습니다.</string>
+    <string name="setting_preview_name">성빈</string>
+    <string name="setting_preview_email">sungbin.dev@gmail.com</string>
+    <string name="setting_preview_emergency">112</string>
+    <string name="setting_own_post">내가 쓴 글</string>
+    <string name="setting_notification_setting">알림 설정</string>
+    <string name="setting_logout">로그아웃</string>
+    <string name="setting_opensource_license">오픈소스 라이선스</string>
+    <string name="menu">menu</string>
+    <string name="search">search</string>
 
 </resources>

@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_container"
+            android:id="@+id/cl_profile_container"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@color/colorAccent"
@@ -30,10 +29,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_marginTop="@dimen/margin_default"
                 android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
                 android:textColor="@color/colorBrown"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -53,6 +52,147 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_information_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_default"
+            app:layout_constraintTop_toBottomOf="@id/cl_profile_container">
+
+            <TextView
+                android:id="@+id/tv_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_email_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:text="@string/email"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_name_label" />
+
+            <TextView
+                android:id="@+id/tv_emergency_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:text="@string/emergency_call"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_email_label" />
+
+            <View
+                android:id="@+id/view_vertical"
+                android:layout_width="0.1dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_twice"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toTopOf="@+id/view_horizontal"
+                app:layout_constraintStart_toEndOf="@+id/tv_emergency_label"
+                app:layout_constraintTop_toTopOf="@+id/tv_name_label"
+                tools:background="@color/colorGreen"
+                tools:layout_width="2dp" />
+
+            <View
+                android:id="@+id/view_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_default"
+                android:background="@color/colorGray"
+                app:layout_constraintTop_toBottomOf="@+id/tv_emergency_label" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_preview_name"
+                android:textColor="@color/colorGray"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_name_label"
+                app:layout_constraintStart_toEndOf="@+id/view_vertical"
+                app:layout_constraintTop_toTopOf="@+id/tv_name_label" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="@string/setting_preview_email"
+                android:textColor="@color/colorGray"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_email_label"
+                app:layout_constraintStart_toEndOf="@+id/view_vertical"
+                app:layout_constraintTop_toTopOf="@+id/tv_email_label" />
+
+            <TextView
+                android:id="@+id/tv_emergency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/setting_preview_emergency"
+                android:textColor="@color/colorGray"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_emergency_label"
+                app:layout_constraintStart_toEndOf="@+id/view_vertical"
+                app:layout_constraintTop_toTopOf="@+id/tv_emergency_label" />
+
+            <TextView
+                android:id="@+id/tv_own_poster"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:gravity="center"
+                android:text="@string/setting_own_post"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"
+                app:layout_constraintTop_toBottomOf="@+id/view_vertical" />
+
+            <TextView
+                android:id="@+id/tv_notification_setting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:gravity="center"
+                android:text="@string/setting_notification_setting"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_own_poster" />
+
+            <TextView
+                android:id="@+id/tv_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:gravity="center"
+                android:text="@string/setting_logout"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_notification_setting" />
+
+            <TextView
+                android:id="@+id/tv_license"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_default"
+                android:gravity="center"
+                android:text="@string/setting_opensource_license"
+                android:textColor="@color/colorBlack"
+                android:textSize="25sp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_logout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
