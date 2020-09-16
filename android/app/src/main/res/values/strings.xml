@@ -15,6 +15,8 @@
     <string name="password">비밀번호</string>
     <string name="email">이메일</string>
     <string name="emergency_call">긴급전화</string>
+    <string name="menu">menu</string>
+    <string name="search">search</string>
 
     <string name="naver_map_key">kolAzQiZCPl37GQlLV5R3fCbPvFY9F0oSPIQWZWm</string>
     <string name="naver_map_key_id">7fxx28ikcf</string>
@@ -50,8 +52,6 @@
     <string name="signup_done_description">어린이 안전 걸음맵의 회원가입이\n정상적으로 처리 되었습니다.</string>
     <string name="signup_go_login_screen">로그인 화면으로 이동</string>
 
-    <string name="main_route_search">안전 경로 탐색하기</string>
-
     <string name="ping_add_danger">위험지 등록</string>
     <string name="ping_add_picture">사진을 추가해주세요.</string>
     <string name="ping_warning">타인에게 불쾌감을 유발하거나 무관한 이미지를 업로드 할 시\n별도의 고지 없이 삭제/제재 조치를 취할 수 있습니다.</string>
@@ -68,10 +68,11 @@
     <string name="ping_check_information_good">이 정보가 유용하셨나요?</string>
     <string name="ping_preview_good_count">68</string>
     <string name="ping_preview_bad_count">17</string>
-    <string name="setting_preview_nickname">평산동불주먹</string>
-    <string name="setting_preview_tag">안전지킴이</string>
 
     <string name="error_network">네트워크 통신에 실패했습니다.</string>
+
+    <string name="setting_preview_nickname">평산동불주먹</string>
+    <string name="setting_preview_tag">안전지킴이</string>
     <string name="setting_preview_name">성빈</string>
     <string name="setting_preview_email">sungbin.dev@gmail.com</string>
     <string name="setting_preview_emergency">112</string>
@@ -79,7 +80,9 @@
     <string name="setting_notification_setting">알림 설정</string>
     <string name="setting_logout">로그아웃</string>
     <string name="setting_opensource_license">오픈소스 라이선스</string>
-    <string name="menu">menu</string>
-    <string name="search">search</string>
+
+    <string name="main_route_search">안전 경로 탐색하기</string>
+    <string name="main_permission_denied">위치 권한이 있어야 정상적인 이용이 가능합니다.\n앱 설정에서 권한 사용을 허락해 주세요.</string>
+    <string name="main_permission_need">현재 사용자의 위치를 조회하기 위해서 위치 권한이 필요합니다.</string>
 
 </resources>

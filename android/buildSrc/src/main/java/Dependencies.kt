@@ -14,8 +14,8 @@ object Application {
 
 object Versions {
     object Map {
-        const val Map = "3.9.0"
-        const val Location = "16.0.0"
+        const val Map = "3.9.1"
+        const val Location = "17.0.0"
     }
 
     object Network {
@@ -55,7 +55,8 @@ object Versions {
         const val ConstraintLayout = "2.0.1"
     }
 
-    object Utils {
+    object Util {
+        const val TedPermission = "2.2.3"
         const val GsonConverter = "2.9.0"
         const val YoYoHelper = "2.4@aar"
         const val AndroidUtils = "4.0.1"
@@ -66,7 +67,8 @@ object Versions {
 object Dependencies {
     object Map {
         const val Map = "com.naver.maps:map-sdk:${Versions.Map.Map}"
-        const val Location = "com.google.android.gms:play-services-location:${Versions.Map.Location}"
+        const val Location =
+            "com.google.android.gms:play-services-location:${Versions.Map.Location}"
     }
 
     object Network {
@@ -107,11 +109,14 @@ object Dependencies {
             "androidx.constraintlayout:constraintlayout:${Versions.Ui.ConstraintLayout}"
     }
 
-    object Utils {
-        const val GsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.Utils.GsonConverter}"
+    object Util {
+        const val TedPermission = "gun0912.ted:tedpermission:${Versions.Util.TedPermission}"
+        const val GsonConverter =
+            "com.squareup.retrofit2:converter-gson:${Versions.Util.GsonConverter}"
         const val GlideCompiler = "com.github.bumptech.glide:compiler:${Versions.Ui.Glide}"
-        const val YoyoHelper = "com.daimajia.easing:library:${Versions.Utils.YoYoHelper}"
-        const val AndroidUtils = "com.github.sungbin5304:SBT:${Versions.Utils.AndroidUtils}"
-        const val CrashReporter = "com.balsikandar.android:crashreporter:${Versions.Utils.CarshReporter}"
+        const val YoyoHelper = "com.daimajia.easing:library:${Versions.Util.YoYoHelper}"
+        const val AndroidUtils = "com.github.sungbin5304:SBT:${Versions.Util.AndroidUtils}"
+        const val CrashReporter =
+            "com.balsikandar.android:crashreporter:${Versions.Util.CarshReporter}"
     }
 }

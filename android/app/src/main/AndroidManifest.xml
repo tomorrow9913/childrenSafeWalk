@@ -17,23 +17,32 @@
         android:hardwareAccelerated="true"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppTheme.NoActionBar.FullScreen"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
 
-        <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="@string/naver_map_key_id" />
-
-        <activity android:name=".ui.activity.SettingActivity" />
-        <activity android:name=".ui.activity.SigninActivity">
+        <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.SignupActivity" />
-        <activity android:name=".ui.activity.MainActivity" />
+
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".ui.activity.SettingActivity" />
+
+        <activity
+            android:theme="@style/AppTheme.NoActionBar"
+            android:name=".ui.activity.SignupActivity" />
+
+        <!--<activity android:name=".ui.activity.MainActivity" />-->
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="@string/naver_map_key_id" />
+
+
     </application>
 
 </manifest>

@@ -86,12 +86,13 @@ dependencies {
         Dependencies.Ui.Glide,
         Dependencies.Ui.ConstraintLayout,
 
-        Dependencies.Utils.GsonConverter,
-        Dependencies.Utils.YoyoHelper,
-        Dependencies.Utils.AndroidUtils,
-        Dependencies.Utils.CrashReporter
+        Dependencies.Util.TedPermission,
+        Dependencies.Util.GsonConverter,
+        Dependencies.Util.YoyoHelper,
+        Dependencies.Util.AndroidUtils,
+        Dependencies.Util.CrashReporter
     )
 
     kapt(Dependencies.Di.HiltCompiler)
-    kapt(Dependencies.Utils.GlideCompiler)
+    kapt(Dependencies.Util.GlideCompiler)
 }

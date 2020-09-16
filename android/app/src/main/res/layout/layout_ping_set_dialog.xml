@@ -164,7 +164,7 @@
                 android:src="@drawable/skull1" />
 
             <TextView
-                android:id="tv_danger_level"
+                android:id="@+id/tv_danger_level"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
