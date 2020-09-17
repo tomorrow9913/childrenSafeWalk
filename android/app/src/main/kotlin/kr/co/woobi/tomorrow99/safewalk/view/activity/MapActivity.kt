@@ -199,6 +199,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         map.addOnLocationChangeListener {
+            tv_location.text = null
             val center = naverMap.cameraPosition
             if (center.zoom > 13) {
                 locationApi.create(AddressInterface::class.java).run {
@@ -219,11 +220,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                     locationData = "$locationData ${data.value.name}"
                                 }
 
-                                tv_location.text = locationData.toEditable()
+                                tv_location.hint = locationData.toEditable()
                             }
                         }, { throwable ->
                             Logger.w(throwable)
-                            tv_location.text =
+                            tv_location.hint =
                                 "${
                                     center.target.latitude.toString().substring(0..5)
                                 },  ${
