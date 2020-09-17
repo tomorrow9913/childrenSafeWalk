@@ -2,7 +2,7 @@ package kr.co.woobi.tomorrow99.safewalk.tool.util
 
 import android.content.Context
 import com.sungbin.sungbintool.util.Logger
-import kr.co.woobi.tomorrow99.safewalk.ui.activity.ExceptionActivity
+import kr.co.woobi.tomorrow99.safewalk.view.activity.ExceptionActivity
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="kr.co.woobi.tomorrow99.safewalk.model.Tag" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/cv_container"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            app:cardBackgroundColor="@{item.color}"
+            app:cardCornerRadius="@dimen/margin_half"
+            app:cardElevation="0dp"
+            tools:cardBackgroundColor="@color/colorPrimary">
+
+            <LinearLayout
+                android:id="@+id/ll_tag_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_half"
+                android:layout_marginEnd="@dimen/margin_half"
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
+
+                <TextView
+                    android:id="@+id/tv_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:maxLines="1"
+                    android:text="@{item.label}"
+                    android:textColor="@color/colorWhite"
+                    tools:text="@string/tag_preview_label" />
+
+                <ImageView
+                    android:id="@+id/iv_remove"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_twice_half"
+                    android:contentDescription="@string/clear"
+                    android:src="@drawable/ic_clear_white_24dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <Space
+            android:layout_width="@dimen/margin_twice_half"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</layout>

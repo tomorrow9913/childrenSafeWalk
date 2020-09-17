@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk.ui.activity
+package kr.co.woobi.tomorrow99.safewalk.view.activity
 
 import android.graphics.Typeface
 import android.os.Bundle

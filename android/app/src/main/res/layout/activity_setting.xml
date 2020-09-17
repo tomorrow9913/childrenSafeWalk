@@ -2,9 +2,9 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:overScrollMode="never"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:overScrollMode="never">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -34,25 +34,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_default"
+                android:text="@string/setting_preview_nickname"
                 android:textColor="@color/colorBrown"
                 android:textSize="20sp"
+                app:drawableEndCompat="@drawable/ic_outline_edit_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_profile"
-                tools:text="@string/setting_preview_nickname" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_profile" />
 
             <TextView
                 android:id="@+id/tv_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_half"
+                android:drawableStart="@drawable/ic_baseline_bookmark_24"
+                android:gravity="center"
                 android:text="@string/setting_preview_tag"
                 android:textColor="@color/colorBrown"
                 android:textSize="15sp"
-                app:drawableStartCompat="@drawable/ic_baseline_bookmark_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_nickname"
+                tools:ignore="UseCompatTextViewDrawableXml" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

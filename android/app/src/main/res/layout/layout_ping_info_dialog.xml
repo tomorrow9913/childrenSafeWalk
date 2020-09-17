@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_all_round_30"
-    android:theme="@style/AppTheme"
-    android:overScrollMode="never"
     android:backgroundTint="@color/colorWhite"
-    android:padding="@dimen/margin_default">
+    android:overScrollMode="never"
+    android:padding="@dimen/margin_default"
+    android:scrollbars="none"
+    android:theme="@style/AppTheme">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -194,7 +195,6 @@
             android:gravity="center"
             android:text="@string/question"
             android:textColor="@color/colorWhite"
-            android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/tv_label_danger_level"
             app:layout_constraintStart_toEndOf="@+id/tv_label_danger_level"
@@ -214,14 +214,20 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tag"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_label_tag" />
+            android:layout_height="60dp"
+            android:orientation="vertical"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintTop_toBottomOf="@+id/tv_label_tag"
+            app:spanCount="3"
+            tools:listitem="@layout/layout_tag" />
 
         <LinearLayout
-            android:layout_marginTop="@dimen/margin_twice"
             android:id="@+id/ll_footer_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_twice"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -244,24 +250,24 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <TextView
-                    android:maxLength="2"
                     android:id="@+id/tv_good_count"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_left_round_8"
                     android:backgroundTint="@color/colorSky"
                     android:gravity="center"
+                    android:maxLength="2"
                     android:padding="@dimen/margin_twice_half"
                     android:text="@string/zero"
                     android:textColor="@color/colorWhite"
                     tools:text="@string/ping_preview_good_count" />
 
                 <ImageView
-                    android:padding="@dimen/margin_twice_half"
                     android:id="@+id/iv_good"
                     android:layout_width="35dp"
                     android:layout_height="25dp"
                     android:contentDescription="@string/good"
+                    android:padding="@dimen/margin_twice_half"
                     android:src="@drawable/good" />
 
             </LinearLayout>
@@ -277,22 +283,22 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:padding="@dimen/margin_twice_half"
                     android:id="@+id/iv_bad"
                     android:layout_width="35dp"
                     android:layout_height="25dp"
                     android:contentDescription="@string/bad"
+                    android:padding="@dimen/margin_twice_half"
                     android:scaleX="-1"
                     android:src="@drawable/bad" />
 
                 <TextView
-                    android:maxLength="2"
                     android:id="@+id/tv_bad_count"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_right_round_8"
                     android:backgroundTint="@color/colorLightRed"
                     android:gravity="center"
+                    android:maxLength="2"
                     android:padding="@dimen/margin_twice_half"
                     android:text="@string/zero"
                     android:textColor="@color/colorWhite"

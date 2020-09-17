@@ -60,7 +60,7 @@ object Versions {
         const val TedPermission = "2.2.3"
         const val GsonConverter = "2.9.0"
         const val YoYoHelper = "2.4@aar"
-        const val AndroidUtils = "4.0.1"
+        const val AndroidUtils = "4.0.2"
         const val CarshReporter = "1.1.0"
     }
 }

@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk.ui.dialog
+package kr.co.woobi.tomorrow99.safewalk.view.dialog
 
 import android.annotation.SuppressLint
 import android.app.Activity

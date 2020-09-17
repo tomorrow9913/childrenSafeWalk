@@ -21,7 +21,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
 
-        <activity android:name=".ui.activity.MapActivity">
+        <activity android:name=".view.activity.MapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,21 +29,19 @@
         </activity>
 
         <activity
-            android:name=".ui.activity.ActivitySignupFinish"
+            android:name=".view.activity.ActivitySignupFinish"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <!--<activity
+        <activity
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".ui.activity.SettingActivity" /> -->
+            android:name=".view.activity.SettingActivity" />
 
         <activity
             android:theme="@style/AppTheme.NoActionBar"
-            android:name=".ui.activity.SigninActivity" />
-
-        <!--<activity android:name=".ui.activity.MainActivity" />-->
+            android:name=".view.activity.SigninActivity" />
 
         <activity
-            android:name=".ui.activity.ExceptionActivity"
+            android:name=".view.activity.ExceptionActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
 
         <meta-data

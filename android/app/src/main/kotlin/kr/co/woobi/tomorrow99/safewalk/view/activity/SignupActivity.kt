@@ -1,4 +1,4 @@
-package kr.co.woobi.tomorrow99.safewalk.ui.activity
+package kr.co.woobi.tomorrow99.safewalk.view.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +14,7 @@ import kr.co.woobi.tomorrow99.safewalk.tool.isNickName
 import kr.co.woobi.tomorrow99.safewalk.tool.isPassword
 import kr.co.woobi.tomorrow99.safewalk.tool.isPhoneNumber
 import kr.co.woobi.tomorrow99.safewalk.tool.util.EncryptUtil
-import kr.co.woobi.tomorrow99.safewalk.ui.dialog.LoadingDialog
+import kr.co.woobi.tomorrow99.safewalk.view.dialog.LoadingDialog
 import org.jetbrains.anko.startActivity
 import retrofit2.Retrofit
 import javax.inject.Inject
