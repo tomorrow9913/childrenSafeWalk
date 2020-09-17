@@ -9,7 +9,7 @@ import retrofit2.http.POST
 interface PingInfoInterface {
     @POST("loadPing.php")
     fun getPingData(
-        @Body params: Ping
+        @Body params: Ping,
     ): Flowable<RouteTarget>
 
     @POST("addPing.php")

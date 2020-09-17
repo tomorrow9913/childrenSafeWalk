@@ -17,11 +17,11 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme.NoActionBar"
+        android:theme="@style/AppTheme.NoActionBar.FullScreen"
         android:usesCleartextTraffic="true"
         tools:targetApi="q">
 
-        <activity android:name=".ui.activity.SignupActivity">
+        <activity android:name=".ui.activity.MapActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

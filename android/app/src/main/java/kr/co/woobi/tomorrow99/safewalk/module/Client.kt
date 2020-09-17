@@ -9,17 +9,17 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 
 /**
  * Created by SungBin on 2020-09-17.
-*/
+ */
 
 @Module
 @InstallIn(ApplicationComponent::class)
 class Client {
-    private val baseUrl = "http://210.107.245.192:400/"
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
     }
@@ -40,10 +40,23 @@ class Client {
 
 
     @Singleton
+    @Named("server")
     @Provides
-    fun instance() =
+    fun serverInstance() =
         Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl("http://210.107.245.192:400/")
+            .client(okhttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build()
+
+
+    @Singleton
+    @Named("locationApi")
+    @Provides
+    fun locationApiInstance() =
+        Retrofit.Builder()
+            .baseUrl("https://naveropenapi.apigw.ntruss.com/")
             .client(okhttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())

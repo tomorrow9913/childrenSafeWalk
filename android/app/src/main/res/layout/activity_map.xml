@@ -80,9 +80,7 @@
         android:name="com.naver.maps.map.MapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:background="@color/colorGreen"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:background="@color/colorGreen" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_search_route"
@@ -91,7 +89,7 @@
         android:layout_marginStart="@dimen/margin_twice"
         android:layout_marginEnd="@dimen/margin_twice"
         android:layout_marginBottom="@dimen/margin_default"
-        android:text="@string/main_route_search"
+        android:text="@string/map_route_search"
         android:textColor="@color/colorBrown"
         app:cornerRadius="@dimen/margin_default"
         app:layout_constraintBottom_toBottomOf="parent"

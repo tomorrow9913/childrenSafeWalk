@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_all_round_30"
     android:backgroundTint="@color/colorWhite"
+    android:theme="@style/AppTheme"
     android:overScrollMode="never"
     android:padding="@dimen/margin_default">
 
@@ -62,11 +63,12 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/ping_warning"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_lens" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_lens"
+                tools:ignore="SmallSp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

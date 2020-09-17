@@ -18,6 +18,7 @@ import kr.co.woobi.tomorrow99.safewalk.ui.dialog.LoadingDialog
 import org.jetbrains.anko.startActivity
 import retrofit2.Retrofit
 import javax.inject.Inject
+import javax.inject.Named
 
 
 /**
@@ -27,6 +28,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class SignupActivity : AppCompatActivity() {
 
+    @Named("server")
     @Inject
     lateinit var client: Retrofit
 

@@ -8,6 +8,6 @@ import retrofit2.http.POST
 interface LoginInterface {
     @POST("login.php")
     fun login(
-        @Body params: HashMap<String, String>
+        @Body params: HashMap<String, String>,
     ): Flowable<Login>
 }
