@@ -4,6 +4,7 @@
 ### 프론트
 * 프론트엔드 : Kotlin
 * 라이브러리 : 네이버 지도
+* dev-enviroment : Android Studio
 
 ### 백엔드
 * 백엔드 : PHP
