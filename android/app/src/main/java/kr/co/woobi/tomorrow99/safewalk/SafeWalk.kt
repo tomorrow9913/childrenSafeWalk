@@ -9,4 +9,6 @@ import dagger.hilt.android.HiltAndroidApp
  */
 
 @HiltAndroidApp
-class SafeWalk : Application()
+class SafeWalk : Application() {
+
+}

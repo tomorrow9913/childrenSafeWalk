@@ -32,7 +32,13 @@ class LoadingDialog(private val activity: Activity) {
         val dialog = AlertDialog.Builder(activity)
         dialog.setView(layout)
         alert = dialog.create()
-        alert.show()
+        alert.run {
+            setCancelable(false)
+            setCanceledOnTouchOutside(false)
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            window?.setWindowAnimations(R.style.DialogAnimation)
+            show()
+        }
     }
 
     fun close() {

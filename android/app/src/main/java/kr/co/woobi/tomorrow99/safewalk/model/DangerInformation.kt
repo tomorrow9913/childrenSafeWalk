@@ -1,6 +1,6 @@
 package kr.co.woobi.tomorrow99.safewalk.model
 
-data class Item(
+data class DangerInformation(
     var id: Int,
     var location: HashMap<String, Double>,
     var level: Double,

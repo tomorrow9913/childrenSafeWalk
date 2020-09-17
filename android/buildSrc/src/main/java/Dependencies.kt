@@ -21,6 +21,7 @@ object Versions {
     object Network {
         const val Retrofit = "2.9.0"
         const val OkHttp = "4.8.1"
+        const val LoggingInterceptor = "4.8.1"
     }
 
     object Rx {
@@ -72,6 +73,7 @@ object Dependencies {
     }
 
     object Network {
+        const val LoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.Network.LoggingInterceptor}"
         const val Retrofit = "com.squareup.okhttp3:okhttp:${Versions.Network.OkHttp}"
         const val OkHttp = "com.squareup.retrofit2:retrofit:${Versions.Network.Retrofit}"
     }

@@ -110,14 +110,26 @@
         app:srcCompat="@drawable/ic_baseline_gps_fixed_24"
         app:tint="@color/colorPrimary" />
 
-    <com.naver.maps.map.widget.LocationButtonView
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_danger"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_twice"
+        android:layout_marginBottom="@dimen/margin_default"
+        app:backgroundTint="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/fab_location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@null"
+        app:srcCompat="@drawable/ic_baseline_siren_24" />
+
+    <!--<com.naver.maps.map.widget.LocationButtonView
         android:id="@+id/btn_location"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="@dimen/margin_twice"
+        android:layout_marginStart="@dimen/margin_twice"
+        android:layout_marginBottom="@dimen/margin_default"
         android:visibility="invisible"
-        android:layout_marginBottom="@dimen/margin_twice_and_half"
         app:layout_constraintBottom_toTopOf="@+id/btn_search_route"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

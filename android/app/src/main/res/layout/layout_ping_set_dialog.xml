@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_all_round_30"
     android:backgroundTint="@color/colorWhite"
+    android:overScrollMode="never"
     android:padding="@dimen/margin_default">
 
     <androidx.constraintlayout.widget.ConstraintLayout

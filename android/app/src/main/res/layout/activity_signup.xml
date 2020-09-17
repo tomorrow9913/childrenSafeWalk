@@ -51,6 +51,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:overScrollMode="never"
         android:padding="@dimen/margin_default"
         app:layout_constraintBottom_toTopOf="@+id/btn_signup"
         app:layout_constraintTop_toBottomOf="@+id/abl_container">
@@ -66,7 +67,6 @@
                 android:hint="@string/name"
                 app:boxBackgroundColor="@color/colorWhite"
                 app:endIconMode="clear_text"
-                app:errorEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -76,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
+                    android:maxLength="4"
                     android:maxLines="1"
                     android:singleLine="true" />
 
@@ -217,11 +218,13 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_signup"
-        android:layout_width="259dp"
-        android:layout_height="38dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_default"
+        android:alpha="0.5"
         android:text="@string/signup_signup_two"
         android:textColor="@color/colorBrown"
+        app:cornerRadius="@dimen/margin_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

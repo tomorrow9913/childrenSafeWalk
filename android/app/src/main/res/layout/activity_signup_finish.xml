@@ -49,7 +49,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_signup_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_twice"
@@ -82,7 +82,7 @@
         android:gravity="center"
         android:text="@string/signup_done_description"
         android:textColor="@color/colorBrown"
-        android:textSize="25sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lottie" />
@@ -90,10 +90,10 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_go_login"
         android:layout_width="250dp"
-        android:textColor="@color/colorBrown"
-        android:text="@string/signup_go_login_screen"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_default"
+        android:text="@string/signup_go_login_screen"
+        android:textColor="@color/colorBrown"
         app:cornerRadius="@dimen/margin_default"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

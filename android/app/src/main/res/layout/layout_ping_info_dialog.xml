@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_all_round_30"
+    android:overScrollMode="never"
     android:backgroundTint="@color/colorWhite"
     android:padding="@dimen/margin_default">
 

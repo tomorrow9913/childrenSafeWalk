@@ -62,6 +62,7 @@ dependencies {
         Dependencies.Map.Location,
         Dependencies.Map.Map,
 
+        Dependencies.Network.LoggingInterceptor,
         Dependencies.Network.Retrofit,
         Dependencies.Network.OkHttp,
 
