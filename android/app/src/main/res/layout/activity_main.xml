@@ -47,10 +47,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_half"
                     android:layout_marginEnd="@dimen/margin_half"
+                    android:background="@null"
                     android:importantForAutofill="no"
                     android:inputType="text"
                     android:textColor="@color/colorPrimary"
-                    android:background="@null"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/iv_search"
                     app:layout_constraintStart_toEndOf="@+id/iv_menu"
@@ -103,11 +103,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_twice"
-        app:backgroundTint="@color/colorWhite"
         android:layout_marginBottom="@dimen/margin_default"
+        app:backgroundTint="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/btn_search_route"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_baseline_gps_fixed_24"
         app:tint="@color/colorPrimary" />
+
+    <com.naver.maps.map.widget.LocationButtonView
+        android:id="@+id/btn_location"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="@dimen/margin_twice"
+        android:visibility="invisible"
+        android:layout_marginBottom="@dimen/margin_twice_and_half"
+        app:layout_constraintBottom_toTopOf="@+id/btn_search_route"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
