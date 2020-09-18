@@ -6,10 +6,9 @@ import android.content.Intent
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.*
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -153,6 +152,25 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             dialog.setView(layout)
             dialog.show()
         }
+
+        tv_location.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, start: Int, count: Int, after: Int) {
+                if (after == 0) {
+                    btn_search_route.visibility = View.INVISIBLE
+                    return;
+                }
+
+                btn_search_route.visibility = View.VISIBLE
+            }
+
+            override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                //TODO("Not yet implemented")
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                //TODO("Not yet implemented")
+            }
+        })
     }
 
     private fun checkGpsIsOn() {
@@ -200,6 +218,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         map.addOnLocationChangeListener {
             tv_location.text = null
+            btn_search_route.visibility = View.INVISIBLE
+
             val center = naverMap.cameraPosition
             if (center.zoom > 13) {
                 locationApi.create(AddressInterface::class.java).run {

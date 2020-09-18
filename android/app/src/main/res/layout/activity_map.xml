@@ -100,6 +100,7 @@
                 android:layout_marginBottom="@dimen/margin_default"
                 android:text="@string/map_route_search"
                 android:textColor="@color/colorBrown"
+                android:visibility="invisible"
                 app:cornerRadius="@dimen/margin_default"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
