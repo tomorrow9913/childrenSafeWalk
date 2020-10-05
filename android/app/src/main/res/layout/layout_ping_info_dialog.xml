@@ -270,39 +270,39 @@
                     android:padding="@dimen/margin_twice_half"
                     android:src="@drawable/good" />
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_half"
-                android:background="@drawable/bg_all_round_8"
-                android:backgroundTint="@color/colorLightRed"
-                android:gravity="center"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
-
-                <ImageView
-                    android:id="@+id/iv_bad"
-                    android:layout_width="35dp"
-                    android:layout_height="25dp"
-                    android:contentDescription="@string/bad"
-                    android:padding="@dimen/margin_twice_half"
-                    android:scaleX="-1"
-                    android:src="@drawable/bad" />
-
-                <TextView
-                    android:id="@+id/tv_bad_count"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/bg_right_round_8"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_half"
+                    android:background="@drawable/bg_all_round_8"
                     android:backgroundTint="@color/colorLightRed"
                     android:gravity="center"
-                    android:maxLength="2"
-                    android:padding="@dimen/margin_twice_half"
-                    android:text="@string/zero"
-                    android:textColor="@color/colorWhite"
-                    tools:text="@string/ping_preview_bad_count" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:id="@+id/iv_bad"
+                        android:layout_width="35dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/bad"
+                        android:padding="@dimen/margin_twice_half"
+                        android:scaleX="-1"
+                        android:src="@drawable/bad" />
+
+                    <TextView
+                        android:id="@+id/tv_bad_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_right_round_8"
+                        android:backgroundTint="@color/colorLightRed"
+                        android:gravity="center"
+                        android:maxLength="2"
+                        android:padding="@dimen/margin_twice_half"
+                        android:text="@string/zero"
+                        android:textColor="@color/colorWhite"
+                        tools:text="@string/ping_preview_bad_count" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

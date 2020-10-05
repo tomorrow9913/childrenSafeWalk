@@ -3,6 +3,8 @@ package kr.co.woobi.tomorrow99.safewalk.view.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.PointF
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -11,6 +13,7 @@ import android.text.TextWatcher
 import android.view.*
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.PermissionChecker
@@ -19,11 +22,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.LocationTrackingMode
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
+import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
+import com.naver.maps.map.util.MarkerIcons
 import com.sungbin.sungbintool.extensions.afterTextChanged
 import com.sungbin.sungbintool.extensions.get
 import com.sungbin.sungbintool.extensions.toEditable
@@ -38,11 +44,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_map.*
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.`interface`.AddressInterface
+import kr.co.woobi.tomorrow99.safewalk.`interface`.PingInfoInterface
 import kr.co.woobi.tomorrow99.safewalk.adapter.TagAdapter
-import kr.co.woobi.tomorrow99.safewalk.model.Tag
+import kr.co.woobi.tomorrow99.safewalk.model.*
+import kr.co.woobi.tomorrow99.safewalk.tool.calDistance
 import kr.co.woobi.tomorrow99.safewalk.tool.util.ColorUtil
 import org.jetbrains.anko.startActivity
+import retrofit2.Callback
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -55,6 +65,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var naverMap: NaverMap
     private val locationPermissionCode = 1000
+
+    @Named("server")
+    @Inject
+    lateinit var server: Retrofit
+
+    var pingData = HashMap<String, DangerInformation>()
 
     private val locationSource by lazy {
         FusedLocationSource(this, locationPermissionCode)
@@ -164,11 +180,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
             override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
-                //TODO("Not yet implemented")
+                //todo
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                //TODO("Not yet implemented")
+                //todo
             }
         })
     }
@@ -222,6 +238,60 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
             val center = naverMap.cameraPosition
             if (center.zoom > 13) {
+                server.create(PingInfoInterface::class.java).run {
+                    getPingData(
+                        GetPingIn(
+                            (calDistance(
+                                center.target.latitude,
+                                center.target.longitude,
+                                map.projection.fromScreenLocation(PointF(0f, 0f)).latitude,
+                                map.projection.fromScreenLocation(PointF(0f, 0f)).longitude
+                            ) * 10).toString(),
+                            center.target.latitude.toString(),
+                            center.target.longitude.toString()
+                        )
+                    )
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ response ->
+                            val setCorlor = 0.876
+
+                            if (response.result == "success") {
+                                for (ping in response.data!!) {
+                                    val marker = Marker()
+                                    marker.position = LatLng(
+                                        ping.location["latitude"] ?: 132.0,
+                                        ping.location["longitude"] ?: 37.0
+                                    )
+
+                                    marker.tag = ping.id
+                                    var red = 219.0
+                                    var green = 219.0
+
+                                    if (ping.level * 5 < 2.5) {
+                                        red = ping.level * 500 * setCorlor
+                                    }
+                                    if (ping.level * 5 > 2.5) {
+                                        green = 219 - ((ping.level * 500 * setCorlor) - 219)
+                                    }
+
+                                    marker.icon = MarkerIcons.BLACK
+                                    marker.iconTintColor = Color.rgb(red.toInt(), green.toInt(), 0)
+                                    marker.map = naverMap
+                                    //marker.setOnClickListener(listener)
+
+                                    pingData.put(ping.id.toString(), ping)
+
+                                    //markerList.put(data.id.toString(),marker)
+                                }
+                            }
+                        }, { throwable ->
+                            Logger.w(throwable)
+                            Toast.makeText(this@MapActivity, "${throwable.message}.", Toast.LENGTH_SHORT).show()
+                        }, {
+                        })
+                }
+
                 locationApi.create(AddressInterface::class.java).run {
                     getAddress(
                         "${center.target.longitude},${center.target.latitude}",
@@ -256,5 +326,4 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
-
 }
