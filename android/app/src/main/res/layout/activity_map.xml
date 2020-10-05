@@ -106,6 +106,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_declaration"
+                android:layout_width="match_parent"
+                android:layout_height="55sp"
+                android:layout_marginStart="@dimen/margin_twice"
+                android:layout_marginEnd="@dimen/margin_twice"
+                android:layout_marginBottom="@dimen/margin_default"
+                android:text="@string/map_declaration"
+                android:textColor="@android:color/white"
+                android:visibility="invisible"
+                app:cornerRadius="@dimen/margin_default"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:backgroundTint="@color/colorBtnRed"/>
+
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_location"
                 android:layout_width="wrap_content"

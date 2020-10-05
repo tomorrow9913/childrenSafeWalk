@@ -42,6 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.activity_map.view.*
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.`interface`.AddressInterface
 import kr.co.woobi.tomorrow99.safewalk.`interface`.PingInfoInterface
@@ -71,6 +72,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var server: Retrofit
 
     var pingData = HashMap<String, DangerInformation>()
+    var centerPing = Marker()
 
     private val locationSource by lazy {
         FusedLocationSource(this, locationPermissionCode)
@@ -131,7 +133,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         checkGpsIsOn()
 
-        fab_danger.setOnClickListener {
+        fab_danger.setOnClickListener{
+            if(btn_search_route.visibility == View.VISIBLE) btn_search_route.visibility = View.INVISIBLE
+            if (btn_declaration.visibility == View.VISIBLE) btn_declaration.visibility = View.INVISIBLE
+            else btn_declaration.visibility = View.VISIBLE
+        }
+
+        btn_declaration.setOnClickListener {
             tags.clear()
             val adapter = TagAdapter(tags, this)
             adapter.setOnClickListener {
@@ -220,6 +228,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             isLocationButtonEnabled = false
             setLogoMargin(16, 16, 16, 16)
         }
+
         map.locationSource = locationSource
         if (PermissionChecker.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) ==
             PermissionChecker.PERMISSION_GRANTED &&
@@ -232,11 +241,24 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             naverMap.locationTrackingMode = LocationTrackingMode.Follow
         }
 
-        map.addOnLocationChangeListener {
+        naverMap.addOnCameraChangeListener { reason, animated ->
+            var center = naverMap.cameraPosition
+            if (btn_declaration.visibility == View.VISIBLE) {
+                centerPing.position = LatLng(center.target.latitude, center.target.longitude)
+                centerPing.icon = MarkerIcons.BLACK
+                centerPing.map = naverMap
+            }
+            else {
+                centerPing.map = null
+            }
+        }
+
+            map.addOnLocationChangeListener {
             tv_location.text = null
             btn_search_route.visibility = View.INVISIBLE
 
             val center = naverMap.cameraPosition
+
             if (center.zoom > 13) {
                 server.create(PingInfoInterface::class.java).run {
                     getPingData(
@@ -278,6 +300,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                     marker.icon = MarkerIcons.BLACK
                                     marker.iconTintColor = Color.rgb(red.toInt(), green.toInt(), 0)
                                     marker.map = naverMap
+                                    //todo ping 정보 보는 다이얼로그 리스너 추가 필요
                                     //marker.setOnClickListener(listener)
 
                                     pingData.put(ping.id.toString(), ping)

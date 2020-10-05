@@ -6,4 +6,6 @@
 
     <color name="colorLightRed">#DF5650</color>
     <color name="colorBrown">#4e442e</color>
+
+    <color name="colorBtnRed">#f93d5c</color>
 </resources>
