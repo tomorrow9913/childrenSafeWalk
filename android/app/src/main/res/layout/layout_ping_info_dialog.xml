@@ -35,17 +35,6 @@
             android:background="@color/colorTwiceLightGray"
             app:layout_constraintTop_toBottomOf="@+id/tv_title">
 
-            <TextView
-                android:id="@+id/tv_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ping_add_picture"
-                android:textSize="18sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_lens" />
-
             <ImageView
                 android:id="@+id/iv_lens"
                 android:layout_width="100dp"
@@ -57,19 +46,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/colorLightGray" />
-
-            <ImageView
-                android:id="@+id/iv_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_half"
-                android:background="@drawable/bg_all_round_30"
-                android:backgroundTint="@color/colorLightGray"
-                android:contentDescription="@string/add"
-                android:src="@drawable/ic_baseline_add_24"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:tint="@color/colorWhite" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

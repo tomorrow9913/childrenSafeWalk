@@ -10,15 +10,20 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.PermissionChecker
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -134,7 +139,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         checkGpsIsOn()
 
         fab_danger.setOnClickListener{
-            if(btn_search_route.visibility == View.VISIBLE) btn_search_route.visibility = View.INVISIBLE
+            btn_search_route.visibility = View.INVISIBLE
             if (btn_declaration.visibility == View.VISIBLE) btn_declaration.visibility = View.INVISIBLE
             else btn_declaration.visibility = View.VISIBLE
         }
@@ -149,6 +154,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
             val layout = LayoutInflater.from(applicationContext)
                 .inflate(R.layout.layout_ping_set_dialog, null, false)
+
             (layout[R.id.tv_tag_add] as TextView).setOnClickListener {
                 val innerDialog = MaterialAlertDialogBuilder(this@MapActivity)
                 val innerLayout = LayoutInflater.from(applicationContext)
@@ -171,7 +177,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
                 innerDialog.show()
             }
+
             (layout[R.id.rv_tag] as RecyclerView).adapter = adapter
+
+            (layout[R.id.iv_lens] as ConstraintLayout).setOnClickListener {
+                //todo 이미지 선택과 출력
+
+            }
+
             val dialog = MaterialAlertDialogBuilder(this@MapActivity)
             dialog.setView(layout)
             dialog.show()
@@ -184,6 +197,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     return;
                 }
 
+                if(btn_declaration.visibility == View.VISIBLE) {
+                    centerPing.map = null
+                    btn_declaration.visibility = View.INVISIBLE
+                }
                 btn_search_route.visibility = View.VISIBLE
             }
 
@@ -242,6 +259,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         naverMap.addOnCameraChangeListener { reason, animated ->
+            tv_location.text = null
+            btn_search_route.visibility = View.INVISIBLE
+
             var center = naverMap.cameraPosition
             if (btn_declaration.visibility == View.VISIBLE) {
                 centerPing.position = LatLng(center.target.latitude, center.target.longitude)
@@ -254,9 +274,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
             map.addOnLocationChangeListener {
-            tv_location.text = null
-            btn_search_route.visibility = View.INVISIBLE
-
             val center = naverMap.cameraPosition
 
             if (center.zoom > 13) {
@@ -300,8 +317,79 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                     marker.icon = MarkerIcons.BLACK
                                     marker.iconTintColor = Color.rgb(red.toInt(), green.toInt(), 0)
                                     marker.map = naverMap
-                                    //todo ping 정보 보는 다이얼로그 리스너 추가 필요
-                                    //marker.setOnClickListener(listener)
+                                    
+                                    marker.setOnClickListener {
+                                        val TAG_INFO_DATA = pingData[it.tag.toString()]
+                                        Logger.w(TAG_INFO_DATA)
+
+                                        ////////////////////////////////////////////////////
+                                        tags.clear()
+                                        val adapter = TagAdapter(tags, this@MapActivity)
+                                        adapter.setOnClickListener {
+                                            tags.remove(it)
+                                            adapter.notifyDataSetChanged()
+                                            Logger.w(it.label)
+                                        }
+                                        val layout = LayoutInflater.from(applicationContext)
+                                            .inflate(R.layout.layout_ping_info_dialog, null, false)
+
+                                        for (tag in TAG_INFO_DATA!!.tag){
+                                            tags.add(Tag(tag.toString(), ColorUtil.randomColor))
+                                            adapter.notifyDataSetChanged()
+                                        }
+
+                                        (layout[R.id.rv_tag] as RecyclerView).adapter = adapter
+
+                                        // 이미지 출력
+                                        val HOST = "http://210.107.245.192:400/"
+                                        val IMG_URL = HOST+"getImagePing.php?id="+TAG_INFO_DATA.id
+                                        Glide.with(this@MapActivity).load(IMG_URL)
+                                            .apply(RequestOptions.centerCropTransform())
+                                            .into(layout[R.id.iv_lens] as ImageView)
+
+                                        // 주소 출력
+                                        locationApi.create(AddressInterface::class.java).run {
+                                            getAddress(
+                                                "${TAG_INFO_DATA.location["longitude"]},${TAG_INFO_DATA.location["latitude"]}",
+                                                "epsg:4326",
+                                                "roadaddr",
+                                                "json"
+                                            )
+                                                .subscribeOn(Schedulers.computation())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe({ response ->
+                                                    response.results?.get(0)?.let {
+                                                        var locationData = ""
+
+                                                        for (data in it.region) {
+                                                            if (data.key == "area0") continue
+                                                            locationData = "$locationData ${data.value.name}"
+                                                        }
+
+                                                        (layout[R.id.tv_location] as TextView).text = locationData.toEditable()
+                                                    }
+                                                }, { throwable ->
+                                                    Logger.w(throwable)
+                                                    (layout[R.id.tv_location] as TextView).text =
+                                                        "${
+                                                            center.target.latitude.toString().substring(0..5)
+                                                        },  ${
+                                                            center.target.longitude.toString().substring(0..5)
+                                                        }".toEditable()
+                                                }, {
+                                                })
+                                        }
+
+                                        // 위험 등급
+
+
+                                        val dialog = MaterialAlertDialogBuilder(this@MapActivity)
+                                        dialog.setView(layout)
+                                        dialog.show()
+
+                                        false
+                                        ////////////////////////////////////////////////////
+                                    }
 
                                     pingData.put(ping.id.toString(), ping)
 
