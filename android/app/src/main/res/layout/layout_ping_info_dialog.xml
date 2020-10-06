@@ -37,8 +37,8 @@
 
             <ImageView
                 android:id="@+id/iv_lens"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
                 android:contentDescription="@string/lens"
                 android:src="@drawable/lens"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -96,6 +96,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_label_danger_level">
 
             <ImageView
+                android:id="@+id/iv_skull0"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -104,6 +105,7 @@
                 tools:src="@drawable/skull3" />
 
             <ImageView
+                android:id="@+id/iv_skull1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -112,6 +114,7 @@
                 tools:src="@drawable/skull3" />
 
             <ImageView
+                android:id="@+id/iv_skull2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -120,6 +123,7 @@
                 tools:src="@drawable/skull2" />
 
             <ImageView
+                android:id="@+id/iv_skull3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -127,6 +131,7 @@
                 android:src="@drawable/skull1" />
 
             <ImageView
+                android:id="@+id/iv_skull4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -216,6 +221,7 @@
                 android:text="@string/ping_check_information_good" />
 
             <LinearLayout
+                android:id="@+id/ll_border_usefull"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_default"
@@ -225,28 +231,40 @@
                 android:orientation="horizontal"
                 tools:ignore="UseCompoundDrawables">
 
-                <TextView
-                    android:id="@+id/tv_good_count"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/ll_border_true"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/bg_left_round_8"
+                    android:background="@drawable/bg_all_round_8"
                     android:backgroundTint="@color/colorSky"
                     android:gravity="center"
-                    android:maxLength="2"
-                    android:padding="@dimen/margin_twice_half"
-                    android:text="@string/zero"
-                    android:textColor="@color/colorWhite"
-                    tools:text="@string/ping_preview_good_count" />
+                    android:orientation="horizontal"
+                    tools:ignore="UseCompoundDrawables">
 
-                <ImageView
-                    android:id="@+id/iv_good"
-                    android:layout_width="35dp"
-                    android:layout_height="25dp"
-                    android:contentDescription="@string/good"
-                    android:padding="@dimen/margin_twice_half"
-                    android:src="@drawable/good" />
+                    <TextView
+                        android:id="@+id/tv_good_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_left_round_8"
+                        android:backgroundTint="@color/colorSky"
+                        android:gravity="center"
+                        android:maxLength="2"
+                        android:padding="@dimen/margin_twice_half"
+                        android:text="@string/zero"
+                        android:textColor="@color/colorWhite"
+                        tools:text="@string/ping_preview_good_count" />
+
+                    <ImageView
+                        android:id="@+id/iv_good"
+                        android:layout_width="35dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/good"
+                        android:padding="@dimen/margin_twice_half"
+                        android:src="@drawable/good" />
+                </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_border_false"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_half"

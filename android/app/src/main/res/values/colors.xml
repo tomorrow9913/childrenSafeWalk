@@ -8,4 +8,5 @@
     <color name="colorBrown">#4e442e</color>
 
     <color name="colorBtnRed">#f93d5c</color>
+    <color name="colorNull">#00000000</color>
 </resources>

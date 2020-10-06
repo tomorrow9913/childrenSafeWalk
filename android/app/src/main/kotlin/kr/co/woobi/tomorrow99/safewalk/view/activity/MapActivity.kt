@@ -12,10 +12,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -232,7 +229,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onMapReady(map: NaverMap) {
         naverMap = map
         map.uiSettings.apply {
@@ -271,12 +268,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             else {
                 centerPing.map = null
             }
-        }
 
             map.addOnLocationChangeListener {
-            val center = naverMap.cameraPosition
-
-            if (center.zoom > 13) {
                 server.create(PingInfoInterface::class.java).run {
                     getPingData(
                         GetPingIn(
@@ -343,7 +336,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                         // 이미지 출력
                                         val HOST = "http://210.107.245.192:400/"
                                         val IMG_URL = HOST+"getImagePing.php?id="+TAG_INFO_DATA.id
+
+                                        var infoImage = (layout[R.id.iv_lens] as ImageView)
+                                        Logger.w(IMG_URL)
+
                                         Glide.with(this@MapActivity).load(IMG_URL)
+                                            .apply(RequestOptions.overrideOf(infoImage.width, infoImage.height))
                                             .apply(RequestOptions.centerCropTransform())
                                             .into(layout[R.id.iv_lens] as ImageView)
 
@@ -381,7 +379,45 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                         }
 
                                         // 위험 등급
+                                        val SKULL = listOf(
+                                            layout[R.id.iv_skull0] as ImageView,
+                                            layout[R.id.iv_skull1] as ImageView,
+                                            layout[R.id.iv_skull2] as ImageView,
+                                            layout[R.id.iv_skull3] as ImageView,
+                                            layout[R.id.iv_skull4] as ImageView
+                                        )
 
+                                        val LEVEL = (TAG_INFO_DATA.level)*5
+                                        val IMG_IDX = LEVEL.toInt()
+                                        for (idx in 0..IMG_IDX){
+                                            if(idx == 5 || IMG_IDX == 0) break
+                                            SKULL[idx].setImageResource(R.drawable.skull3)
+                                        }
+                                        if ((LEVEL - IMG_IDX) >= 0.5 ) SKULL[IMG_IDX].setImageResource(R.drawable.skull2)
+                                        else if(IMG_IDX != 5)SKULL[IMG_IDX].setImageResource(R.drawable.skull1)
+
+                                        (layout[R.id.tv_danger_level_voted] as TextView).text = LEVEL.toString()
+
+                                        // 유용성
+                                        val TRUE_CNT = TAG_INFO_DATA.useful["true"]
+                                        val FALSE_CNT = TAG_INFO_DATA.useful["false"]
+
+                                        if (TRUE_CNT!! == FALSE_CNT!!){
+                                            (layout[R.id.ll_border_false] as LinearLayout).background.setTint(R.color.colorLightRed)
+                                            (layout[R.id.ll_border_true] as LinearLayout).background.setTint(R.color.colorSky)
+                                        }
+                                        else if(TRUE_CNT > FALSE_CNT){
+                                            (layout[R.id.ll_border_usefull] as LinearLayout).background.setTint(R.color.colorSky)
+                                            (layout[R.id.ll_border_false] as LinearLayout).background.setTint(R.color.colorLightRed)
+                                            (layout[R.id.ll_border_true] as LinearLayout).background = null
+                                        }
+                                        else {
+                                            (layout[R.id.ll_border_usefull] as LinearLayout).background.setTint(R.color.colorLightRed)
+                                            (layout[R.id.ll_border_true] as LinearLayout).background.setTint(R.color.colorSky)
+                                            (layout[R.id.ll_border_false] as LinearLayout).background = null
+                                        }
+                                        (layout[R.id.tv_good_count] as TextView).text = TRUE_CNT.toString()
+                                        (layout[R.id.tv_bad_count] as TextView).text = FALSE_CNT.toString()
 
                                         val dialog = MaterialAlertDialogBuilder(this@MapActivity)
                                         dialog.setView(layout)
@@ -402,7 +438,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         }, {
                         })
                 }
+            }
+        }
 
+            map.addOnLocationChangeListener {
+            val center = naverMap.cameraPosition
+
+            if (center.zoom > 13) {
                 locationApi.create(AddressInterface::class.java).run {
                     getAddress(
                         "${center.target.longitude},${center.target.latitude}",
