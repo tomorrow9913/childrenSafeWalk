@@ -48,8 +48,8 @@
 
             <ImageView
                 android:id="@+id/iv_lens"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="202dp"
+                android:layout_height="154dp"
                 android:contentDescription="@string/lens"
                 android:src="@drawable/lens"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -130,6 +130,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_label_danger_level">
 
             <ImageView
+                android:id="@+id/iv_skull0"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -138,6 +139,7 @@
                 tools:src="@drawable/skull3" />
 
             <ImageView
+                android:id="@+id/iv_skull1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -146,6 +148,7 @@
                 tools:src="@drawable/skull3" />
 
             <ImageView
+                android:id="@+id/iv_skull2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -154,6 +157,7 @@
                 tools:src="@drawable/skull2" />
 
             <ImageView
+                android:id="@+id/iv_skull3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -161,6 +165,7 @@
                 android:src="@drawable/skull1" />
 
             <ImageView
+                android:id="@+id/iv_skull4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

@@ -6,16 +6,18 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PointF
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.PermissionChecker
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -44,18 +46,19 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.activity_map.view.*
+import kotlinx.android.synthetic.main.activity_map.tv_location
+import kotlinx.android.synthetic.main.layout_ping_set_dialog.*
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.`interface`.AddressInterface
 import kr.co.woobi.tomorrow99.safewalk.`interface`.PingInfoInterface
 import kr.co.woobi.tomorrow99.safewalk.adapter.TagAdapter
-import kr.co.woobi.tomorrow99.safewalk.model.*
+import kr.co.woobi.tomorrow99.safewalk.model.DangerInformation
+import kr.co.woobi.tomorrow99.safewalk.model.GetPingIn
+import kr.co.woobi.tomorrow99.safewalk.model.Tag
 import kr.co.woobi.tomorrow99.safewalk.tool.calDistance
 import kr.co.woobi.tomorrow99.safewalk.tool.util.ColorUtil
 import org.jetbrains.anko.startActivity
-import retrofit2.Callback
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -67,7 +70,10 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var locationApi: Retrofit
 
     private lateinit var naverMap: NaverMap
+    private lateinit var imagePing:ImageView
+
     private val locationPermissionCode = 1000
+    private val GET_GALLERY_IMAGE = 2000
 
     @Named("server")
     @Inject
@@ -177,10 +183,69 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
             (layout[R.id.rv_tag] as RecyclerView).adapter = adapter
 
-            (layout[R.id.iv_lens] as ConstraintLayout).setOnClickListener {
-                //todo 이미지 선택과 출력
-
+            imagePing = (layout[R.id.iv_lens] as ImageView)
+            imagePing.setOnClickListener {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+                startActivityForResult(intent, GET_GALLERY_IMAGE)
             }
+
+            //위치
+            locationApi.create(AddressInterface::class.java).run {
+                getAddress(
+                    "${centerPing.position.longitude},${centerPing.position.latitude}",
+                    "epsg:4326",
+                    "roadaddr",
+                    "json"
+                )
+                    .subscribeOn(Schedulers.computation())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ response ->
+                        response.results?.get(0)?.let {
+                            var locationData = ""
+
+                            for (data in it.region) {
+                                if (data.key == "area0") continue
+                                locationData = "$locationData ${data.value.name}"
+                            }
+
+                            (layout[R.id.tv_location] as TextView).text = locationData
+                        }
+                    }, { throwable ->
+                        Logger.w(throwable)
+                        (layout[R.id.tv_location] as TextView).text =
+                            "${
+                                centerPing.position.latitude.toString().substring(0..5)
+                            },  ${
+                                centerPing.position.longitude.toString().substring(0..5)
+                            }"
+                    }, {
+                    })
+            }
+
+            //위험등굽
+            val SKULL = listOf(
+                layout[R.id.iv_skull0] as ImageView,
+                layout[R.id.iv_skull1] as ImageView,
+                layout[R.id.iv_skull2] as ImageView,
+                layout[R.id.iv_skull3] as ImageView,
+                layout[R.id.iv_skull4] as ImageView
+            )
+
+            for (i in 0..4){
+                SKULL[i].setOnClickListener{
+                    for (idx in 0..i) run {
+                        SKULL[idx].setImageResource(R.drawable.skull3)
+                    }
+
+                    for (idx in (i+1)..4) run {
+                        if (i != 4) SKULL[idx].setImageResource(R.drawable.skull1)
+                    }
+                    (layout[R.id.tv_danger_level] as TextView).text = (i+1).toString()+".0"
+                }
+            }
+
+            //todo submit
 
             val dialog = MaterialAlertDialogBuilder(this@MapActivity)
             dialog.setView(layout)
@@ -194,7 +259,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     return;
                 }
 
-                if(btn_declaration.visibility == View.VISIBLE) {
+                if (btn_declaration.visibility == View.VISIBLE) {
                     centerPing.map = null
                     btn_declaration.visibility = View.INVISIBLE
                 }
@@ -269,7 +334,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 centerPing.map = null
             }
 
-            map.addOnLocationChangeListener {
+            if(center.zoom > 13){
                 server.create(PingInfoInterface::class.java).run {
                     getPingData(
                         GetPingIn(
@@ -310,7 +375,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                     marker.icon = MarkerIcons.BLACK
                                     marker.iconTintColor = Color.rgb(red.toInt(), green.toInt(), 0)
                                     marker.map = naverMap
-                                    
+
                                     marker.setOnClickListener {
                                         val TAG_INFO_DATA = pingData[it.tag.toString()]
                                         Logger.w(TAG_INFO_DATA)
@@ -326,7 +391,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                         val layout = LayoutInflater.from(applicationContext)
                                             .inflate(R.layout.layout_ping_info_dialog, null, false)
 
-                                        for (tag in TAG_INFO_DATA!!.tag){
+                                        for (tag in TAG_INFO_DATA!!.tag) {
                                             tags.add(Tag(tag.toString(), ColorUtil.randomColor))
                                             adapter.notifyDataSetChanged()
                                         }
@@ -335,13 +400,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                         // 이미지 출력
                                         val HOST = "http://210.107.245.192:400/"
-                                        val IMG_URL = HOST+"getImagePing.php?id="+TAG_INFO_DATA.id
+                                        val IMG_URL =
+                                            HOST + "getImagePing.php?id=" + TAG_INFO_DATA.id
 
                                         var infoImage = (layout[R.id.iv_lens] as ImageView)
                                         Logger.w(IMG_URL)
 
                                         Glide.with(this@MapActivity).load(IMG_URL)
-                                            .apply(RequestOptions.overrideOf(infoImage.width, infoImage.height))
+                                            .apply(
+                                                RequestOptions.overrideOf(
+                                                    infoImage.width,
+                                                    infoImage.height
+                                                )
+                                            )
                                             .apply(RequestOptions.centerCropTransform())
                                             .into(layout[R.id.iv_lens] as ImageView)
 
@@ -361,18 +432,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
                                                         for (data in it.region) {
                                                             if (data.key == "area0") continue
-                                                            locationData = "$locationData ${data.value.name}"
+                                                            locationData =
+                                                                "$locationData ${data.value.name}"
                                                         }
 
-                                                        (layout[R.id.tv_location] as TextView).text = locationData.toEditable()
+                                                        (layout[R.id.tv_location] as TextView).text =
+                                                            locationData.toEditable()
                                                     }
                                                 }, { throwable ->
                                                     Logger.w(throwable)
                                                     (layout[R.id.tv_location] as TextView).text =
                                                         "${
-                                                            center.target.latitude.toString().substring(0..5)
+                                                            center.target.latitude.toString()
+                                                                .substring(
+                                                                    0..5
+                                                                )
                                                         },  ${
-                                                            center.target.longitude.toString().substring(0..5)
+                                                            center.target.longitude.toString()
+                                                                .substring(
+                                                                    0..5
+                                                                )
                                                         }".toEditable()
                                                 }, {
                                                 })
@@ -387,37 +466,54 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                             layout[R.id.iv_skull4] as ImageView
                                         )
 
-                                        val LEVEL = (TAG_INFO_DATA.level)*5
+                                        val LEVEL = (TAG_INFO_DATA.level) * 5
                                         val IMG_IDX = LEVEL.toInt()
-                                        for (idx in 0..IMG_IDX){
-                                            if(idx == 5 || IMG_IDX == 0) break
+                                        for (idx in 0..IMG_IDX) {
+                                            if (idx == 5 || IMG_IDX == 0) break
                                             SKULL[idx].setImageResource(R.drawable.skull3)
                                         }
-                                        if ((LEVEL - IMG_IDX) >= 0.5 ) SKULL[IMG_IDX].setImageResource(R.drawable.skull2)
-                                        else if(IMG_IDX != 5)SKULL[IMG_IDX].setImageResource(R.drawable.skull1)
+                                        if ((LEVEL - IMG_IDX) >= 0.5) SKULL[IMG_IDX].setImageResource(
+                                            R.drawable.skull2
+                                        )
+                                        else if (IMG_IDX != 5) SKULL[IMG_IDX].setImageResource(R.drawable.skull1)
 
-                                        (layout[R.id.tv_danger_level_voted] as TextView).text = LEVEL.toString()
+                                        (layout[R.id.tv_danger_level_voted] as TextView).text =
+                                            LEVEL.toString()
 
                                         // 유용성
                                         val TRUE_CNT = TAG_INFO_DATA.useful["true"]
                                         val FALSE_CNT = TAG_INFO_DATA.useful["false"]
 
-                                        if (TRUE_CNT!! == FALSE_CNT!!){
-                                            (layout[R.id.ll_border_false] as LinearLayout).background.setTint(R.color.colorLightRed)
-                                            (layout[R.id.ll_border_true] as LinearLayout).background.setTint(R.color.colorSky)
+                                        if (TRUE_CNT!! == FALSE_CNT!!) {
+                                            (layout[R.id.ll_border_false] as LinearLayout).background.setTint(
+                                                R.color.colorLightRed
+                                            )
+                                            (layout[R.id.ll_border_true] as LinearLayout).background.setTint(
+                                                R.color.colorSky
+                                            )
+                                        } else if (TRUE_CNT > FALSE_CNT) {
+                                            (layout[R.id.ll_border_usefull] as LinearLayout).background.setTint(
+                                                R.color.colorSky
+                                            )
+                                            (layout[R.id.ll_border_false] as LinearLayout).background.setTint(
+                                                R.color.colorLightRed
+                                            )
+                                            (layout[R.id.ll_border_true] as LinearLayout).background =
+                                                null
+                                        } else {
+                                            (layout[R.id.ll_border_usefull] as LinearLayout).background.setTint(
+                                                R.color.colorLightRed
+                                            )
+                                            (layout[R.id.ll_border_true] as LinearLayout).background.setTint(
+                                                R.color.colorSky
+                                            )
+                                            (layout[R.id.ll_border_false] as LinearLayout).background =
+                                                null
                                         }
-                                        else if(TRUE_CNT > FALSE_CNT){
-                                            (layout[R.id.ll_border_usefull] as LinearLayout).background.setTint(R.color.colorSky)
-                                            (layout[R.id.ll_border_false] as LinearLayout).background.setTint(R.color.colorLightRed)
-                                            (layout[R.id.ll_border_true] as LinearLayout).background = null
-                                        }
-                                        else {
-                                            (layout[R.id.ll_border_usefull] as LinearLayout).background.setTint(R.color.colorLightRed)
-                                            (layout[R.id.ll_border_true] as LinearLayout).background.setTint(R.color.colorSky)
-                                            (layout[R.id.ll_border_false] as LinearLayout).background = null
-                                        }
-                                        (layout[R.id.tv_good_count] as TextView).text = TRUE_CNT.toString()
-                                        (layout[R.id.tv_bad_count] as TextView).text = FALSE_CNT.toString()
+                                        (layout[R.id.tv_good_count] as TextView).text =
+                                            TRUE_CNT.toString()
+                                        (layout[R.id.tv_bad_count] as TextView).text =
+                                            FALSE_CNT.toString()
 
                                         val dialog = MaterialAlertDialogBuilder(this@MapActivity)
                                         dialog.setView(layout)
@@ -434,7 +530,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                             }
                         }, { throwable ->
                             Logger.w(throwable)
-                            Toast.makeText(this@MapActivity, "${throwable.message}.", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                this@MapActivity,
+                                "${throwable.message}.",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }, {
                         })
                 }
@@ -477,6 +577,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         })
                 }
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
+            val selectedImageUri: Uri? = data.data
+            imagePing.setImageURI(selectedImageUri)
         }
     }
 }
