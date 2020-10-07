@@ -11,7 +11,7 @@
     <!--갤러리 권한-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!--갤러리 권한-->
+    <!--카메라 권한-->
     <uses-permission android:name="android.permission.CAMERA"/>
 
 
@@ -35,6 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.activity.SignupActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".view.activity.ActivitySignupFinish"

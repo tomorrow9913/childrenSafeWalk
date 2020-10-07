@@ -11,7 +11,7 @@ import retrofit2.http.Part
 
 interface ImageInterface {
     @Multipart
-    @POST("addImagePing.php.php")
+    @POST("addImagePing.php")
     fun postImage(
         @Part imageFile : MultipartBody.Part
     ): Flowable<addImageOut>

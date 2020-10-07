@@ -7,5 +7,5 @@ data class Login(
     val nickname: String,
     val name: String,
     val email: String,
-    val phoneNumber: String?,
+    val callNum: String?,
 )

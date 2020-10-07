@@ -42,7 +42,7 @@ class SignupActivity : AppCompatActivity() {
 
         cb_agreement_info.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                btn_signup.apply {
+                btn_signin.apply {
                     alpha = 1f
                     setOnClickListener {
                         if (checkFieldFormat()) {
@@ -82,7 +82,7 @@ class SignupActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                btn_signup.apply {
+                btn_signin.apply {
                     alpha = 0.5f
                     setOnClickListener { }
                 }

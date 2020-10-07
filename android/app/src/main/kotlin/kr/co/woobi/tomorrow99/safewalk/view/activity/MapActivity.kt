@@ -77,7 +77,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var naverMap: NaverMap
     private lateinit var imagePing:ImageView
-    private lateinit var userInfo: User
+
+    private var userInfo = User(
+        null,
+        null,
+        null,
+        null,
+        null
+    )
 
     private val locationPermissionCode = 1000
     private val GET_GALLERY_IMAGE = 2000
@@ -157,194 +164,194 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         btn_declaration.setOnClickListener {
-            /*
-            if (userInfo.session == null){
+            if (userInfo.session  == null){
                 val intent = Intent(this, SigninActivity::class.java)
                 startActivityForResult(intent, LOGIN_REQUEST_CODE)
             }
-           */
-            tags.clear()
-            val adapter = TagAdapter(tags, this)
-            adapter.setOnClickListener {
-                tags.remove(it)
-                adapter.notifyDataSetChanged()
-            }
-            val layout = LayoutInflater.from(applicationContext)
-                .inflate(R.layout.layout_ping_set_dialog, null, false)
-
-            val selectedItems = ArrayList<Int>()
-            (layout[R.id.tv_tag_add] as TextView).setOnClickListener {
+            else {
                 tags.clear()
-                selectedItems.clear()
-                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-
-                builder.setTitle("태그를 선택해 주세요.")
-
-                builder.setMultiChoiceItems(
-                    TAG_LIST,
-                    null
-                ) { _, pos, isChecked ->
-                    if (isChecked) // Checked 상태일 때 추가
-                    {
-                        selectedItems.add(pos)
-                    } else  // Check 해제 되었을 때 제거
-                    {
-                        selectedItems.remove(pos)
-                    }
+                val adapter = TagAdapter(tags, this)
+                adapter.setOnClickListener {
+                    tags.remove(it)
+                    adapter.notifyDataSetChanged()
                 }
+                val layout = LayoutInflater.from(applicationContext)
+                    .inflate(R.layout.layout_ping_set_dialog, null, false)
 
-                builder.setPositiveButton("태그 수정"
-                ) { _, pos ->
-                    for (i in selectedItems) {
-                        tags.add(Tag(TAG_LIST[i], ColorUtil.randomColor))
-                        adapter.notifyDataSetChanged()
-                    }
-                }
+                val selectedItems = ArrayList<Int>()
+                (layout[R.id.tv_tag_add] as TextView).setOnClickListener {
+                    tags.clear()
+                    selectedItems.clear()
+                    val builder: AlertDialog.Builder = AlertDialog.Builder(this)
 
-                val alertDialog: AlertDialog = builder.create()
-                alertDialog.show()
-            }
+                    builder.setTitle("태그를 선택해 주세요.")
 
-            (layout[R.id.rv_tag] as RecyclerView).adapter = adapter
-
-            imagePing = (layout[R.id.iv_lens] as ImageView)
-            imagePing.setOnClickListener {
-                val intent = Intent(Intent.ACTION_PICK)
-                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
-                startActivityForResult(intent, GET_GALLERY_IMAGE)
-            }
-
-            //위치
-            locationApi.create(AddressInterface::class.java).run {
-                getAddress(
-                    "${centerPing.position.longitude},${centerPing.position.latitude}",
-                    "epsg:4326",
-                    "roadaddr",
-                    "json"
-                )
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({ response ->
-                        response.results?.get(0)?.let {
-                            var locationData = ""
-
-                            for (data in it.region) {
-                                if (data.key == "area0") continue
-                                locationData = "$locationData ${data.value.name}"
-                            }
-
-                            (layout[R.id.tv_location] as TextView).text = locationData
+                    builder.setMultiChoiceItems(
+                        TAG_LIST,
+                        null
+                    ) { _, pos, isChecked ->
+                        if (isChecked) // Checked 상태일 때 추가
+                        {
+                            selectedItems.add(pos)
+                        } else  // Check 해제 되었을 때 제거
+                        {
+                            selectedItems.remove(pos)
                         }
-                    }, { throwable ->
-                        Logger.w(throwable)
-                        (layout[R.id.tv_location] as TextView).text =
-                            "${
-                                centerPing.position.latitude.toString().substring(0..5)
-                            },  ${
-                                centerPing.position.longitude.toString().substring(0..5)
-                            }"
-                    }, {
-                    })
-            }
-
-            //위험등급
-            val SKULL = listOf(
-                layout[R.id.iv_skull0] as ImageView,
-                layout[R.id.iv_skull1] as ImageView,
-                layout[R.id.iv_skull2] as ImageView,
-                layout[R.id.iv_skull3] as ImageView,
-                layout[R.id.iv_skull4] as ImageView
-            )
-
-            for (i in 0..4){
-                SKULL[i].setOnClickListener{
-                    for (idx in 0..i) run {
-                        SKULL[idx].setImageResource(R.drawable.skull3)
                     }
 
-                    for (idx in (i+1)..4) run {
-                        if (i != 4) SKULL[idx].setImageResource(R.drawable.skull1)
+                    builder.setPositiveButton("태그 수정"
+                    ) { _, pos ->
+                        for (i in selectedItems) {
+                            tags.add(Tag(TAG_LIST[i], ColorUtil.randomColor))
+                            adapter.notifyDataSetChanged()
+                        }
                     }
-                    (layout[R.id.tv_danger_level] as TextView).text = (i+1).toString()+".0"
+
+                    val alertDialog: AlertDialog = builder.create()
+                    alertDialog.show()
                 }
-            }
 
-            (layout[R.id.btn_done] as MaterialButton).setOnClickListener {
-                server.create(PingInfoInterface::class.java).run {
-                    addPing(
-                        SetPingIn(
-                            userInfo.session,
-                            centerPing.position.latitude.toString(),
-                            centerPing.position.longitude.toString(),
-                            (layout[R.id.tv_danger_level] as TextView).text.toString()
-                                .toDouble(),
-                            selectedItems
-                        )
+                (layout[R.id.rv_tag] as RecyclerView).adapter = adapter
+
+                imagePing = (layout[R.id.iv_lens] as ImageView)
+                imagePing.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*")
+                    startActivityForResult(intent, GET_GALLERY_IMAGE)
+                }
+
+                //위치
+                locationApi.create(AddressInterface::class.java).run {
+                    getAddress(
+                        "${centerPing.position.longitude},${centerPing.position.latitude}",
+                        "epsg:4326",
+                        "roadaddr",
+                        "json"
                     )
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ response ->
-                            if (response.result == "success") {
-                                if(UriImg != null){
-                                    val file = File(UriImg!!)
-                                    var fileName = response.id.toString()+".png"
+                            response.results?.get(0)?.let {
+                                var locationData = ""
 
-                                    var requestBody : RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(),file)
-                                    var body : MultipartBody.Part = MultipartBody.Part.createFormData("uploaded_file",fileName,requestBody)
-
-                                    server.create(ImageInterface::class.java).run {
-                                        postImage(
-                                            body
-                                        )
-                                            .subscribeOn(Schedulers.computation())
-                                            .observeOn(AndroidSchedulers.mainThread())
-                                            .subscribe({ response ->
-                                                if (response.result == "success") {
-                                                    Toast.makeText(applicationContext, "업로드 완료", Toast.LENGTH_LONG).show();
-                                                }
-                                                else {
-                                                    Toast.makeText(
-                                                        this@MapActivity,
-                                                        "${response}.",
-                                                        Toast.LENGTH_SHORT
-                                                    ).show()
-                                                }
-                                            }, { throwable ->
-                                                Logger.w(throwable)
-                                                Toast.makeText(
-                                                    this@MapActivity,
-                                                    "${throwable.message}.",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                            }, {
-                                            })
-                                    }
+                                for (data in it.region) {
+                                    if (data.key == "area0") continue
+                                    locationData = "$locationData ${data.value.name}"
                                 }
 
-                            }
-                            else {
-                                Toast.makeText(
-                                    this@MapActivity,
-                                    "${response.comment!!}.",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                (layout[R.id.tv_location] as TextView).text = locationData
                             }
                         }, { throwable ->
                             Logger.w(throwable)
-                            Toast.makeText(
-                                this@MapActivity,
-                                "${throwable.message}.",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            (layout[R.id.tv_location] as TextView).text =
+                                "${
+                                    centerPing.position.latitude.toString().substring(0..5)
+                                },  ${
+                                    centerPing.position.longitude.toString().substring(0..5)
+                                }"
                         }, {
                         })
                 }
 
-            }
+                //위험등급
+                val SKULL = listOf(
+                    layout[R.id.iv_skull0] as ImageView,
+                    layout[R.id.iv_skull1] as ImageView,
+                    layout[R.id.iv_skull2] as ImageView,
+                    layout[R.id.iv_skull3] as ImageView,
+                    layout[R.id.iv_skull4] as ImageView
+                )
 
-            val dialog = MaterialAlertDialogBuilder(this@MapActivity)
-            dialog.setView(layout)
-            dialog.show()
+                for (i in 0..4){
+                    SKULL[i].setOnClickListener{
+                        for (idx in 0..i) run {
+                            SKULL[idx].setImageResource(R.drawable.skull3)
+                        }
+
+                        for (idx in (i+1)..4) run {
+                            if (i != 4) SKULL[idx].setImageResource(R.drawable.skull1)
+                        }
+                        (layout[R.id.tv_danger_level] as TextView).text = (i+1).toString()+".0"
+                    }
+                }
+
+                (layout[R.id.btn_done] as MaterialButton).setOnClickListener {
+                    server.create(PingInfoInterface::class.java).run {
+                        addPing(
+                            SetPingIn(
+                                userInfo.session,
+                                centerPing.position.latitude.toString(),
+                                centerPing.position.longitude.toString(),
+                                (layout[R.id.tv_danger_level] as TextView).text.toString()
+                                    .toDouble()/5,
+                                selectedItems
+                            )
+                        )
+                            .subscribeOn(Schedulers.computation())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({ response ->
+                                if (response.result == "success") {
+                                    if(UriImg != null){
+                                        val file = File(UriImg!!)
+                                        var fileName = response.id.toString()+".png"
+
+                                        var requestBody : RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(),file)
+                                        var body : MultipartBody.Part = MultipartBody.Part.createFormData("uploaded_file",fileName,requestBody)
+
+                                        server.create(ImageInterface::class.java).run {
+                                            postImage(
+                                                body
+                                            )
+                                                .subscribeOn(Schedulers.computation())
+                                                .observeOn(AndroidSchedulers.mainThread())
+                                                .subscribe({ response ->
+                                                    if (response.result == "success") {
+                                                        Toast.makeText(applicationContext, "업로드 완료", Toast.LENGTH_LONG).show();
+                                                    }
+                                                    else {
+                                                        Toast.makeText(
+                                                            this@MapActivity,
+                                                            "${response}.",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    }
+                                                }, { throwable ->
+                                                    Logger.w(throwable)
+                                                    Toast.makeText(
+                                                        this@MapActivity,
+                                                        "${throwable.message}.",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }, {
+                                                })
+                                        }
+                                    }
+
+                                }
+                                else {
+                                    Toast.makeText(
+                                        this@MapActivity,
+                                        "${response.comment!!}.",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }, { throwable ->
+                                Logger.w(throwable)
+                                Toast.makeText(
+                                    this@MapActivity,
+                                    "${throwable.message}.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }, {
+                            })
+                    }
+
+                }
+
+                val dialog = MaterialAlertDialogBuilder(this@MapActivity)
+                dialog.setView(layout)
+                dialog.show()
+            }
         }
 
         tv_location.addTextChangedListener(object : TextWatcher {
@@ -688,7 +695,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         Logger.w(UriImg.toString())
                     }
                 }
-                /*
+
                 LOGIN_REQUEST_CODE -> {
                     userInfo.session = data?.getStringExtra("session")
                     userInfo.nickname = data?.getStringExtra("nickname")
@@ -696,7 +703,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     userInfo.email = data?.getStringExtra("email")
                     userInfo.callNum = data?.getStringExtra("callnum")
                 }
-                */
             }
         }
 

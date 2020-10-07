@@ -124,7 +124,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_signup"
+        android:id="@+id/btn_signin"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginBottom="@dimen/margin_half"
