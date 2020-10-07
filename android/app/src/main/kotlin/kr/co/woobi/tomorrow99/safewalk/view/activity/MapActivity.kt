@@ -2,7 +2,10 @@ package kr.co.woobi.tomorrow99.safewalk.view.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
+import android.database.Cursor
 import android.graphics.Color
 import android.graphics.PointF
 import android.location.LocationManager
@@ -15,7 +18,6 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.PermissionChecker
@@ -23,6 +25,7 @@ import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
@@ -46,19 +49,22 @@ import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_map.*
-import kotlinx.android.synthetic.main.activity_map.tv_location
-import kotlinx.android.synthetic.main.layout_ping_set_dialog.*
 import kr.co.woobi.tomorrow99.safewalk.R
 import kr.co.woobi.tomorrow99.safewalk.`interface`.AddressInterface
+import kr.co.woobi.tomorrow99.safewalk.`interface`.ImageInterface
 import kr.co.woobi.tomorrow99.safewalk.`interface`.PingInfoInterface
 import kr.co.woobi.tomorrow99.safewalk.adapter.TagAdapter
-import kr.co.woobi.tomorrow99.safewalk.model.DangerInformation
-import kr.co.woobi.tomorrow99.safewalk.model.GetPingIn
-import kr.co.woobi.tomorrow99.safewalk.model.Tag
+import kr.co.woobi.tomorrow99.safewalk.model.*
 import kr.co.woobi.tomorrow99.safewalk.tool.calDistance
 import kr.co.woobi.tomorrow99.safewalk.tool.util.ColorUtil
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import org.jetbrains.anko.startActivity
 import retrofit2.Retrofit
+import java.io.File
+import java.net.URI
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -71,9 +77,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var naverMap: NaverMap
     private lateinit var imagePing:ImageView
+    private lateinit var userInfo: User
 
     private val locationPermissionCode = 1000
     private val GET_GALLERY_IMAGE = 2000
+    private val LOGIN_REQUEST_CODE = 3000
 
     @Named("server")
     @Inject
@@ -87,6 +95,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private val tags = ArrayList<Tag>()
+    private var UriImg:String? = null
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -148,37 +157,52 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         btn_declaration.setOnClickListener {
+            /*
+            if (userInfo.session == null){
+                val intent = Intent(this, SigninActivity::class.java)
+                startActivityForResult(intent, LOGIN_REQUEST_CODE)
+            }
+           */
             tags.clear()
             val adapter = TagAdapter(tags, this)
             adapter.setOnClickListener {
                 tags.remove(it)
                 adapter.notifyDataSetChanged()
-                Logger.w(it.label)
             }
             val layout = LayoutInflater.from(applicationContext)
                 .inflate(R.layout.layout_ping_set_dialog, null, false)
 
+            val selectedItems = ArrayList<Int>()
             (layout[R.id.tv_tag_add] as TextView).setOnClickListener {
-                val innerDialog = MaterialAlertDialogBuilder(this@MapActivity)
-                val innerLayout = LayoutInflater.from(applicationContext)
-                    .inflate(R.layout.layout_tag_input, null, false)
-                val label = (innerLayout[R.id.et_tag] as EditText)
-                label.afterTextChanged {
-                    if (it.toString().contains(" ")) {
-                        label.run {
-                            text = it.toString().replace(" ", "").toEditable()
-                            setSelection(text.lastIndex + 1)
-                        }
+                tags.clear()
+                selectedItems.clear()
+                val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+
+                builder.setTitle("태그를 선택해 주세요.")
+
+                builder.setMultiChoiceItems(
+                    TAG_LIST,
+                    null
+                ) { _, pos, isChecked ->
+                    if (isChecked) // Checked 상태일 때 추가
+                    {
+                        selectedItems.add(pos)
+                    } else  // Check 해제 되었을 때 제거
+                    {
+                        selectedItems.remove(pos)
                     }
                 }
-                innerDialog.setView(innerLayout)
-                innerDialog.setPositiveButton("추가") { _, _ ->
-                    if (label.text.toString().isNotBlank()) {
-                        tags.add(Tag(label.text.toString(), ColorUtil.randomColor))
+
+                builder.setPositiveButton("태그 수정"
+                ) { _, pos ->
+                    for (i in selectedItems) {
+                        tags.add(Tag(TAG_LIST[i], ColorUtil.randomColor))
                         adapter.notifyDataSetChanged()
                     }
                 }
-                innerDialog.show()
+
+                val alertDialog: AlertDialog = builder.create()
+                alertDialog.show()
             }
 
             (layout[R.id.rv_tag] as RecyclerView).adapter = adapter
@@ -223,7 +247,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     })
             }
 
-            //위험등굽
+            //위험등급
             val SKULL = listOf(
                 layout[R.id.iv_skull0] as ImageView,
                 layout[R.id.iv_skull1] as ImageView,
@@ -245,7 +269,78 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
 
-            //todo submit
+            (layout[R.id.btn_done] as MaterialButton).setOnClickListener {
+                server.create(PingInfoInterface::class.java).run {
+                    addPing(
+                        SetPingIn(
+                            userInfo.session,
+                            centerPing.position.latitude.toString(),
+                            centerPing.position.longitude.toString(),
+                            (layout[R.id.tv_danger_level] as TextView).text.toString()
+                                .toDouble(),
+                            selectedItems
+                        )
+                    )
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe({ response ->
+                            if (response.result == "success") {
+                                if(UriImg != null){
+                                    val file = File(UriImg!!)
+                                    var fileName = response.id.toString()+".png"
+
+                                    var requestBody : RequestBody = RequestBody.create("image/*".toMediaTypeOrNull(),file)
+                                    var body : MultipartBody.Part = MultipartBody.Part.createFormData("uploaded_file",fileName,requestBody)
+
+                                    server.create(ImageInterface::class.java).run {
+                                        postImage(
+                                            body
+                                        )
+                                            .subscribeOn(Schedulers.computation())
+                                            .observeOn(AndroidSchedulers.mainThread())
+                                            .subscribe({ response ->
+                                                if (response.result == "success") {
+                                                    Toast.makeText(applicationContext, "업로드 완료", Toast.LENGTH_LONG).show();
+                                                }
+                                                else {
+                                                    Toast.makeText(
+                                                        this@MapActivity,
+                                                        "${response}.",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
+                                                }
+                                            }, { throwable ->
+                                                Logger.w(throwable)
+                                                Toast.makeText(
+                                                    this@MapActivity,
+                                                    "${throwable.message}.",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }, {
+                                            })
+                                    }
+                                }
+
+                            }
+                            else {
+                                Toast.makeText(
+                                    this@MapActivity,
+                                    "${response.comment!!}.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }, { throwable ->
+                            Logger.w(throwable)
+                            Toast.makeText(
+                                this@MapActivity,
+                                "${throwable.message}.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }, {
+                        })
+                }
+
+            }
 
             val dialog = MaterialAlertDialogBuilder(this@MapActivity)
             dialog.setView(layout)
@@ -392,7 +487,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                             .inflate(R.layout.layout_ping_info_dialog, null, false)
 
                                         for (tag in TAG_INFO_DATA!!.tag) {
-                                            tags.add(Tag(tag.toString(), ColorUtil.randomColor))
+                                            tags.add(Tag(TAG_LIST[tag%TAG_LIST.size], ColorUtil.randomColor))
                                             adapter.notifyDataSetChanged()
                                         }
 
@@ -581,9 +676,42 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.data != null) {
-            val selectedImageUri: Uri? = data.data
-            imagePing.setImageURI(selectedImageUri)
+        if(resultCode == RESULT_OK) {
+            when (requestCode) {
+                GET_GALLERY_IMAGE -> {
+                    if (data != null && data.data != null) {
+                        val selectedImageUri: Uri? = data.data
+                        if(selectedImageUri != null)
+                            UriImg = absolutelyPath(selectedImageUri)
+                        imagePing.setImageURI(selectedImageUri)
+
+                        Logger.w(UriImg.toString())
+                    }
+                }
+                /*
+                LOGIN_REQUEST_CODE -> {
+                    userInfo.session = data?.getStringExtra("session")
+                    userInfo.nickname = data?.getStringExtra("nickname")
+                    userInfo.name = data?.getStringExtra("name")
+                    userInfo.email = data?.getStringExtra("email")
+                    userInfo.callNum = data?.getStringExtra("callnum")
+                }
+                */
+            }
         }
+
+
+    }
+
+    // 절대경로 변환
+    fun absolutelyPath(path: Uri): String {
+        var proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+        var c: Cursor = contentResolver.query(path, proj, null, null, null)!!
+        var index = c.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        c.moveToFirst()
+
+        var result = c.getString(index)
+
+        return result
     }
 }
