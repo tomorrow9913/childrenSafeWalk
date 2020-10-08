@@ -3,8 +3,8 @@ package kr.co.woobi.tomorrow99.safewalk.view.activity
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.graphics.Color
 import android.graphics.PointF
@@ -20,7 +20,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +37,7 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.util.FusedLocationSource
 import com.naver.maps.map.util.MarkerIcons
+import com.sungbin.sungbintool.extensions.afterTextChanged
 import com.sungbin.sungbintool.extensions.get
 import com.sungbin.sungbintool.extensions.toEditable
 import com.sungbin.sungbintool.util.Logger
@@ -57,12 +57,14 @@ import kr.co.woobi.tomorrow99.safewalk.adapter.TagAdapter
 import kr.co.woobi.tomorrow99.safewalk.model.*
 import kr.co.woobi.tomorrow99.safewalk.tool.calDistance
 import kr.co.woobi.tomorrow99.safewalk.tool.util.ColorUtil
+import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.jetbrains.anko.startActivity
 import retrofit2.Retrofit
 import java.io.File
+import java.net.URI
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -109,7 +111,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(R.layout.activity_map)
 
         (supportFragmentManager.findFragmentById(R.id.fcv_map) as MapFragment).getMapAsync(this)
-
 
         val headerLayout = LayoutInflater.from(applicationContext)
             .inflate(R.layout.layout_navigation_header, null, false)
@@ -254,9 +255,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                             Logger.w(throwable)
                             (layout[R.id.tv_location] as TextView).text =
                                 "${
-                                    centerPing.position.latitude.toString().substring(0..5)
+                                centerPing.position.latitude.toString().substring(0..5)
                                 },  ${
-                                    centerPing.position.longitude.toString().substring(0..5)
+                                centerPing.position.longitude.toString().substring(0..5)
                                 }"
                         }, {
                         })
@@ -554,15 +555,15 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                                                     Logger.w(throwable)
                                                     (layout[R.id.tv_location] as TextView).text =
                                                         "${
-                                                            center.target.latitude.toString()
-                                                                .substring(
-                                                                    0..5
-                                                                )
+                                                        center.target.latitude.toString()
+                                                            .substring(
+                                                                0..5
+                                                            )
                                                         },  ${
-                                                            center.target.longitude.toString()
-                                                                .substring(
-                                                                    0..5
-                                                                )
+                                                        center.target.longitude.toString()
+                                                            .substring(
+                                                                0..5
+                                                            )
                                                         }".toEditable()
                                                 }, {
                                                 })
@@ -652,7 +653,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-            map.addOnLocationChangeListener {
+        map.addOnLocationChangeListener {
             val center = naverMap.cameraPosition
 
             if (center.zoom > 13) {
@@ -680,9 +681,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                             Logger.w(throwable)
                             tv_location.hint =
                                 "${
-                                    center.target.latitude.toString().substring(0..5)
+                                center.target.latitude.toString().substring(0..5)
                                 },  ${
-                                    center.target.longitude.toString().substring(0..5)
+                                center.target.longitude.toString().substring(0..5)
                                 }".toEditable()
                         }, {
                         })

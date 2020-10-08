@@ -11,6 +11,10 @@
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
     </style>
 
+    <style name="IntroTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/intro</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

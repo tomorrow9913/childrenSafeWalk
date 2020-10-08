@@ -1,6 +1,6 @@
 <resources>
     <!-- global -->
-    <string name="app_name">SafeWalk</string>
+    <string name="app_name">안전 걸음맵</string>
     <string name="cloud">cloud</string>
     <string name="airplane">airplane</string>
     <string name="lens">lens</string>
